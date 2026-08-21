@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Galeria | Bar do Mima</title>
+
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="header-container">
+
+        <a href="index.html" class="brand">
+
+            <img src="img/logo.png"
+                 alt="Bar do Mima"
+                 class="brand-logo">
+
+            <div class="brand-text">
+                <strong>BAR DO MIMA</strong>
+                <span>FUTEBOL</span>
+            </div>
+
+        </a>
+
+        <button class="menu-button"
+                id="menuButton"
+                aria-label="Abrir menu">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+        <nav class="nav" id="nav">
+
+            <a href="index.html">Início</a>
+            <a href="noticias.html">Notícias</a>
+            <a href="elenco.html">Elenco</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="titulos.html">Títulos</a>
+            <a href="galeria.html" class="active">Galeria</a>
+            <a href="historia.html">O Clube</a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span>NOSSOS MOMENTOS</span>
+
+        <h1>GALERIA</h1>
+
+        <p>
+            Jogos, bastidores, torcida, comemorações
+            e os momentos que fazem parte da história do Bar do Mima.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="gallery-filters">
+
+            <button class="gallery-filter active"
+                    data-filter="todos">
+                Todas
+            </button>
+
+            <button class="gallery-filter"
+                    data-filter="jogos">
+                Jogos
+            </button>
+
+            <button class="gallery-filter"
+                    data-filter="bastidores">
+                Bastidores
+            </button>
+
+            <button class="gallery-filter"
+                    data-filter="torcida">
+                Torcida
+            </button>
+
+            <button class="gallery-filter"
+                    data-filter="elenco">
+                Elenco
+            </button>
+
+        </div>
+
+
+        <div class="gallery-grid">
+
+
+            <article class="gallery-item"
+                     data-category="jogos">
+
+                <div class="gallery-placeholder">
+
+                    <i class="fa-solid fa-futbol"></i>
+
+                    <span>JOGOS</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="gallery-item"
+                     data-category="bastidores">
+
+                <div class="gallery-placeholder">
+
+                    <i class="fa-solid fa-camera"></i>
+
+                    <span>BASTIDORES</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="gallery-item"
+                     data-category="torcida">
+
+                <div class="gallery-placeholder">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <span>TORCIDA</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="gallery-item"
+                     data-category="elenco">
+
+                <div class="gallery-placeholder">
+
+                    <i class="fa-solid fa-shirt"></i>
+
+                    <span>ELENCO</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="gallery-item"
+                     data-category="jogos">
+
+                <div class="gallery-placeholder">
+
+                    <i class="fa-solid fa-trophy"></i>
+
+                    <span>PARTIDAS</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="gallery-item"
+                     data-category="bastidores">
+
+                <div class="gallery-placeholder">
+
+                    <i class="fa-solid fa-star"></i>
+
+                    <span>MOMENTOS</span>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="gallery-modal"
+     id="galleryModal">
+
+    <button class="gallery-close"
+            id="galleryClose">
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+    <div class="gallery-modal-content"
+         id="galleryModalContent">
+
+    </div>
+
+</div>
+
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <img src="img/logo.png"
+                 alt="Bar do Mima">
+
+            <div>
+
+                <strong>BAR DO MIMA</strong>
+
+                <span>
+                    Raça • Amizade • Futebol
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="noticias.html">Notícias</a>
+            <a href="elenco.html">Elenco</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="titulos.html">Títulos</a>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 Bar do Mima • Todos os direitos reservados
+    </div>
+
+</footer>
+
+
+<script src="js/main.js"></script>
+
+<script>
+
+const galleryButtons =
+document.querySelectorAll(".gallery-filter");
+
+const galleryItems =
+document.querySelectorAll(".gallery-item");
+
+
+galleryButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        galleryButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        const filter = button.dataset.filter;
+
+        galleryItems.forEach(item => {
+
+            if(
+                filter === "todos" ||
+                item.dataset.category === filter
+            ){
+
+                item.style.display = "block";
+
+            }else{
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+});
+
+
+const modal =
+document.getElementById("galleryModal");
+
+const modalContent =
+document.getElementById("galleryModalContent");
+
+const closeModal =
+document.getElementById("galleryClose");
+
+
+galleryItems.forEach(item => {
+
+    item.addEventListener("click", () => {
+
+        modal.classList.add("active");
+
+        modalContent.innerHTML =
+        item.innerHTML;
+
+    });
+
+});
+
+
+closeModal.addEventListener("click", () => {
+
+    modal.classList.remove("active");
+
+});
+
+
+modal.addEventListener("click", event => {
+
+    if(event.target === modal){
+
+        modal.classList.remove("active");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
