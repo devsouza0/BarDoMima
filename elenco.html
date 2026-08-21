@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Elenco | Bar do Mima</title>
+
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="header-container">
+
+        <a href="index.html" class="brand">
+
+            <img src="img/logo.png"
+                 alt="Bar do Mima"
+                 class="brand-logo">
+
+            <div class="brand-text">
+                <strong>BAR DO MIMA</strong>
+                <span>FUTEBOL</span>
+            </div>
+
+        </a>
+
+        <button class="menu-button"
+                id="menuButton"
+                aria-label="Abrir menu">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+        <nav class="nav" id="nav">
+
+            <a href="index.html">Início</a>
+            <a href="noticias.html">Notícias</a>
+            <a href="elenco.html" class="active">Elenco</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="titulos.html">Títulos</a>
+            <a href="galeria.html">Galeria</a>
+            <a href="historia.html">O Clube</a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- CAPA -->
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span>BAR DO MIMA</span>
+
+        <h1>NOSSO ELENCO</h1>
+
+        <p>
+            Conheça os jogadores que representam nossas cores
+            dentro de campo.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ELENCO -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+            <span>TIME PRINCIPAL</span>
+            <h2>JOGADORES</h2>
+        </div>
+
+
+        <div class="player-filters">
+
+            <button class="player-filter active"
+                    data-filter="todos">
+                Todos
+            </button>
+
+            <button class="player-filter"
+                    data-filter="goleiro">
+                Goleiros
+            </button>
+
+            <button class="player-filter"
+                    data-filter="defensor">
+                Defensores
+            </button>
+
+            <button class="player-filter"
+                    data-filter="meio">
+                Meio-Campo
+            </button>
+
+            <button class="player-filter"
+                    data-filter="atacante">
+                Atacantes
+            </button>
+
+        </div>
+
+
+        <div class="players-grid">
+
+
+            <!-- HENDERSON -->
+
+            <article class="player-card"
+                     data-category="meio">
+
+                <div class="player-photo">
+
+                    <div class="player-placeholder">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <span class="player-number">
+                        11
+                    </span>
+
+                </div>
+
+                <div class="player-info">
+
+                    <span class="player-position">
+                        MEIO-CAMPO
+                    </span>
+
+                    <h3>
+                        HENDERSON
+                    </h3>
+
+                    <p>
+                        Henderson Brienzi
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- DIDICO -->
+
+            <article class="player-card"
+                     data-category="atacante">
+
+                <div class="player-photo">
+
+                    <div class="player-placeholder">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <span class="player-number">
+                        9
+                    </span>
+
+                </div>
+
+                <div class="player-info">
+
+                    <span class="player-position">
+                        ATACANTE
+                    </span>
+
+                    <h3>
+                        DIDICO
+                    </h3>
+
+                    <p>
+                        Fabio Gomes
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- MESQUITA -->
+
+            <article class="player-card"
+                     data-category="defensor">
+
+                <div class="player-photo">
+
+                    <div class="player-placeholder">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <span class="player-number">
+                        6
+                    </span>
+
+                </div>
+
+                <div class="player-info">
+
+                    <span class="player-position">
+                        LATERAL ESQUERDO
+                    </span>
+
+                    <h3>
+                        MESQUITA
+                    </h3>
+
+                    <p>
+                        Carlos Mesquita
+                    </p>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COMISSÃO -->
+
+<section class="section section-black">
+
+    <div class="container">
+
+        <div class="section-heading">
+            <span>FORA DAS QUATRO LINHAS</span>
+            <h2>COMISSÃO TÉCNICA</h2>
+        </div>
+
+        <div class="staff-grid">
+
+            <div class="staff-empty">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+                <strong>
+                    Em breve
+                </strong>
+
+                <span>
+                    Comissão técnica
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <img src="img/logo.png"
+                 alt="Bar do Mima">
+
+            <div>
+
+                <strong>BAR DO MIMA</strong>
+
+                <span>
+                    Raça • Amizade • Futebol
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="noticias.html">Notícias</a>
+            <a href="elenco.html">Elenco</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="titulos.html">Títulos</a>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+
+        © 2026 Bar do Mima • Todos os direitos reservados
+
+    </div>
+
+</footer>
+
+
+<script src="js/main.js"></script>
+
+<script>
+
+const filterButtons =
+document.querySelectorAll(".player-filter");
+
+const playerCards =
+document.querySelectorAll(".player-card");
+
+
+filterButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        filterButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        const filter =
+            button.dataset.filter;
+
+        playerCards.forEach(card => {
+
+            if(
+                filter === "todos" ||
+                card.dataset.category === filter
+            ){
+
+                card.style.display = "block";
+
+            }else{
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
