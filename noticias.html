@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notícias | Bar do Mima</title>
+
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="header-container">
+
+        <a href="index.html" class="brand">
+
+            <img src="img/logo.png"
+                 alt="Bar do Mima"
+                 class="brand-logo">
+
+            <div class="brand-text">
+                <strong>BAR DO MIMA</strong>
+                <span>FUTEBOL</span>
+            </div>
+
+        </a>
+
+        <button class="menu-button"
+                id="menuButton"
+                aria-label="Abrir menu">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+        <nav class="nav" id="nav">
+
+            <a href="index.html">Início</a>
+            <a href="noticias.html" class="active">Notícias</a>
+            <a href="elenco.html">Elenco</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="titulos.html">Títulos</a>
+            <a href="galeria.html">Galeria</a>
+            <a href="historia.html">O Clube</a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span>FIQUE POR DENTRO</span>
+
+        <h1>NOTÍCIAS</h1>
+
+        <p>
+            Tudo o que acontece com o Bar do Mima,
+            dentro e fora de campo.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="news-filters">
+
+            <button class="news-filter active"
+                    data-filter="todos">
+                Todas
+            </button>
+
+            <button class="news-filter"
+                    data-filter="jogos">
+                Jogos
+            </button>
+
+            <button class="news-filter"
+                    data-filter="elenco">
+                Elenco
+            </button>
+
+            <button class="news-filter"
+                    data-filter="bastidores">
+                Bastidores
+            </button>
+
+            <button class="news-filter"
+                    data-filter="clube">
+                Clube
+            </button>
+
+        </div>
+
+
+        <div class="news-page-grid">
+
+
+            <article class="news-page-card"
+                     data-category="clube">
+
+                <div class="news-page-image">
+
+                    <div class="news-page-placeholder">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <span class="news-page-category">
+                        CLUBE
+                    </span>
+
+                </div>
+
+                <div class="news-page-content">
+
+                    <span class="news-page-date">
+                        21 AGO 2026
+                    </span>
+
+                    <h2>
+                        Bar do Mima lança seu novo site oficial
+                    </h2>
+
+                    <p>
+                        O Bar do Mima ganha um novo espaço digital
+                        para aproximar ainda mais jogadores,
+                        torcedores e parceiros.
+                    </p>
+
+                    <a href="#">
+                        Ler matéria
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="news-page-card"
+                     data-category="elenco">
+
+                <div class="news-page-image">
+
+                    <div class="news-page-placeholder">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <span class="news-page-category">
+                        ELENCO
+                    </span>
+
+                </div>
+
+                <div class="news-page-content">
+
+                    <span class="news-page-date">
+                        ELENCO
+                    </span>
+
+                    <h2>
+                        Elenco do Bar do Mima começa a ganhar destaque no novo portal
+                    </h2>
+
+                    <p>
+                        Os jogadores terão espaço próprio no site,
+                        com número, posição, nome e futuramente
+                        estatísticas individuais.
+                    </p>
+
+                    <a href="elenco.html">
+                        Ver elenco
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="news-page-card"
+                     data-category="jogos">
+
+                <div class="news-page-image">
+
+                    <div class="news-page-placeholder">
+                        <i class="fa-solid fa-futbol"></i>
+                    </div>
+
+                    <span class="news-page-category">
+                        JOGOS
+                    </span>
+
+                </div>
+
+                <div class="news-page-content">
+
+                    <span class="news-page-date">
+                        PARTIDAS
+                    </span>
+
+                    <h2>
+                        Próximos jogos terão calendário completo no site
+                    </h2>
+
+                    <p>
+                        Datas, adversários, locais, horários e resultados
+                        poderão ser acompanhados em uma única página.
+                    </p>
+
+                    <a href="jogos.html">
+                        Ver jogos
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="news-page-card"
+                     data-category="bastidores">
+
+                <div class="news-page-image">
+
+                    <div class="news-page-placeholder">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+
+                    <span class="news-page-category">
+                        BASTIDORES
+                    </span>
+
+                </div>
+
+                <div class="news-page-content">
+
+                    <span class="news-page-date">
+                        EM BREVE
+                    </span>
+
+                    <h2>
+                        Bastidores, fotos e momentos do time terão espaço especial
+                    </h2>
+
+                    <p>
+                        A galeria do Bar do Mima será o lugar para
+                        registrar jogos, comemorações, torcida e amizade.
+                    </p>
+
+                    <a href="galeria.html">
+                        Ver galeria
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <img src="img/logo.png"
+                 alt="Bar do Mima">
+
+            <div>
+
+                <strong>BAR DO MIMA</strong>
+
+                <span>
+                    Raça • Amizade • Futebol
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="noticias.html">Notícias</a>
+            <a href="elenco.html">Elenco</a>
+            <a href="jogos.html">Jogos</a>
+            <a href="titulos.html">Títulos</a>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+
+        © 2026 Bar do Mima • Todos os direitos reservados
+
+    </div>
+
+</footer>
+
+
+<script src="js/main.js"></script>
+
+<script>
+
+const newsButtons =
+document.querySelectorAll(".news-filter");
+
+const newsCards =
+document.querySelectorAll(".news-page-card");
+
+
+newsButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        newsButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        const filter =
+            button.dataset.filter;
+
+        newsCards.forEach(card => {
+
+            if(
+                filter === "todos" ||
+                card.dataset.category === filter
+            ){
+
+                card.style.display = "block";
+
+            }else{
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
