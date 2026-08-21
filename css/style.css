@@ -2030,3 +2030,44 @@ button{
     }
 
 }
+/* CORREÇÃO DAS LOGOS NA PÁGINA JOGOS */
+
+.game-team img{
+    width:70px !important;
+    height:70px !important;
+    max-width:70px !important;
+
+    object-fit:contain;
+
+    border-radius:50%;
+}
+
+.result-club img{
+    width:55px !important;
+    height:55px !important;
+    max-width:55px !important;
+
+    object-fit:contain;
+
+    border-radius:50%;
+}
+
+/* LOGO DO TOPO */
+
+.header .brand-logo{
+    width:58px !important;
+    height:58px !important;
+    max-width:58px !important;
+
+    object-fit:contain;
+}
+
+/* LOGO DO RODAPÉ */
+
+.footer-brand img{
+    width:65px !important;
+    height:65px !important;
+    max-width:65px !important;
+
+    object-fit:contain;
+}
