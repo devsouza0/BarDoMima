@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Elenco | Bar do Mima ADM</title>
+
+<link rel="icon" href="../img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --yellow:#f5c400;
+    --yellow2:#ffd900;
+    --black:#080808;
+    --card:#121212;
+    --border:#292929;
+    --muted:#888;
+}
+
+body{
+    min-height:100vh;
+    background:#080808;
+    color:white;
+    font-family:"Montserrat",sans-serif;
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:260px;
+    height:100vh;
+
+    padding:22px 16px;
+
+    background:#0b0b0b;
+
+    border-right:1px solid #292929;
+
+    display:flex;
+    flex-direction:column;
+
+    z-index:1000;
+}
+
+
+.sidebar-brand{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:0 6px 22px;
+
+    border-bottom:1px solid #202020;
+}
+
+
+.sidebar-brand img{
+
+    width:58px;
+    height:58px;
+
+    object-fit:contain;
+}
+
+
+.sidebar-brand strong{
+
+    display:block;
+
+    font-family:"Anton",sans-serif;
+
+    font-size:22px;
+}
+
+
+.sidebar-brand span{
+
+    color:var(--yellow);
+
+    font-size:8px;
+
+    letter-spacing:2px;
+
+    font-weight:800;
+}
+
+
+.sidebar-menu{
+
+    margin-top:25px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:7px;
+}
+
+
+.sidebar-menu a{
+
+    display:flex;
+    align-items:center;
+
+    gap:13px;
+
+    padding:13px 14px;
+
+    border-radius:10px;
+
+    color:#999;
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    transition:.2s;
+}
+
+
+.sidebar-menu a i{
+
+    width:20px;
+
+    text-align:center;
+}
+
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+
+    color:var(--yellow);
+
+    background:rgba(245,196,0,.10);
+}
+
+
+.sidebar-bottom{
+
+    margin-top:auto;
+}
+
+
+.logout{
+
+    width:100%;
+    height:45px;
+
+    border:1px solid #3b1e1e;
+
+    border-radius:10px;
+
+    background:#170d0d;
+
+    color:#ff7777;
+
+    font-weight:800;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+
+    margin-left:260px;
+
+    min-height:100vh;
+}
+
+
+/* =====================================================
+   TOP
+===================================================== */
+
+.topbar{
+
+    height:78px;
+
+    padding:0 30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid #202020;
+
+    background:#090909;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:500;
+}
+
+
+.mobile-menu{
+
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    background:#111;
+
+    border:1px solid #292929;
+
+    border-radius:9px;
+
+    color:var(--yellow);
+}
+
+
+.top-title span{
+
+    color:#666;
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    font-weight:900;
+}
+
+
+.top-title strong{
+
+    display:block;
+
+    margin-top:3px;
+}
+
+
+.admin-user{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--yellow);
+
+    color:#111;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:900;
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content{
+
+    padding:32px;
+}
+
+
+.page-header{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:30px;
+}
+
+
+.page-header span{
+
+    color:var(--yellow);
+
+    font-size:10px;
+
+    font-weight:900;
+
+    letter-spacing:3px;
+}
+
+
+.page-header h1{
+
+    font-family:"Anton",sans-serif;
+
+    font-size:55px;
+
+    line-height:1;
+
+    margin-top:5px;
+}
+
+
+.page-header p{
+
+    margin-top:8px;
+
+    color:#777;
+
+    font-size:12px;
+}
+
+
+.new-player{
+
+    height:48px;
+
+    padding:0 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--yellow);
+
+    color:#111;
+
+    font-weight:900;
+
+    transition:.2s;
+}
+
+
+.new-player:hover{
+
+    background:var(--yellow2);
+
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   BUSCA
+===================================================== */
+
+.toolbar{
+
+    margin-bottom:22px;
+
+    display:flex;
+
+    gap:12px;
+}
+
+
+.search-box{
+
+    position:relative;
+
+    width:100%;
+
+    max-width:450px;
+}
+
+
+.search-box i{
+
+    position:absolute;
+
+    top:50%;
+    left:16px;
+
+    transform:translateY(-50%);
+
+    color:#555;
+}
+
+
+.search-box input{
+
+    width:100%;
+    height:48px;
+
+    padding:0 16px 0 45px;
+
+    background:#111;
+
+    border:1px solid #292929;
+
+    border-radius:10px;
+
+    outline:none;
+
+    color:white;
+}
+
+
+.search-box input:focus{
+
+    border-color:var(--yellow);
+}
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.players-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:20px;
+}
+
+
+.player-card{
+
+    overflow:hidden;
+
+    background:#121212;
+
+    border:1px solid #292929;
+
+    border-radius:17px;
+
+    transition:.25s;
+}
+
+
+.player-card:hover{
+
+    border-color:var(--yellow);
+
+    transform:translateY(-4px);
+}
+
+
+.player-photo{
+
+    height:260px;
+
+    position:relative;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(245,196,0,.12),
+            transparent 55%
+        ),
+        #0c0c0c;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+}
+
+
+.player-photo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+
+.player-photo .placeholder{
+
+    color:#333;
+
+    font-size:90px;
+}
+
+
+.number{
+
+    position:absolute;
+
+    right:15px;
+    top:10px;
+
+    font-family:"Anton",sans-serif;
+
+    font-size:55px;
+
+    color:var(--yellow);
+
+    text-shadow:0 3px 10px #000;
+}
+
+
+.status{
+
+    position:absolute;
+
+    left:15px;
+    top:15px;
+
+    padding:6px 9px;
+
+    border-radius:20px;
+
+    font-size:8px;
+
+    font-weight:900;
+}
+
+
+.status.active{
+
+    background:#16351f;
+
+    color:#6ee796;
+}
+
+
+.status.inactive{
+
+    background:#351616;
+
+    color:#ff8181;
+}
+
+
+.player-content{
+
+    padding:20px;
+}
+
+
+.position{
+
+    color:var(--yellow);
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    font-weight:900;
+}
+
+
+.player-content h2{
+
+    font-family:"Anton",sans-serif;
+
+    font-size:29px;
+
+    margin-top:5px;
+}
+
+
+.player-content p{
+
+    margin-top:3px;
+
+    color:#666;
+
+    font-size:11px;
+}
+
+
+.actions{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:8px;
+
+    margin-top:18px;
+}
+
+
+.edit-btn,
+.delete-btn{
+
+    height:40px;
+
+    border-radius:8px;
+
+    font-weight:800;
+
+    font-size:11px;
+}
+
+
+.edit-btn{
+
+    border:1px solid #4b400c;
+
+    background:#1e1a08;
+
+    color:var(--yellow);
+}
+
+
+.delete-btn{
+
+    border:1px solid #442020;
+
+    background:#1b0d0d;
+
+    color:#ff7777;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+
+    grid-column:1/-1;
+
+    min-height:300px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    border:1px dashed #333;
+
+    border-radius:15px;
+
+    color:#666;
+
+    gap:10px;
+}
+
+
+.empty i{
+
+    color:var(--yellow);
+
+    font-size:45px;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.85);
+
+    align-items:center;
+    justify-content:center;
+}
+
+
+.modal.active{
+
+    display:flex;
+}
+
+
+.modal-box{
+
+    width:100%;
+
+    max-width:600px;
+
+    max-height:92vh;
+
+    overflow:auto;
+
+    background:#111;
+
+    border:1px solid #333;
+
+    border-radius:18px;
+
+    padding:28px;
+}
+
+
+.modal-header{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+
+.modal-header span{
+
+    color:var(--yellow);
+
+    font-size:9px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+}
+
+
+.modal-header h2{
+
+    font-family:"Anton",sans-serif;
+
+    font-size:30px;
+}
+
+
+.close-modal{
+
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#222;
+
+    color:white;
+}
+
+
+/* =====================================================
+   FOTO
+===================================================== */
+
+.photo-upload{
+
+    display:grid;
+
+    grid-template-columns:110px 1fr;
+
+    gap:18px;
+
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+
+.photo-preview{
+
+    width:110px;
+    height:110px;
+
+    border-radius:13px;
+
+    overflow:hidden;
+
+    border:1px solid #333;
+
+    background:#090909;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#444;
+
+    font-size:35px;
+}
+
+
+.photo-preview img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+
+.photo-upload label{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:11px 15px;
+
+    border-radius:8px;
+
+    background:#1b1b1b;
+
+    border:1px solid #333;
+
+    color:var(--yellow);
+
+    font-size:11px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+.photo-upload input{
+
+    display:none;
+}
+
+
+.photo-help{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:#666;
+
+    font-size:9px;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+}
+
+
+.form-group{
+
+    margin-bottom:15px;
+}
+
+
+.form-group.full{
+
+    grid-column:1/-1;
+}
+
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#888;
+
+    font-size:10px;
+
+    font-weight:800;
+}
+
+
+.form-group input,
+.form-group select{
+
+    width:100%;
+    height:47px;
+
+    padding:0 13px;
+
+    border:1px solid #303030;
+
+    border-radius:9px;
+
+    outline:none;
+
+    background:#090909;
+
+    color:white;
+}
+
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:var(--yellow);
+}
+
+
+.checkbox{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    color:#aaa;
+
+    font-size:11px;
+}
+
+
+.checkbox input{
+
+    width:17px;
+    height:17px;
+
+    accent-color:var(--yellow);
+}
+
+
+.save-btn{
+
+    width:100%;
+
+    height:50px;
+
+    margin-top:10px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:var(--yellow);
+
+    color:#111;
+
+    font-weight:900;
+}
+
+
+.save-btn:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    z-index:12000;
+
+    padding:14px 18px;
+
+    border-radius:10px;
+
+    background:#151515;
+
+    border:1px solid #333;
+
+    box-shadow:0 15px 40px #000;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    transform:translateY(120px);
+
+    opacity:0;
+
+    transition:.3s;
+}
+
+
+.toast.show{
+
+    transform:translateY(0);
+
+    opacity:1;
+}
+
+
+.toast.success{
+
+    border-color:#235c34;
+
+    color:#78e69a;
+}
+
+
+.toast.error{
+
+    border-color:#5c2323;
+
+    color:#ff8181;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:1050px){
+
+    .players-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+}
+
+
+@media(max-width:850px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+        transition:.25s;
+    }
+
+    .sidebar.active{
+
+        transform:translateX(0);
+    }
+
+    .main{
+
+        margin-left:0;
+    }
+
+    .mobile-menu{
+
+        display:block;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .content{
+
+        padding:22px 15px;
+    }
+
+    .topbar{
+
+        padding:0 15px;
+    }
+
+    .page-header{
+
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+    .page-header h1{
+
+        font-size:45px;
+    }
+
+    .players-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .player-photo{
+
+        height:300px;
+    }
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+
+        grid-column:auto;
+    }
+
+    .photo-upload{
+
+        grid-template-columns:90px 1fr;
+    }
+
+    .photo-preview{
+
+        width:90px;
+        height:90px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img src="../img/logo.png">
+
+        <div>
+
+            <strong>BAR DO MIMA</strong>
+
+            <span>ADMINISTRAÇÃO</span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a href="dashboard.html">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </a>
+
+
+        <a href="jogadores.html"
+           class="active">
+
+            <i class="fa-solid fa-users"></i>
+
+            Elenco
+
+        </a>
+
+
+        <a href="comissao.html">
+
+            <i class="fa-solid fa-user-tie"></i>
+
+            Comissão Técnica
+
+        </a>
+
+
+        <a href="noticias.html">
+
+            <i class="fa-solid fa-newspaper"></i>
+
+            Notícias
+
+        </a>
+
+
+        <a href="jogos.html">
+
+            <i class="fa-solid fa-futbol"></i>
+
+            Jogos
+
+        </a>
+
+
+        <a href="titulos.html">
+
+            <i class="fa-solid fa-trophy"></i>
+
+            Títulos
+
+        </a>
+
+
+        <a href="galeria.html">
+
+            <i class="fa-solid fa-images"></i>
+
+            Galeria
+
+        </a>
+
+
+        <a href="patrocinadores.html">
+
+            <i class="fa-solid fa-handshake"></i>
+
+            Patrocinadores
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <button class="logout"
+                id="logoutButton">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            &nbsp;
+
+            SAIR
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div style="display:flex;align-items:center;gap:15px;">
+
+        <button class="mobile-menu"
+                id="mobileMenu">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+
+        <div class="top-title">
+
+            <span>BAR DO MIMA</span>
+
+            <strong>
+                Gerenciar Elenco
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-user">
+
+        A
+
+    </div>
+
+</header>
+
+
+<section class="content">
+
+
+    <div class="page-header">
+
+        <div>
+
+            <span>
+                TIME PRINCIPAL
+            </span>
+
+            <h1>
+                ELENCO
+            </h1>
+
+            <p>
+                Cadastre, edite e organize os jogadores.
+            </p>
+
+        </div>
+
+
+        <button class="new-player"
+                id="newPlayerButton">
+
+            <i class="fa-solid fa-plus"></i>
+
+            &nbsp;
+
+            NOVO JOGADOR
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Buscar jogador..."
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="players-grid"
+         id="playersGrid">
+
+        <div class="empty">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            Carregando elenco...
+
+        </div>
+
+    </div>
+
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div class="modal"
+     id="playerModal">
+
+
+<div class="modal-box">
+
+
+    <div class="modal-header">
+
+        <div>
+
+            <span>
+                ELENCO
+            </span>
+
+            <h2 id="modalTitle">
+                NOVO JOGADOR
+            </h2>
+
+        </div>
+
+
+        <button class="close-modal"
+                id="closeModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+    </div>
+
+
+    <form id="playerForm">
+
+
+        <input
+            type="hidden"
+            id="playerId"
+        >
+
+
+        <input
+            type="hidden"
+            id="currentPhoto"
+        >
+
+
+        <div class="photo-upload">
+
+
+            <div class="photo-preview"
+                 id="photoPreview">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+
+            <div>
+
+                <label for="photoInput">
+
+                    <i class="fa-solid fa-camera"></i>
+
+                    Selecionar foto
+
+                </label>
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+
+                <span class="photo-help">
+
+                    JPG, PNG ou WEBP
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label>
+                    NOME COMPLETO
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    APELIDO
+                </label>
+
+                <input
+                    type="text"
+                    id="nickname"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    NÚMERO
+                </label>
+
+                <input
+                    type="number"
+                    id="number"
+                    min="0"
+                    max="99"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    POSIÇÃO
+                </label>
+
+                <select id="position"
+                        required>
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option>
+                        Goleiro
+                    </option>
+
+                    <option>
+                        Zagueiro
+                    </option>
+
+                    <option>
+                        Lateral Direito
+                    </option>
+
+                    <option>
+                        Lateral Esquerdo
+                    </option>
+
+                    <option>
+                        Volante
+                    </option>
+
+                    <option>
+                        Meio-Campo
+                    </option>
+
+                    <option>
+                        Ponta Direita
+                    </option>
+
+                    <option>
+                        Ponta Esquerda
+                    </option>
+
+                    <option>
+                        Atacante
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    ORDEM
+                </label>
+
+                <input
+                    type="number"
+                    id="order"
+                    value="0"
+                    min="0"
+                >
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="active"
+                        checked
+                    >
+
+                    Jogador ativo no elenco
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="save-btn"
+            id="saveButton">
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            &nbsp;
+
+            SALVAR JOGADOR
+
+        </button>
+
+
+    </form>
+
+
+</div>
+
+</div>
+
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<script>
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+let jogadores = [];
+
+let fotoSelecionada = null;
+
+
+const grid =
+document.getElementById("playersGrid");
+
+const modal =
+document.getElementById("playerModal");
+
+const form =
+document.getElementById("playerForm");
+
+const photoInput =
+document.getElementById("photoInput");
+
+const photoPreview =
+document.getElementById("photoPreview");
+
+const toast =
+document.getElementById("toast");
+
+
+/* =====================================================
+   SEGURANÇA
+===================================================== */
+
+async function verificarAdmin(){
+
+    const {
+        data:{
+            session
+        }
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
+
+
+    if(!session){
+
+        location.href =
+        "login.html";
+
+        return false;
+
+    }
+
+
+    const {
+        data:admin
+    } =
+    await supabaseClient
+
+    .from("administradores")
+
+    .select("id")
+
+    .eq("id",session.user.id)
+
+    .maybeSingle();
+
+
+    if(!admin){
+
+        await supabaseClient
+        .auth
+        .signOut();
+
+        location.href =
+        "login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   CARREGAR
+===================================================== */
+
+async function carregarJogadores(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("jogadores")
+
+    .select("*")
+
+    .order("ordem",{
+        ascending:true
+    })
+
+    .order("numero",{
+        ascending:true
+    });
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarToast(
+            "Erro ao carregar jogadores.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    jogadores =
+    data || [];
+
+
+    renderizarJogadores(
+        jogadores
+    );
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderizarJogadores(lista){
+
+    if(lista.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                <i class="fa-solid fa-users"></i>
+
+                <strong>
+                    Nenhum jogador encontrado
+                </strong>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+    lista.map(jogador => {
+
+
+        const nome =
+        jogador.apelido ||
+        jogador.nome;
+
+
+        const foto =
+        jogador.foto_url
+
+        ? `
+            <img
+                src="${jogador.foto_url}"
+                alt="${nome}"
+            >
+          `
+
+        : `
+            <div class="placeholder">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+          `;
+
+
+        return `
+
+        <article class="player-card">
+
+
+            <div class="player-photo">
+
+                ${foto}
+
+                <span class="number">
+
+                    ${jogador.numero ?? "-"}
+
+                </span>
+
+
+                <span class="
+                    status
+                    ${jogador.ativo
+                        ? "active"
+                        : "inactive"
+                    }
+                ">
+
+                    ${jogador.ativo
+                        ? "ATIVO"
+                        : "INATIVO"
+                    }
+
+                </span>
+
+            </div>
+
+
+            <div class="player-content">
+
+                <span class="position">
+
+                    ${jogador.posicao}
+
+                </span>
+
+
+                <h2>
+
+                    ${nome}
+
+                </h2>
+
+
+                <p>
+
+                    ${jogador.nome}
+
+                </p>
+
+
+                <div class="actions">
+
+
+                    <button
+                        class="edit-btn"
+                        onclick="editarJogador(${jogador.id})"
+                    >
+
+                        <i class="fa-solid fa-pen"></i>
+
+                        Editar
+
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="excluirJogador(${jogador.id})"
+                    >
+
+                        <i class="fa-solid fa-trash"></i>
+
+                        Excluir
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+        </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   NOVO
+===================================================== */
+
+document
+.getElementById("newPlayerButton")
+.addEventListener("click",()=>{
+
+    form.reset();
+
+    document
+    .getElementById("playerId")
+    .value = "";
+
+
+    document
+    .getElementById("currentPhoto")
+    .value = "";
+
+
+    document
+    .getElementById("active")
+    .checked = true;
+
+
+    document
+    .getElementById("order")
+    .value = 0;
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "NOVO JOGADOR";
+
+
+    fotoSelecionada = null;
+
+
+    photoPreview.innerHTML = `
+
+        <i class="fa-solid fa-user"></i>
+
+    `;
+
+
+    modal.classList.add("active");
+
+});
+
+
+/* =====================================================
+   EDITAR
+===================================================== */
+
+function editarJogador(id){
+
+    const jogador =
+    jogadores.find(
+        item =>
+        Number(item.id) === Number(id)
+    );
+
+
+    if(!jogador){
+        return;
+    }
+
+
+    document
+    .getElementById("playerId")
+    .value =
+    jogador.id;
+
+
+    document
+    .getElementById("name")
+    .value =
+    jogador.nome || "";
+
+
+    document
+    .getElementById("nickname")
+    .value =
+    jogador.apelido || "";
+
+
+    document
+    .getElementById("number")
+    .value =
+    jogador.numero ?? "";
+
+
+    document
+    .getElementById("position")
+    .value =
+    jogador.posicao || "";
+
+
+    document
+    .getElementById("order")
+    .value =
+    jogador.ordem ?? 0;
+
+
+    document
+    .getElementById("active")
+    .checked =
+    jogador.ativo;
+
+
+    document
+    .getElementById("currentPhoto")
+    .value =
+    jogador.foto_url || "";
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "EDITAR JOGADOR";
+
+
+    fotoSelecionada = null;
+
+
+    if(jogador.foto_url){
+
+        photoPreview.innerHTML = `
+
+            <img
+                src="${jogador.foto_url}"
+            >
+
+        `;
+
+    }else{
+
+        photoPreview.innerHTML = `
+
+            <i class="fa-solid fa-user"></i>
+
+        `;
+
+    }
+
+
+    modal.classList.add("active");
+
+}
+
+
+/* =====================================================
+   PREVIEW FOTO
+===================================================== */
+
+photoInput
+.addEventListener(
+"change",
+event => {
+
+    const file =
+    event.target.files[0];
+
+
+    if(!file){
+        return;
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+        mostrarToast(
+            "Selecione uma imagem válida.",
+            "error"
+        );
+
+        photoInput.value = "";
+
+        return;
+
+    }
+
+
+    if(file.size > 5 * 1024 * 1024){
+
+        mostrarToast(
+            "A imagem deve ter no máximo 5 MB.",
+            "error"
+        );
+
+        photoInput.value = "";
+
+        return;
+
+    }
+
+
+    fotoSelecionada =
+    file;
+
+
+    const url =
+    URL.createObjectURL(file);
+
+
+    photoPreview.innerHTML = `
+
+        <img src="${url}">
+
+    `;
+
+});
+
+
+/* =====================================================
+   UPLOAD
+===================================================== */
+
+async function enviarFoto(file){
+
+    const extensao =
+    file.name
+    .split(".")
+    .pop()
+    .toLowerCase();
+
+
+    const nomeArquivo =
+
+    `jogadores/${Date.now()}-${crypto.randomUUID()}.${extensao}`;
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+    .storage
+
+    .from("imagens")
+
+    .upload(
+        nomeArquivo,
+        file,
+        {
+            cacheControl:"3600",
+            upsert:false
+        }
+    );
+
+
+    if(error){
+
+        throw error;
+
+    }
+
+
+    const {
+        data
+    } =
+    supabaseClient
+
+    .storage
+
+    .from("imagens")
+
+    .getPublicUrl(
+        nomeArquivo
+    );
+
+
+    return {
+        url:data.publicUrl,
+        path:nomeArquivo
+    };
+
+}
+
+
+/* =====================================================
+   SALVAR
+===================================================== */
+
+form.addEventListener(
+"submit",
+async event => {
+
+    event.preventDefault();
+
+
+    const saveButton =
+    document.getElementById("saveButton");
+
+
+    saveButton.disabled = true;
+
+
+    saveButton.innerHTML = `
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        &nbsp;
+
+        SALVANDO...
+
+    `;
+
+
+    try{
+
+
+        const id =
+        document
+        .getElementById("playerId")
+        .value;
+
+
+        let fotoUrl =
+        document
+        .getElementById("currentPhoto")
+        .value ||
+        null;
+
+
+        if(fotoSelecionada){
+
+            const upload =
+            await enviarFoto(
+                fotoSelecionada
+            );
+
+            fotoUrl =
+            upload.url;
+
+        }
+
+
+        const jogador = {
+
+            nome:
+            document
+            .getElementById("name")
+            .value
+            .trim(),
+
+            apelido:
+            document
+            .getElementById("nickname")
+            .value
+            .trim()
+            || null,
+
+            numero:
+            document
+            .getElementById("number")
+            .value
+            ? Number(
+                document
+                .getElementById("number")
+                .value
+              )
+            : null,
+
+            posicao:
+            document
+            .getElementById("position")
+            .value,
+
+            foto_url:
+            fotoUrl,
+
+            ordem:
+            Number(
+                document
+                .getElementById("order")
+                .value
+            ) || 0,
+
+            ativo:
+            document
+            .getElementById("active")
+            .checked
+
+        };
+
+
+        let resultado;
+
+
+        if(id){
+
+            resultado =
+            await supabaseClient
+
+            .from("jogadores")
+
+            .update(jogador)
+
+            .eq("id",id);
+
+        }else{
+
+            resultado =
+            await supabaseClient
+
+            .from("jogadores")
+
+            .insert(jogador);
+
+        }
+
+
+        if(resultado.error){
+
+            throw resultado.error;
+
+        }
+
+
+        mostrarToast(
+            id
+            ? "Jogador atualizado!"
+            : "Jogador cadastrado!",
+            "success"
+        );
+
+
+        modal.classList.remove(
+            "active"
+        );
+
+
+        await carregarJogadores();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarToast(
+            error.message ||
+            "Erro ao salvar jogador.",
+            "error"
+        );
+
+    }finally{
+
+        saveButton.disabled = false;
+
+        saveButton.innerHTML = `
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            &nbsp;
+
+            SALVAR JOGADOR
+
+        `;
+
+    }
+
+});
+
+
+/* =====================================================
+   EXCLUIR
+===================================================== */
+
+async function excluirJogador(id){
+
+    const jogador =
+    jogadores.find(
+        item =>
+        Number(item.id) === Number(id)
+    );
+
+
+    if(!jogador){
+        return;
+    }
+
+
+    const nome =
+    jogador.apelido ||
+    jogador.nome;
+
+
+    const confirmar =
+    confirm(
+        `Excluir ${nome} do elenco?`
+    );
+
+
+    if(!confirmar){
+        return;
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+    .from("jogadores")
+
+    .delete()
+
+    .eq("id",id);
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarToast(
+            "Erro ao excluir jogador.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    mostrarToast(
+        "Jogador excluído.",
+        "success"
+    );
+
+
+    await carregarJogadores();
+
+}
+
+
+/* =====================================================
+   PESQUISA
+===================================================== */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+"input",
+event => {
+
+    const busca =
+    event.target.value
+    .toLowerCase()
+    .trim();
+
+
+    const resultado =
+    jogadores.filter(jogador => {
+
+        return (
+
+            jogador.nome
+            ?.toLowerCase()
+            .includes(busca)
+
+            ||
+
+            jogador.apelido
+            ?.toLowerCase()
+            .includes(busca)
+
+            ||
+
+            jogador.posicao
+            ?.toLowerCase()
+            .includes(busca)
+
+            ||
+
+            String(
+                jogador.numero ?? ""
+            )
+            .includes(busca)
+
+        );
+
+    });
+
+
+    renderizarJogadores(
+        resultado
+    );
+
+});
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+document
+.getElementById("closeModal")
+.addEventListener(
+"click",
+()=>{
+
+    modal.classList.remove(
+        "active"
+    );
+
+});
+
+
+modal.addEventListener(
+"click",
+event => {
+
+    if(event.target === modal){
+
+        modal.classList.remove(
+            "active"
+        );
+
+    }
+
+});
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function mostrarToast(
+    texto,
+    tipo
+){
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toast.textContent =
+    texto;
+
+
+    toast.className =
+    `toast ${tipo} show`;
+
+
+    toastTimer =
+    setTimeout(()=>{
+
+        toast.classList.remove(
+            "show"
+        );
+
+    },3000);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+document
+.getElementById("mobileMenu")
+.addEventListener(
+"click",
+()=>{
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+
+});
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+"click",
+async ()=>{
+
+    await supabaseClient
+    .auth
+    .signOut();
+
+
+    location.href =
+    "login.html";
+
+});
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+async function iniciar(){
+
+    const autorizado =
+    await verificarAdmin();
+
+
+    if(!autorizado){
+        return;
+    }
+
+
+    await carregarJogadores();
+
+}
+
+
+iniciar();
+
+</script>
+
+
+</body>
+</html>
