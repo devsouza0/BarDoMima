@@ -620,6 +620,212 @@ filterButtons.forEach(button => {
 
 carregarElenco();
 
+
+/* ==================================================
+   COMISSÃO TÉCNICA
+================================================== */
+
+const staffGrid =
+document.getElementById("staffGrid");
+
+
+async function carregarComissao(){
+
+    if(!staffGrid){
+        console.error("staffGrid não encontrado.");
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("comissao")
+
+    .select(`
+        id,
+        nome,
+        apelido,
+        funcao,
+        foto_url,
+        ordem
+    `)
+
+    .eq("ativo", true)
+
+    .order("ordem", {
+        ascending:true
+    });
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar comissão:",
+            error
+        );
+
+        staffGrid.innerHTML = `
+
+            <div class="staff-empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Erro ao carregar comissão
+                </strong>
+
+                <span>
+                    ${escaparHTML(error.message)}
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    console.log(
+        "Comissão retornada:",
+        data
+    );
+
+
+    const membros =
+    data || [];
+
+
+    if(membros.length === 0){
+
+        staffGrid.innerHTML = `
+
+            <div class="staff-empty">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+                <strong>
+                    Comissão Técnica
+                </strong>
+
+                <span>
+                    Nenhum membro cadastrado.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    staffGrid.innerHTML =
+    membros.map(membro => {
+
+
+        const nome =
+        escaparHTML(
+            membro.apelido ||
+            membro.nome
+        );
+
+
+        const nomeCompleto =
+        escaparHTML(
+            membro.nome
+        );
+
+
+        const funcao =
+        escaparHTML(
+            membro.funcao ||
+            "Comissão Técnica"
+        );
+
+
+        const foto =
+        membro.foto_url
+
+        ? `
+
+            <img
+                src="${escaparHTML(membro.foto_url)}"
+                alt="${nome}"
+                class="staff-real-photo"
+                loading="lazy"
+            >
+
+          `
+
+        : `
+
+            <div class="staff-placeholder">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+            </div>
+
+          `;
+
+
+        return `
+
+            <article class="staff-card">
+
+
+                <div class="staff-photo">
+
+                    ${foto}
+
+                </div>
+
+
+                <div class="staff-info">
+
+                    <span class="staff-role">
+
+                        ${funcao}
+
+                    </span>
+
+
+                    <h3>
+
+                        ${nome}
+
+                    </h3>
+
+
+                    <p>
+
+                        ${nomeCompleto}
+
+                    </p>
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* ==================================================
+   INICIAR COMISSÃO
+================================================== */
+
+carregarComissao();
+
+
 </script>
 
 </body>
