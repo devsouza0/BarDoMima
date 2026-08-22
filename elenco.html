@@ -328,46 +328,405 @@
 
 <script>
 
-const filterButtons =
-document.querySelectorAll(".player-filter");
+/* ==================================================
+   BAR DO MIMA - ELENCO PÚBLICO
+================================================== */
 
-const playerCards =
-document.querySelectorAll(".player-card");
+let jogadoresPublicos = [];
+
+let filtroAtual = "todos";
+
+const playersGrid =
+document.getElementById("playersGrid");
+
+
+/* ==================================================
+   CARREGAR JOGADORES
+================================================== */
+
+async function carregarElenco(){
+
+    playersGrid.innerHTML = `
+
+        <div class="players-loading">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            <span>Carregando elenco...</span>
+
+        </div>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("jogadores")
+
+    .select(`
+        id,
+        nome,
+        apelido,
+        numero,
+        posicao,
+        foto_url,
+        ordem
+    `)
+
+    .eq("ativo", true)
+
+    .order("ordem", {
+        ascending:true
+    })
+
+    .order("numero", {
+        ascending:true
+    });
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar elenco:",
+            error
+        );
+
+
+        playersGrid.innerHTML = `
+
+            <div class="players-error">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Não foi possível carregar o elenco.
+                </strong>
+
+                <span>
+                    Tente novamente em alguns instantes.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    jogadoresPublicos =
+    data || [];
+
+
+    renderizarElenco();
+
+}
+
+
+/* ==================================================
+   CATEGORIA DA POSIÇÃO
+================================================== */
+
+function categoriaPosicao(posicao){
+
+    const posicaoNormalizada =
+    (posicao || "")
+    .toLowerCase();
+
+
+    if(
+        posicaoNormalizada.includes("goleiro")
+    ){
+
+        return "goleiro";
+
+    }
+
+
+    if(
+        posicaoNormalizada.includes("zagueiro")
+        ||
+        posicaoNormalizada.includes("lateral")
+    ){
+
+        return "defensor";
+
+    }
+
+
+    if(
+        posicaoNormalizada.includes("meio")
+        ||
+        posicaoNormalizada.includes("volante")
+    ){
+
+        return "meio";
+
+    }
+
+
+    if(
+        posicaoNormalizada.includes("atacante")
+        ||
+        posicaoNormalizada.includes("ponta")
+    ){
+
+        return "atacante";
+
+    }
+
+
+    return "outros";
+
+}
+
+
+/* ==================================================
+   PROTEÇÃO SIMPLES DO TEXTO
+================================================== */
+
+function escaparHTML(valor){
+
+    return String(valor ?? "")
+
+    .replaceAll("&", "&amp;")
+
+    .replaceAll("<", "&lt;")
+
+    .replaceAll(">", "&gt;")
+
+    .replaceAll('"', "&quot;")
+
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* ==================================================
+   RENDERIZAR
+================================================== */
+
+function renderizarElenco(){
+
+    const jogadoresFiltrados =
+    jogadoresPublicos.filter(jogador => {
+
+        if(filtroAtual === "todos"){
+
+            return true;
+
+        }
+
+
+        return (
+            categoriaPosicao(
+                jogador.posicao
+            )
+            ===
+            filtroAtual
+        );
+
+    });
+
+
+    if(jogadoresFiltrados.length === 0){
+
+        playersGrid.innerHTML = `
+
+            <div class="players-empty">
+
+                <i class="fa-solid fa-shirt"></i>
+
+                <strong>
+                    Nenhum jogador nesta categoria
+                </strong>
+
+                <span>
+                    O elenco será atualizado em breve.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    playersGrid.innerHTML =
+    jogadoresFiltrados
+
+    .map(jogador => {
+
+
+        const nomeCompleto =
+        escaparHTML(
+            jogador.nome
+        );
+
+
+        const apelido =
+        escaparHTML(
+            jogador.apelido ||
+            jogador.nome
+        );
+
+
+        const posicao =
+        escaparHTML(
+            jogador.posicao ||
+            "Jogador"
+        );
+
+
+        const numero =
+        jogador.numero ?? "-";
+
+
+        let foto;
+
+
+        if(jogador.foto_url){
+
+            foto = `
+
+                <img
+                    src="${escaparHTML(jogador.foto_url)}"
+                    alt="${apelido}"
+                    class="player-real-photo"
+                    loading="lazy"
+                >
+
+            `;
+
+        }else{
+
+            foto = `
+
+                <div class="player-placeholder">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+            `;
+
+        }
+
+
+        return `
+
+            <article class="player-card">
+
+
+                <div class="player-photo">
+
+                    ${foto}
+
+
+                    <span class="player-number">
+
+                        ${numero}
+
+                    </span>
+
+                </div>
+
+
+                <div class="player-info">
+
+
+                    <span class="player-position">
+
+                        ${posicao}
+
+                    </span>
+
+
+                    <h3>
+
+                        ${apelido}
+
+                    </h3>
+
+
+                    <p>
+
+                        ${nomeCompleto}
+
+                    </p>
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    })
+
+    .join("");
+
+}
+
+
+/* ==================================================
+   FILTROS
+================================================== */
+
+const filterButtons =
+document.querySelectorAll(
+    ".player-filter"
+);
 
 
 filterButtons.forEach(button => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-        filterButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
 
-        button.classList.add("active");
+            filterButtons.forEach(btn => {
 
-        const filter =
+                btn.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            filtroAtual =
             button.dataset.filter;
 
-        playerCards.forEach(card => {
 
-            if(
-                filter === "todos" ||
-                card.dataset.category === filter
-            ){
+            renderizarElenco();
 
-                card.style.display = "block";
-
-            }else{
-
-                card.style.display = "none";
-
-            }
-
-        });
-
-    });
+        }
+    );
 
 });
+
+
+/* ==================================================
+   INICIAR
+================================================== */
+
+carregarElenco();
+
+</script>
 
 </script>
 
