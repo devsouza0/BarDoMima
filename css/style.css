@@ -2767,3 +2767,95 @@ button{
     }
 
 }
+/* ==================================================
+   ELENCO DINÂMICO
+================================================== */
+
+.player-real-photo{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+    object-position:center top;
+
+    transition:
+        transform .4s ease;
+}
+
+.player-card:hover
+.player-real-photo{
+    transform:scale(1.04);
+}
+
+
+/* CARREGAMENTO */
+
+.players-loading,
+.players-error,
+.players-empty{
+
+    grid-column:1/-1;
+
+    min-height:300px;
+
+    border:1px dashed #303030;
+
+    border-radius:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:12px;
+
+    text-align:center;
+
+    color:#777;
+}
+
+
+.players-loading i{
+
+    color:var(--yellow);
+
+    font-size:32px;
+}
+
+
+.players-error i{
+
+    color:#ff6767;
+
+    font-size:38px;
+}
+
+
+.players-empty i{
+
+    color:var(--yellow);
+
+    font-size:42px;
+}
+
+
+.players-error strong,
+.players-empty strong{
+
+    color:white;
+
+    font-size:14px;
+}
+
+
+.players-error span,
+.players-empty span{
+
+    color:#666;
+
+    font-size:11px;
+}
