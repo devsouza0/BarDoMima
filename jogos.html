@@ -15,6 +15,11 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
 </head>
 
 <body>
@@ -61,6 +66,8 @@
 </header>
 
 
+<!-- HERO -->
+
 <section class="page-hero">
 
     <div class="container">
@@ -79,6 +86,10 @@
 </section>
 
 
+<!-- ============================================
+     PRÓXIMOS JOGOS
+============================================= -->
+
 <section class="section">
 
     <div class="container">
@@ -92,142 +103,17 @@
         </div>
 
 
-        <div class="games-list">
+        <div class="games-list" id="proximosJogos">
 
+            <div class="games-loading">
 
-            <article class="game-card">
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                <div class="game-date">
+                <span>
+                    Carregando próximos jogos...
+                </span>
 
-                    <strong>DOM</strong>
-
-                    <span>--/--</span>
-
-                    <small>09:00</small>
-
-                </div>
-
-
-                <div class="game-info">
-
-                    <span class="game-competition">
-                        PRÓXIMA PARTIDA
-                    </span>
-
-                    <div class="game-teams">
-
-                        <div class="game-team">
-
-                            <img src="img/logo.png"
-                                 alt="Bar do Mima">
-
-                            <strong>
-                                Bar do Mima
-                            </strong>
-
-                        </div>
-
-
-                        <div class="game-vs">
-                            X
-                        </div>
-
-
-                        <div class="game-team">
-
-                            <div class="game-placeholder">
-
-                                <i class="fa-solid fa-shield"></i>
-
-                            </div>
-
-                            <strong>
-                                Adversário
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                    <div class="game-location">
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        Local a definir
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <article class="game-card">
-
-                <div class="game-date">
-
-                    <strong>DOM</strong>
-
-                    <span>--/--</span>
-
-                    <small>10:00</small>
-
-                </div>
-
-
-                <div class="game-info">
-
-                    <span class="game-competition">
-                        PRÓXIMO CONFRONTO
-                    </span>
-
-                    <div class="game-teams">
-
-                        <div class="game-team">
-
-                            <img src="img/logo.png"
-                                 alt="Bar do Mima">
-
-                            <strong>
-                                Bar do Mima
-                            </strong>
-
-                        </div>
-
-
-                        <div class="game-vs">
-                            X
-                        </div>
-
-
-                        <div class="game-team">
-
-                            <div class="game-placeholder">
-
-                                <i class="fa-solid fa-shield"></i>
-
-                            </div>
-
-                            <strong>
-                                Adversário
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                    <div class="game-location">
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        Local a definir
-
-                    </div>
-
-                </div>
-
-            </article>
-
+            </div>
 
         </div>
 
@@ -235,6 +121,10 @@
 
 </section>
 
+
+<!-- ============================================
+     RESULTADOS
+============================================= -->
 
 <section class="section section-black">
 
@@ -249,102 +139,17 @@
         </div>
 
 
-        <div class="results-list">
+        <div class="results-list" id="ultimosResultados">
 
+            <div class="games-loading">
 
-            <article class="result-row">
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                <div class="result-date">
-                    FINALIZADO
-                </div>
+                <span>
+                    Carregando resultados...
+                </span>
 
-
-                <div class="result-club">
-
-                    <img src="img/logo.png"
-                         alt="Bar do Mima">
-
-                    <strong>
-                        Bar do Mima
-                    </strong>
-
-                </div>
-
-
-                <div class="result-score-box">
-
-                    <strong>3</strong>
-
-                    <span>X</span>
-
-                    <strong>1</strong>
-
-                </div>
-
-
-                <div class="result-club result-opponent">
-
-                    <div class="game-placeholder small">
-
-                        <i class="fa-solid fa-shield"></i>
-
-                    </div>
-
-                    <strong>
-                        Adversário
-                    </strong>
-
-                </div>
-
-            </article>
-
-
-            <article class="result-row">
-
-                <div class="result-date">
-                    FINALIZADO
-                </div>
-
-
-                <div class="result-club">
-
-                    <img src="img/logo.png"
-                         alt="Bar do Mima">
-
-                    <strong>
-                        Bar do Mima
-                    </strong>
-
-                </div>
-
-
-                <div class="result-score-box">
-
-                    <strong>2</strong>
-
-                    <span>X</span>
-
-                    <strong>2</strong>
-
-                </div>
-
-
-                <div class="result-club result-opponent">
-
-                    <div class="game-placeholder small">
-
-                        <i class="fa-solid fa-shield"></i>
-
-                    </div>
-
-                    <strong>
-                        Adversário
-                    </strong>
-
-                </div>
-
-            </article>
-
+            </div>
 
         </div>
 
@@ -352,6 +157,8 @@
 
 </section>
 
+
+<!-- FOOTER -->
 
 <footer class="footer">
 
@@ -397,6 +204,639 @@
 
 
 <script src="js/main.js"></script>
+
+
+<script>
+
+/* =========================================================
+   BAR DO MIMA
+   JOGOS PÚBLICOS
+========================================================= */
+
+const proximosJogos =
+document.getElementById("proximosJogos");
+
+const ultimosResultados =
+document.getElementById("ultimosResultados");
+
+
+/* =========================================================
+   PROTEGER TEXTO
+========================================================= */
+
+function escaparHTML(valor){
+
+    const elemento =
+    document.createElement("div");
+
+    elemento.textContent =
+    valor ?? "";
+
+    return elemento.innerHTML;
+
+}
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function dadosData(data){
+
+    if(!data){
+
+        return {
+            diaSemana:"--",
+            data:"--/--"
+        };
+
+    }
+
+
+    const partes =
+    data.split("-");
+
+
+    const objetoData =
+    new Date(
+        Number(partes[0]),
+        Number(partes[1]) - 1,
+        Number(partes[2])
+    );
+
+
+    const dias = [
+
+        "DOM",
+        "SEG",
+        "TER",
+        "QUA",
+        "QUI",
+        "SEX",
+        "SÁB"
+
+    ];
+
+
+    return {
+
+        diaSemana:
+        dias[objetoData.getDay()],
+
+        data:
+        `${partes[2]}/${partes[1]}`
+
+    };
+
+}
+
+
+/* =========================================================
+   ESCUDO ADVERSÁRIO
+========================================================= */
+
+function escudoAdversario(
+    jogo,
+    pequeno = false
+){
+
+    if(jogo.adversario_logo){
+
+        return `
+
+            <img
+                src="${escaparHTML(jogo.adversario_logo)}"
+                alt="${escaparHTML(jogo.adversario)}"
+                loading="lazy"
+            >
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="game-placeholder ${pequeno ? "small" : ""}">
+
+            <i class="fa-solid fa-shield"></i>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CARREGAR JOGOS
+========================================================= */
+
+async function carregarJogosPublicos(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("jogos")
+
+    .select(`
+        id,
+        adversario,
+        adversario_logo,
+        campeonato,
+        data,
+        horario,
+        local,
+        mando,
+        status,
+        gols_bar_do_mima,
+        gols_adversario,
+        observacao
+    `)
+
+    .order("data",{
+        ascending:true
+    });
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar jogos:",
+            error
+        );
+
+
+        proximosJogos.innerHTML = `
+
+            <div class="games-empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Não foi possível carregar os jogos.
+                </strong>
+
+            </div>
+
+        `;
+
+
+        ultimosResultados.innerHTML = `
+
+            <div class="games-empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Não foi possível carregar os resultados.
+                </strong>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const jogos =
+    data || [];
+
+
+    /* PRÓXIMOS */
+
+    const agendados =
+    jogos
+
+    .filter(jogo =>
+        jogo.status === "Agendado"
+    )
+
+    .sort((a,b) => {
+
+        const dataA =
+        `${a.data || ""} ${a.horario || "00:00"}`;
+
+        const dataB =
+        `${b.data || ""} ${b.horario || "00:00"}`;
+
+        return dataA.localeCompare(dataB);
+
+    });
+
+
+    /* FINALIZADOS */
+
+    const finalizados =
+    jogos
+
+    .filter(jogo =>
+        jogo.status === "Finalizado"
+    )
+
+    .sort((a,b) => {
+
+        const dataA =
+        `${a.data || ""} ${a.horario || "00:00"}`;
+
+        const dataB =
+        `${b.data || ""} ${b.horario || "00:00"}`;
+
+        return dataB.localeCompare(dataA);
+
+    });
+
+
+    renderizarProximosJogos(
+        agendados
+    );
+
+
+    renderizarResultados(
+        finalizados
+    );
+
+}
+
+
+/* =========================================================
+   PRÓXIMOS JOGOS
+========================================================= */
+
+function renderizarProximosJogos(jogos){
+
+    if(jogos.length === 0){
+
+        proximosJogos.innerHTML = `
+
+            <div class="games-empty">
+
+                <i class="fa-solid fa-calendar-xmark"></i>
+
+                <strong>
+                    Nenhum próximo jogo marcado.
+                </strong>
+
+                <span>
+                    Novas partidas aparecerão aqui.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    proximosJogos.innerHTML =
+    jogos.map((jogo,index) => {
+
+
+        const data =
+        dadosData(jogo.data);
+
+
+        const horario =
+        jogo.horario
+        ? jogo.horario.slice(0,5)
+        : "--:--";
+
+
+        const adversario =
+        escaparHTML(
+            jogo.adversario ||
+            "Adversário"
+        );
+
+
+        const campeonato =
+        escaparHTML(
+            jogo.campeonato ||
+            (
+                index === 0
+                ? "PRÓXIMA PARTIDA"
+                : "PRÓXIMO CONFRONTO"
+            )
+        );
+
+
+        const local =
+        escaparHTML(
+            jogo.local ||
+            "Local a definir"
+        );
+
+
+        /* BAR DO MIMA */
+
+        const mima = `
+
+            <div class="game-team">
+
+                <img
+                    src="img/logo.png"
+                    alt="Bar do Mima"
+                >
+
+                <strong>
+                    Bar do Mima
+                </strong>
+
+            </div>
+
+        `;
+
+
+        /* ADVERSÁRIO */
+
+        const rival = `
+
+            <div class="game-team">
+
+                ${escudoAdversario(jogo)}
+
+                <strong>
+                    ${adversario}
+                </strong>
+
+            </div>
+
+        `;
+
+
+        /* MANDO */
+
+        const esquerda =
+        jogo.mando === "fora"
+        ? rival
+        : mima;
+
+
+        const direita =
+        jogo.mando === "fora"
+        ? mima
+        : rival;
+
+
+        return `
+
+            <article class="game-card">
+
+
+                <div class="game-date">
+
+                    <strong>
+                        ${data.diaSemana}
+                    </strong>
+
+                    <span>
+                        ${data.data}
+                    </span>
+
+                    <small>
+                        ${horario}
+                    </small>
+
+                </div>
+
+
+                <div class="game-info">
+
+
+                    <span class="game-competition">
+
+                        ${campeonato}
+
+                    </span>
+
+
+                    <div class="game-teams">
+
+                        ${esquerda}
+
+
+                        <div class="game-vs">
+                            X
+                        </div>
+
+
+                        ${direita}
+
+                    </div>
+
+
+                    <div class="game-location">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        ${local}
+
+                    </div>
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
+
+function renderizarResultados(jogos){
+
+    if(jogos.length === 0){
+
+        ultimosResultados.innerHTML = `
+
+            <div class="games-empty">
+
+                <i class="fa-solid fa-futbol"></i>
+
+                <strong>
+                    Nenhum resultado registrado.
+                </strong>
+
+                <span>
+                    Os placares aparecerão aqui.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    ultimosResultados.innerHTML =
+    jogos.map(jogo => {
+
+
+        const adversario =
+        escaparHTML(
+            jogo.adversario ||
+            "Adversário"
+        );
+
+
+        const data =
+        dadosData(jogo.data);
+
+
+        const golsMima =
+        jogo.gols_bar_do_mima ?? 0;
+
+
+        const golsAdversario =
+        jogo.gols_adversario ?? 0;
+
+
+        /* BAR DO MIMA */
+
+        const mima = `
+
+            <div class="result-club">
+
+                <img
+                    src="img/logo.png"
+                    alt="Bar do Mima"
+                >
+
+                <strong>
+                    Bar do Mima
+                </strong>
+
+            </div>
+
+        `;
+
+
+        /* ADVERSÁRIO */
+
+        const rival = `
+
+            <div class="result-club result-opponent">
+
+                ${escudoAdversario(
+                    jogo,
+                    true
+                )}
+
+                <strong>
+                    ${adversario}
+                </strong>
+
+            </div>
+
+        `;
+
+
+        let esquerda;
+        let direita;
+
+        let golEsquerda;
+        let golDireita;
+
+
+        if(jogo.mando === "fora"){
+
+            esquerda =
+            rival;
+
+            direita =
+            mima;
+
+            golEsquerda =
+            golsAdversario;
+
+            golDireita =
+            golsMima;
+
+        }else{
+
+            esquerda =
+            mima;
+
+            direita =
+            rival;
+
+            golEsquerda =
+            golsMima;
+
+            golDireita =
+            golsAdversario;
+
+        }
+
+
+        return `
+
+            <article class="result-row">
+
+
+                <div class="result-date">
+
+                    ${data.data}
+
+                </div>
+
+
+                ${esquerda}
+
+
+                <div class="result-score-box">
+
+                    <strong>
+                        ${golEsquerda}
+                    </strong>
+
+                    <span>
+                        X
+                    </span>
+
+                    <strong>
+                        ${golDireita}
+                    </strong>
+
+                </div>
+
+
+                ${direita}
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
+carregarJogosPublicos();
+
+</script>
+
 
 </body>
 </html>
