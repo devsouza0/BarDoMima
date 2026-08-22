@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Comissão Técnica | Bar do Mima ADM</title>
+
+<link rel="icon" href="../img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --yellow:#f5c400;
+    --yellow2:#ffd900;
+    --black:#080808;
+    --card:#121212;
+    --border:#292929;
+    --muted:#888;
+}
+
+body{
+    min-height:100vh;
+    background:#080808;
+    color:#fff;
+    font-family:"Montserrat",sans-serif;
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:260px;
+    height:100vh;
+
+    padding:22px 16px;
+
+    background:#0b0b0b;
+    border-right:1px solid var(--border);
+
+    display:flex;
+    flex-direction:column;
+
+    z-index:1000;
+}
+
+.sidebar-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:0 6px 22px;
+
+    border-bottom:1px solid #202020;
+}
+
+.sidebar-brand img{
+    width:58px;
+    height:58px;
+    object-fit:contain;
+}
+
+.sidebar-brand strong{
+    display:block;
+
+    font-family:"Anton",sans-serif;
+    font-size:22px;
+}
+
+.sidebar-brand span{
+    display:block;
+
+    color:var(--yellow);
+
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.sidebar-menu{
+    margin-top:25px;
+
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    padding:13px 14px;
+
+    border-radius:10px;
+
+    color:#999;
+    text-decoration:none;
+
+    font-size:13px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.sidebar-menu a i{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+    color:var(--yellow);
+    background:rgba(245,196,0,.10);
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+}
+
+.logout{
+    width:100%;
+    height:45px;
+
+    border:1px solid #3b1e1e;
+    border-radius:10px;
+
+    background:#170d0d;
+    color:#ff7777;
+
+    font-weight:800;
+}
+
+/* ==========================================
+   MAIN
+========================================== */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:78px;
+
+    padding:0 30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid #202020;
+
+    background:#090909;
+
+    position:sticky;
+    top:0;
+
+    z-index:500;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.mobile-menu{
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    border:1px solid #292929;
+    border-radius:9px;
+
+    background:#111;
+    color:var(--yellow);
+}
+
+.top-title span{
+    color:#666;
+
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.top-title strong{
+    display:block;
+    margin-top:3px;
+}
+
+.admin-user{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--yellow);
+    color:#111;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:900;
+}
+
+/* ==========================================
+   CONTEÚDO
+========================================== */
+
+.content{
+    padding:32px;
+}
+
+.page-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:30px;
+}
+
+.page-header span{
+    color:var(--yellow);
+
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.page-header h1{
+    margin-top:5px;
+
+    font-family:"Anton",sans-serif;
+    font-size:55px;
+    line-height:1;
+}
+
+.page-header p{
+    margin-top:8px;
+
+    color:#777;
+    font-size:12px;
+}
+
+.new-member{
+    height:48px;
+
+    padding:0 20px;
+
+    border:none;
+    border-radius:10px;
+
+    background:var(--yellow);
+    color:#111;
+
+    font-weight:900;
+
+    transition:.2s;
+}
+
+.new-member:hover{
+    background:var(--yellow2);
+    transform:translateY(-2px);
+}
+
+/* ==========================================
+   BUSCA
+========================================== */
+
+.toolbar{
+    margin-bottom:22px;
+}
+
+.search-box{
+    position:relative;
+
+    width:100%;
+    max-width:450px;
+}
+
+.search-box i{
+    position:absolute;
+
+    left:16px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#555;
+}
+
+.search-box input{
+    width:100%;
+    height:48px;
+
+    padding:0 16px 0 45px;
+
+    border:1px solid #292929;
+    border-radius:10px;
+
+    outline:none;
+
+    background:#111;
+    color:white;
+}
+
+.search-box input:focus{
+    border-color:var(--yellow);
+}
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.staff-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.staff-card{
+    overflow:hidden;
+
+    background:#121212;
+
+    border:1px solid #292929;
+    border-radius:17px;
+
+    transition:.25s;
+}
+
+.staff-card:hover{
+    transform:translateY(-4px);
+    border-color:var(--yellow);
+}
+
+.staff-photo{
+    height:260px;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(245,196,0,.12),
+            transparent 55%
+        ),
+        #0c0c0c;
+}
+
+.staff-photo img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+    object-position:center top;
+}
+
+.placeholder{
+    color:#333;
+    font-size:90px;
+}
+
+.status{
+    position:absolute;
+
+    left:15px;
+    top:15px;
+
+    padding:6px 9px;
+
+    border-radius:20px;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.status.active{
+    background:#16351f;
+    color:#6ee796;
+}
+
+.status.inactive{
+    background:#351616;
+    color:#ff8181;
+}
+
+.staff-content{
+    padding:20px;
+}
+
+.staff-role{
+    color:var(--yellow);
+
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.staff-content h2{
+    margin-top:5px;
+
+    font-family:"Anton",sans-serif;
+    font-size:29px;
+}
+
+.staff-content p{
+    margin-top:3px;
+
+    color:#666;
+    font-size:11px;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:8px;
+
+    margin-top:18px;
+}
+
+.edit-btn,
+.delete-btn{
+    height:40px;
+
+    border-radius:8px;
+
+    font-size:11px;
+    font-weight:800;
+}
+
+.edit-btn{
+    border:1px solid #4b400c;
+
+    background:#1e1a08;
+    color:var(--yellow);
+}
+
+.delete-btn{
+    border:1px solid #442020;
+
+    background:#1b0d0d;
+    color:#ff7777;
+}
+
+/* ==========================================
+   VAZIO / LOADING
+========================================== */
+
+.empty{
+    grid-column:1/-1;
+
+    min-height:300px;
+
+    border:1px dashed #333;
+    border-radius:15px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:10px;
+
+    color:#666;
+
+    text-align:center;
+}
+
+.empty i{
+    color:var(--yellow);
+    font-size:45px;
+}
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.modal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:9999;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.85);
+
+    align-items:center;
+    justify-content:center;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:600px;
+
+    max-height:92vh;
+    overflow:auto;
+
+    padding:28px;
+
+    background:#111;
+
+    border:1px solid #333;
+    border-radius:18px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.modal-header span{
+    color:var(--yellow);
+
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.modal-header h2{
+    font-family:"Anton",sans-serif;
+    font-size:30px;
+}
+
+.close-modal{
+    width:40px;
+    height:40px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#222;
+    color:white;
+}
+
+/* ==========================================
+   FOTO
+========================================== */
+
+.photo-upload{
+    display:grid;
+    grid-template-columns:110px 1fr;
+
+    gap:18px;
+
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+.photo-preview{
+    width:110px;
+    height:110px;
+
+    border:1px solid #333;
+    border-radius:13px;
+
+    overflow:hidden;
+
+    background:#090909;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#444;
+    font-size:35px;
+}
+
+.photo-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.photo-upload label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:11px 15px;
+
+    border:1px solid #333;
+    border-radius:8px;
+
+    background:#1b1b1b;
+    color:var(--yellow);
+
+    font-size:11px;
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.photo-upload input{
+    display:none;
+}
+
+.photo-help{
+    display:block;
+
+    margin-top:8px;
+
+    color:#666;
+    font-size:9px;
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#888;
+
+    font-size:10px;
+    font-weight:800;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    height:47px;
+
+    padding:0 13px;
+
+    border:1px solid #303030;
+    border-radius:9px;
+
+    outline:none;
+
+    background:#090909;
+    color:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:var(--yellow);
+}
+
+.checkbox{
+    display:flex !important;
+    align-items:center;
+    gap:9px;
+
+    color:#aaa !important;
+    font-size:11px !important;
+}
+
+.checkbox input{
+    width:17px;
+    height:17px;
+
+    accent-color:var(--yellow);
+}
+
+.save-btn{
+    width:100%;
+    height:50px;
+
+    margin-top:10px;
+
+    border:none;
+    border-radius:9px;
+
+    background:var(--yellow);
+    color:#111;
+
+    font-weight:900;
+}
+
+.save-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* ==========================================
+   TOAST
+========================================== */
+
+.toast{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    z-index:12000;
+
+    padding:14px 18px;
+
+    border:1px solid #333;
+    border-radius:10px;
+
+    background:#151515;
+
+    box-shadow:0 15px 40px #000;
+
+    font-size:11px;
+    font-weight:800;
+
+    transform:translateY(120px);
+    opacity:0;
+
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.toast.success{
+    border-color:#235c34;
+    color:#78e69a;
+}
+
+.toast.error{
+    border-color:#5c2323;
+    color:#ff8181;
+}
+
+/* ==========================================
+   RESPONSIVO
+========================================== */
+
+@media(max-width:1050px){
+
+    .staff-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.active{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .content{
+        padding:22px 15px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .page-header{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .page-header h1{
+        font-size:43px;
+    }
+
+    .staff-grid{
+        grid-template-columns:1fr;
+    }
+
+    .staff-photo{
+        height:300px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .photo-upload{
+        grid-template-columns:90px 1fr;
+    }
+
+    .photo-preview{
+        width:90px;
+        height:90px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img src="../img/logo.png" alt="Bar do Mima">
+
+        <div>
+            <strong>BAR DO MIMA</strong>
+            <span>ADMINISTRAÇÃO</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a href="dashboard.html">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="jogadores.html">
+            <i class="fa-solid fa-users"></i>
+            Elenco
+        </a>
+
+        <a href="comissao.html" class="active">
+            <i class="fa-solid fa-user-tie"></i>
+            Comissão Técnica
+        </a>
+
+        <a href="noticias.html">
+            <i class="fa-solid fa-newspaper"></i>
+            Notícias
+        </a>
+
+        <a href="jogos.html">
+            <i class="fa-solid fa-futbol"></i>
+            Jogos
+        </a>
+
+        <a href="titulos.html">
+            <i class="fa-solid fa-trophy"></i>
+            Títulos
+        </a>
+
+        <a href="galeria.html">
+            <i class="fa-solid fa-images"></i>
+            Galeria
+        </a>
+
+        <a href="patrocinadores.html">
+            <i class="fa-solid fa-handshake"></i>
+            Patrocinadores
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <button class="logout" id="logoutButton">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+            &nbsp;
+            SAIR
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="mobile-menu" id="mobileMenu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="top-title">
+            <span>BAR DO MIMA</span>
+            <strong>Comissão Técnica</strong>
+        </div>
+
+    </div>
+
+    <div class="admin-user">
+        A
+    </div>
+
+</header>
+
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <span>EQUIPE TÉCNICA</span>
+
+            <h1>COMISSÃO</h1>
+
+            <p>
+                Gerencie os profissionais que fazem parte da equipe.
+            </p>
+
+        </div>
+
+        <button class="new-member" id="newMemberButton">
+
+            <i class="fa-solid fa-plus"></i>
+            &nbsp;
+            NOVO MEMBRO
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Buscar por nome ou função..."
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="staff-grid" id="staffGrid">
+
+        <div class="empty">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            Carregando comissão técnica...
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="memberModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span>COMISSÃO TÉCNICA</span>
+
+                <h2 id="modalTitle">
+                    NOVO MEMBRO
+                </h2>
+
+            </div>
+
+            <button
+                type="button"
+                class="close-modal"
+                id="closeModal"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form id="memberForm">
+
+            <input type="hidden" id="memberId">
+
+            <input type="hidden" id="currentPhoto">
+
+
+            <div class="photo-upload">
+
+                <div class="photo-preview" id="photoPreview">
+
+                    <i class="fa-solid fa-user-tie"></i>
+
+                </div>
+
+                <div>
+
+                    <label for="photoInput">
+
+                        <i class="fa-solid fa-camera"></i>
+
+                        Selecionar foto
+
+                    </label>
+
+                    <input
+                        type="file"
+                        id="photoInput"
+                        accept="image/png,image/jpeg,image/webp"
+                    >
+
+                    <span class="photo-help">
+                        JPG, PNG ou WEBP • Máximo 5 MB
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+
+                    <label>NOME COMPLETO</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>APELIDO</label>
+
+                    <input
+                        type="text"
+                        id="nickname"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>FUNÇÃO</label>
+
+                    <select id="role" required>
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option value="Técnico">
+                            Técnico
+                        </option>
+
+                        <option value="Auxiliar Técnico">
+                            Auxiliar Técnico
+                        </option>
+
+                        <option value="Preparador Físico">
+                            Preparador Físico
+                        </option>
+
+                        <option value="Preparador de Goleiros">
+                            Preparador de Goleiros
+                        </option>
+
+                        <option value="Massagista">
+                            Massagista
+                        </option>
+
+                        <option value="Roupeiro">
+                            Roupeiro
+                        </option>
+
+                        <option value="Diretor">
+                            Diretor
+                        </option>
+
+                        <option value="Presidente">
+                            Presidente
+                        </option>
+
+                        <option value="Vice-Presidente">
+                            Vice-Presidente
+                        </option>
+
+                        <option value="Comissão Técnica">
+                            Comissão Técnica
+                        </option>
+
+                        <option value="Outro">
+                            Outro
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>ORDEM DE EXIBIÇÃO</label>
+
+                    <input
+                        type="number"
+                        id="order"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>&nbsp;</label>
+
+                    <label class="checkbox">
+
+                        <input
+                            type="checkbox"
+                            id="active"
+                            checked
+                        >
+
+                        Membro ativo
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-btn"
+                id="saveButton"
+            >
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                &nbsp;
+
+                SALVAR MEMBRO
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+let membros = [];
+let fotoSelecionada = null;
+
+const grid =
+document.getElementById("staffGrid");
+
+const modal =
+document.getElementById("memberModal");
+
+const form =
+document.getElementById("memberForm");
+
+const photoInput =
+document.getElementById("photoInput");
+
+const photoPreview =
+document.getElementById("photoPreview");
+
+const toast =
+document.getElementById("toast");
+
+
+/* ==========================================
+   SEGURANÇA
+========================================== */
+
+async function verificarAdmin(){
+
+    const {
+        data:{ session }
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
+
+
+    if(!session){
+
+        location.href = "login.html";
+
+        return false;
+
+    }
+
+
+    const {
+        data:admin,
+        error
+    } =
+    await supabaseClient
+
+    .from("administradores")
+
+    .select("id")
+
+    .eq("id",session.user.id)
+
+    .maybeSingle();
+
+
+    if(error || !admin){
+
+        await supabaseClient
+        .auth
+        .signOut();
+
+        location.href = "login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* ==========================================
+   CARREGAR COMISSÃO
+========================================== */
+
+async function carregarComissao(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("comissao")
+
+    .select("*")
+
+    .order("ordem",{
+        ascending:true
+    })
+
+    .order("created_at",{
+        ascending:true
+    });
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarToast(
+            "Erro ao carregar comissão.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    membros = data || [];
+
+    renderizarComissao(membros);
+
+}
+
+
+/* ==========================================
+   PROTEGER TEXTO
+========================================== */
+
+function escaparHTML(valor){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    valor ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* ==========================================
+   RENDERIZAR
+========================================== */
+
+function renderizarComissao(lista){
+
+    if(lista.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+                <strong>
+                    Nenhum membro cadastrado
+                </strong>
+
+                <span>
+                    Clique em "Novo Membro" para começar.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+    lista.map(membro => {
+
+        const nomeExibicao =
+        escaparHTML(
+            membro.apelido ||
+            membro.nome
+        );
+
+        const nomeCompleto =
+        escaparHTML(
+            membro.nome
+        );
+
+        const funcao =
+        escaparHTML(
+            membro.funcao
+        );
+
+
+        const foto =
+        membro.foto_url
+
+        ? `
+            <img
+                src="${escaparHTML(membro.foto_url)}"
+                alt="${nomeExibicao}"
+            >
+          `
+
+        : `
+            <div class="placeholder">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+            </div>
+          `;
+
+
+        return `
+
+            <article class="staff-card">
+
+                <div class="staff-photo">
+
+                    ${foto}
+
+                    <span class="
+                        status
+                        ${membro.ativo
+                            ? "active"
+                            : "inactive"
+                        }
+                    ">
+
+                        ${membro.ativo
+                            ? "ATIVO"
+                            : "INATIVO"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="staff-content">
+
+                    <span class="staff-role">
+                        ${funcao}
+                    </span>
+
+                    <h2>
+                        ${nomeExibicao}
+                    </h2>
+
+                    <p>
+                        ${nomeCompleto}
+                    </p>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="button"
+                            class="edit-btn"
+                            onclick="editarMembro(${membro.id})"
+                        >
+
+                            <i class="fa-solid fa-pen"></i>
+
+                            Editar
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="delete-btn"
+                            onclick="excluirMembro(${membro.id})"
+                        >
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Excluir
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* ==========================================
+   NOVO MEMBRO
+========================================== */
+
+document
+.getElementById("newMemberButton")
+.addEventListener("click",()=>{
+
+    form.reset();
+
+    document
+    .getElementById("memberId")
+    .value = "";
+
+
+    document
+    .getElementById("currentPhoto")
+    .value = "";
+
+
+    document
+    .getElementById("order")
+    .value = 0;
+
+
+    document
+    .getElementById("active")
+    .checked = true;
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "NOVO MEMBRO";
+
+
+    fotoSelecionada = null;
+
+    photoInput.value = "";
+
+
+    photoPreview.innerHTML = `
+
+        <i class="fa-solid fa-user-tie"></i>
+
+    `;
+
+
+    modal.classList.add("active");
+
+});
+
+
+/* ==========================================
+   EDITAR
+========================================== */
+
+function editarMembro(id){
+
+    const membro =
+    membros.find(
+        item =>
+        Number(item.id) === Number(id)
+    );
+
+
+    if(!membro){
+        return;
+    }
+
+
+    document
+    .getElementById("memberId")
+    .value =
+    membro.id;
+
+
+    document
+    .getElementById("name")
+    .value =
+    membro.nome || "";
+
+
+    document
+    .getElementById("nickname")
+    .value =
+    membro.apelido || "";
+
+
+    document
+    .getElementById("role")
+    .value =
+    membro.funcao || "";
+
+
+    document
+    .getElementById("order")
+    .value =
+    membro.ordem ?? 0;
+
+
+    document
+    .getElementById("active")
+    .checked =
+    membro.ativo;
+
+
+    document
+    .getElementById("currentPhoto")
+    .value =
+    membro.foto_url || "";
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "EDITAR MEMBRO";
+
+
+    fotoSelecionada = null;
+
+    photoInput.value = "";
+
+
+    if(membro.foto_url){
+
+        photoPreview.innerHTML = `
+
+            <img
+                src="${escaparHTML(membro.foto_url)}"
+                alt=""
+            >
+
+        `;
+
+    }else{
+
+        photoPreview.innerHTML = `
+
+            <i class="fa-solid fa-user-tie"></i>
+
+        `;
+
+    }
+
+
+    modal.classList.add("active");
+
+}
+
+
+/* ==========================================
+   PREVIEW DA FOTO
+========================================== */
+
+photoInput
+.addEventListener("change",event => {
+
+    const file =
+    event.target.files[0];
+
+
+    if(!file){
+        return;
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+        mostrarToast(
+            "Selecione uma imagem válida.",
+            "error"
+        );
+
+        photoInput.value = "";
+
+        return;
+
+    }
+
+
+    if(file.size > 5 * 1024 * 1024){
+
+        mostrarToast(
+            "A imagem deve ter no máximo 5 MB.",
+            "error"
+        );
+
+        photoInput.value = "";
+
+        return;
+
+    }
+
+
+    fotoSelecionada = file;
+
+
+    const previewURL =
+    URL.createObjectURL(file);
+
+
+    photoPreview.innerHTML = `
+
+        <img src="${previewURL}" alt="Prévia">
+
+    `;
+
+});
+
+
+/* ==========================================
+   UPLOAD
+========================================== */
+
+async function enviarFoto(file){
+
+    let extensao =
+    file.name
+    .split(".")
+    .pop()
+    .toLowerCase();
+
+
+    if(!["jpg","jpeg","png","webp"].includes(extensao)){
+
+        extensao = "jpg";
+
+    }
+
+
+    const nomeArquivo =
+
+    `comissao/${Date.now()}-${crypto.randomUUID()}.${extensao}`;
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+    .storage
+
+    .from("imagens")
+
+    .upload(
+        nomeArquivo,
+        file,
+        {
+            cacheControl:"3600",
+            upsert:false
+        }
+    );
+
+
+    if(error){
+        throw error;
+    }
+
+
+    const {
+        data
+    } =
+    supabaseClient
+
+    .storage
+
+    .from("imagens")
+
+    .getPublicUrl(nomeArquivo);
+
+
+    return data.publicUrl;
+
+}
+
+
+/* ==========================================
+   SALVAR
+========================================== */
+
+form.addEventListener(
+"submit",
+async event => {
+
+    event.preventDefault();
+
+
+    const saveButton =
+    document.getElementById("saveButton");
+
+
+    saveButton.disabled = true;
+
+    saveButton.innerHTML = `
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        &nbsp;
+
+        SALVANDO...
+
+    `;
+
+
+    try{
+
+
+        const id =
+        document
+        .getElementById("memberId")
+        .value;
+
+
+        let fotoUrl =
+        document
+        .getElementById("currentPhoto")
+        .value || null;
+
+
+        if(fotoSelecionada){
+
+            fotoUrl =
+            await enviarFoto(
+                fotoSelecionada
+            );
+
+        }
+
+
+        const membro = {
+
+            nome:
+            document
+            .getElementById("name")
+            .value
+            .trim(),
+
+            apelido:
+            document
+            .getElementById("nickname")
+            .value
+            .trim() || null,
+
+            funcao:
+            document
+            .getElementById("role")
+            .value,
+
+            foto_url:
+            fotoUrl,
+
+            ativo:
+            document
+            .getElementById("active")
+            .checked,
+
+            ordem:
+            Number(
+                document
+                .getElementById("order")
+                .value
+            ) || 0
+
+        };
+
+
+        let resultado;
+
+
+        if(id){
+
+            resultado =
+            await supabaseClient
+
+            .from("comissao")
+
+            .update(membro)
+
+            .eq("id",id);
+
+        }else{
+
+            resultado =
+            await supabaseClient
+
+            .from("comissao")
+
+            .insert(membro);
+
+        }
+
+
+        if(resultado.error){
+
+            throw resultado.error;
+
+        }
+
+
+        mostrarToast(
+            id
+            ? "Membro atualizado!"
+            : "Membro cadastrado!",
+            "success"
+        );
+
+
+        modal.classList.remove("active");
+
+
+        await carregarComissao();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarToast(
+            error.message ||
+            "Erro ao salvar membro.",
+            "error"
+        );
+
+    }finally{
+
+        saveButton.disabled = false;
+
+        saveButton.innerHTML = `
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            &nbsp;
+
+            SALVAR MEMBRO
+
+        `;
+
+    }
+
+});
+
+
+/* ==========================================
+   EXCLUIR
+========================================== */
+
+async function excluirMembro(id){
+
+    const membro =
+    membros.find(
+        item =>
+        Number(item.id) === Number(id)
+    );
+
+
+    if(!membro){
+        return;
+    }
+
+
+    const nome =
+    membro.apelido ||
+    membro.nome;
+
+
+    if(
+        !confirm(
+            `Excluir ${nome} da comissão técnica?`
+        )
+    ){
+        return;
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+    .from("comissao")
+
+    .delete()
+
+    .eq("id",id);
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarToast(
+            "Erro ao excluir membro.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    mostrarToast(
+        "Membro excluído.",
+        "success"
+    );
+
+
+    await carregarComissao();
+
+}
+
+
+/* ==========================================
+   BUSCA
+========================================== */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+"input",
+event => {
+
+    const busca =
+    event.target.value
+    .toLowerCase()
+    .trim();
+
+
+    const resultado =
+    membros.filter(membro => {
+
+        return (
+
+            membro.nome
+            ?.toLowerCase()
+            .includes(busca)
+
+            ||
+
+            membro.apelido
+            ?.toLowerCase()
+            .includes(busca)
+
+            ||
+
+            membro.funcao
+            ?.toLowerCase()
+            .includes(busca)
+
+        );
+
+    });
+
+
+    renderizarComissao(resultado);
+
+});
+
+
+/* ==========================================
+   FECHAR MODAL
+========================================== */
+
+document
+.getElementById("closeModal")
+.addEventListener("click",()=>{
+
+    modal.classList.remove("active");
+
+});
+
+
+modal.addEventListener("click",event => {
+
+    if(event.target === modal){
+
+        modal.classList.remove("active");
+
+    }
+
+});
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+
+function mostrarToast(texto,tipo){
+
+    clearTimeout(toastTimer);
+
+
+    toast.textContent = texto;
+
+    toast.className =
+    `toast ${tipo} show`;
+
+
+    toastTimer =
+    setTimeout(()=>{
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+document
+.getElementById("mobileMenu")
+.addEventListener("click",()=>{
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+
+});
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+"click",
+async ()=>{
+
+    await supabaseClient
+    .auth
+    .signOut();
+
+    location.href =
+    "login.html";
+
+});
+
+
+/* ==========================================
+   INICIAR
+========================================== */
+
+async function iniciar(){
+
+    const autorizado =
+    await verificarAdmin();
+
+
+    if(!autorizado){
+        return;
+    }
+
+
+    await carregarComissao();
+
+}
+
+
+iniciar();
+
+</script>
+
+</body>
+</html>
