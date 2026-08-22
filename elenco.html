@@ -131,7 +131,14 @@
         </div>
 
 
-        <div class="players-grid">
+        <div class="players-grid" id="playersGrid">
+
+    <div class="players-loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <span>Carregando elenco...</span>
+    </div>
+
+</div>
 
         </div>
 
@@ -616,8 +623,6 @@ filterButtons.forEach(button => {
 ================================================== */
 
 carregarElenco();
-
-</script>
 
 </script>
 
