@@ -15,9 +15,292 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <style>
+
+        /* =====================================================
+           SALA DE TROFÉUS DINÂMICA
+        ===================================================== */
+
+        .titles-public-grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:22px;
+        }
+
+        .public-title-card{
+            position:relative;
+            overflow:hidden;
+
+            background:#111;
+            border:1px solid #292929;
+            border-radius:18px;
+
+            transition:
+                transform .25s ease,
+                border-color .25s ease,
+                box-shadow .25s ease;
+        }
+
+        .public-title-card:hover{
+            transform:translateY(-6px);
+            border-color:#4a4a4a;
+            box-shadow:0 20px 45px rgba(0,0,0,.35);
+        }
+
+
+        /* FOTO */
+
+        .public-title-image{
+            position:relative;
+
+            width:100%;
+            height:270px;
+
+            overflow:hidden;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(245,196,0,.15),
+                    transparent 60%
+                ),
+                #090909;
+        }
+
+        .public-title-image img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+
+            display:block;
+
+            transition:transform .4s ease;
+        }
+
+        .public-title-card:hover
+        .public-title-image img{
+            transform:scale(1.04);
+        }
+
+
+        /* SEM FOTO */
+
+        .public-title-placeholder{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            width:100%;
+            height:100%;
+
+            font-size:85px;
+            color:#f5c400;
+        }
+
+
+        /* ANO SOBRE A FOTO */
+
+        .public-title-year{
+            position:absolute;
+
+            left:15px;
+            bottom:15px;
+
+            padding:7px 11px;
+
+            border-radius:20px;
+
+            background:#f5c400;
+            color:#111;
+
+            font-size:10px;
+            font-weight:900;
+            letter-spacing:1px;
+
+            z-index:3;
+        }
+
+
+        /* DESTAQUE */
+
+        .public-title-featured{
+            position:absolute;
+
+            top:15px;
+            right:15px;
+
+            width:38px;
+            height:38px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:50%;
+
+            background:#f5c400;
+            color:#111;
+
+            box-shadow:0 8px 25px rgba(0,0,0,.4);
+
+            z-index:3;
+        }
+
+
+        /* CONTEÚDO */
+
+        .public-title-content{
+            padding:22px;
+        }
+
+        .public-title-content h3{
+            margin:0;
+
+            font-family:"Anton",sans-serif;
+            font-size:30px;
+            font-weight:400;
+            line-height:1.1;
+
+            color:#fff;
+
+            text-transform:uppercase;
+        }
+
+        .public-title-type{
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+
+            margin-top:11px;
+
+            padding:7px 11px;
+
+            border:1px solid #514400;
+            border-radius:20px;
+
+            background:#1c1806;
+            color:#f5c400;
+
+            font-size:8px;
+            font-weight:900;
+            letter-spacing:.5px;
+
+            text-transform:uppercase;
+        }
+
+        .public-title-description{
+            margin-top:15px;
+
+            color:#888;
+
+            font-size:11px;
+            line-height:1.7;
+        }
+
+
+        /* CARREGANDO / VAZIO / ERRO */
+
+        .titles-state{
+            grid-column:1/-1;
+
+            min-height:300px;
+
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+
+            gap:12px;
+
+            padding:30px;
+
+            border:1px dashed #333;
+            border-radius:17px;
+
+            text-align:center;
+
+            color:#777;
+        }
+
+        .titles-state i{
+            font-size:45px;
+            color:#f5c400;
+        }
+
+        .titles-state strong{
+            color:#fff;
+            font-size:13px;
+        }
+
+        .titles-state span{
+            max-width:400px;
+
+            font-size:10px;
+            line-height:1.6;
+        }
+
+
+        /* CONTADOR */
+
+        .titles-total{
+            margin-top:8px;
+
+            color:#777;
+            font-size:10px;
+            font-weight:700;
+        }
+
+        .titles-total strong{
+            color:#f5c400;
+        }
+
+
+        /* RESPONSIVO */
+
+        @media(max-width:1000px){
+
+            .titles-public-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+        }
+
+        @media(max-width:650px){
+
+            .titles-public-grid{
+                grid-template-columns:1fr;
+            }
+
+            .public-title-image{
+                height:250px;
+            }
+
+            .public-title-content h3{
+                font-size:27px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="header">
 
@@ -25,34 +308,67 @@
 
         <a href="index.html" class="brand">
 
-            <img src="img/logo.png"
-                 alt="Bar do Mima"
-                 class="brand-logo">
+            <img
+                src="img/logo.png"
+                alt="Bar do Mima"
+                class="brand-logo"
+            >
 
             <div class="brand-text">
-                <strong>BAR DO MIMA</strong>
-                <span>FUTEBOL</span>
+
+                <strong>
+                    BAR DO MIMA
+                </strong>
+
+                <span>
+                    FUTEBOL
+                </span>
+
             </div>
 
         </a>
 
-        <button class="menu-button"
-                id="menuButton"
-                aria-label="Abrir menu">
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            aria-label="Abrir menu"
+        >
 
             <i class="fa-solid fa-bars"></i>
 
         </button>
 
+
         <nav class="nav" id="nav">
 
-            <a href="index.html">Início</a>
-            <a href="noticias.html">Notícias</a>
-            <a href="elenco.html">Elenco</a>
-            <a href="jogos.html">Jogos</a>
-            <a href="titulos.html" class="active">Títulos</a>
-            <a href="galeria.html">Galeria</a>
-            <a href="historia.html">O Clube</a>
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="noticias.html">
+                Notícias
+            </a>
+
+            <a href="elenco.html">
+                Elenco
+            </a>
+
+            <a href="jogos.html">
+                Jogos
+            </a>
+
+            <a href="titulos.html" class="active">
+                Títulos
+            </a>
+
+            <a href="galeria.html">
+                Galeria
+            </a>
+
+            <a href="historia.html">
+                O Clube
+            </a>
 
         </nav>
 
@@ -61,17 +377,25 @@
 </header>
 
 
+<!-- =====================================================
+     HERO
+===================================================== -->
+
 <section class="page-hero">
 
     <div class="container">
 
-        <span>NOSSAS CONQUISTAS</span>
+        <span>
+            NOSSAS CONQUISTAS
+        </span>
 
-        <h1>SALA DE TROFÉUS</h1>
+        <h1>
+            SALA DE TROFÉUS
+        </h1>
 
         <p>
-            Cada título carrega uma história, uma batalha e um momento
-            inesquecível para o Bar do Mima.
+            Cada título carrega uma história, uma batalha
+            e um momento inesquecível para o Bar do Mima.
         </p>
 
     </div>
@@ -79,103 +403,45 @@
 </section>
 
 
+<!-- =====================================================
+     TÍTULOS
+===================================================== -->
+
 <section class="section">
 
     <div class="container">
 
         <div class="section-heading">
-            <span>HISTÓRIA</span>
-            <h2>NOSSOS TÍTULOS</h2>
+
+            <span>
+                HISTÓRIA
+            </span>
+
+            <h2>
+                NOSSOS TÍTULOS
+            </h2>
+
+            <div class="titles-total" id="titlesTotal">
+                Carregando conquistas...
+            </div>
+
         </div>
 
 
-        <div class="titles-grid">
+        <div
+            class="titles-public-grid"
+            id="titlesGrid"
+        >
 
+            <div class="titles-state">
 
-            <article class="title-card">
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                <div class="title-icon">
+                <strong>
+                    Carregando nossa história...
+                </strong>
 
-                    <i class="fa-solid fa-trophy"></i>
-
-                </div>
-
-                <span class="title-year">
-                    2026
-                </span>
-
-                <h3>
-                    CAMPEONATO
-                </h3>
-
-                <p>
-                    Nome do campeonato será adicionado aqui.
-                </p>
-
-                <div class="champion-badge">
-
-                    <i class="fa-solid fa-star"></i>
-
-                    CAMPEÃO
-
-                </div>
-
-            </article>
-
-
-            <article class="title-card">
-
-                <div class="title-icon">
-
-                    <i class="fa-solid fa-medal"></i>
-
-                </div>
-
-                <span class="title-year">
-                    2025
-                </span>
-
-                <h3>
-                    TORNEIO
-                </h3>
-
-                <p>
-                    Nome do torneio será adicionado aqui.
-                </p>
-
-                <div class="champion-badge">
-
-                    <i class="fa-solid fa-star"></i>
-
-                    CAMPEÃO
-
-                </div>
-
-            </article>
-
-
-            <article class="title-card future-title">
-
-                <div class="title-icon">
-
-                    <i class="fa-solid fa-plus"></i>
-
-                </div>
-
-                <span class="title-year">
-                    EM BREVE
-                </span>
-
-                <h3>
-                    PRÓXIMA CONQUISTA
-                </h3>
-
-                <p>
-                    Novos títulos serão registrados nesta página.
-                </p>
-
-            </article>
-
+            </div>
 
         </div>
 
@@ -183,6 +449,10 @@
 
 </section>
 
+
+<!-- =====================================================
+     BANNER
+===================================================== -->
 
 <section class="titles-banner">
 
@@ -211,18 +481,26 @@
 </section>
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer class="footer">
 
     <div class="container footer-grid">
 
         <div class="footer-brand">
 
-            <img src="img/logo.png"
-                 alt="Bar do Mima">
+            <img
+                src="img/logo.png"
+                alt="Bar do Mima"
+            >
 
             <div>
 
-                <strong>BAR DO MIMA</strong>
+                <strong>
+                    BAR DO MIMA
+                </strong>
 
                 <span>
                     Raça • Amizade • Futebol
@@ -232,24 +510,413 @@
 
         </div>
 
+
         <div class="footer-links">
 
-            <a href="noticias.html">Notícias</a>
-            <a href="elenco.html">Elenco</a>
-            <a href="jogos.html">Jogos</a>
-            <a href="titulos.html">Títulos</a>
+            <a href="noticias.html">
+                Notícias
+            </a>
+
+            <a href="elenco.html">
+                Elenco
+            </a>
+
+            <a href="jogos.html">
+                Jogos
+            </a>
+
+            <a href="titulos.html">
+                Títulos
+            </a>
 
         </div>
 
     </div>
 
+
     <div class="copyright">
+
         © 2026 Bar do Mima • Todos os direitos reservados
+
     </div>
 
 </footer>
 
+
 <script src="js/main.js"></script>
+
+
+<script>
+
+/* =====================================================
+   BAR DO MIMA
+   TÍTULOS PÚBLICOS
+===================================================== */
+
+const titlesGrid =
+document.getElementById("titlesGrid");
+
+const titlesTotal =
+document.getElementById("titlesTotal");
+
+
+/* =====================================================
+   HTML SEGURO
+===================================================== */
+
+function escaparHTML(valor){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    valor ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   ÍCONE DA CONQUISTA
+===================================================== */
+
+function iconeConquista(tipo){
+
+    const valor =
+    String(tipo || "")
+    .toLowerCase();
+
+
+    if(
+        valor.includes("vice")
+    ){
+        return "fa-medal";
+    }
+
+
+    if(
+        valor.includes("3")
+    ){
+        return "fa-medal";
+    }
+
+
+    return "fa-trophy";
+
+}
+
+
+/* =====================================================
+   CARREGAR TÍTULOS
+===================================================== */
+
+async function carregarTitulos(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("titulos")
+
+    .select(`
+        id,
+        nome,
+        ano,
+        tipo,
+        descricao,
+        imagem_url,
+        destaque,
+        publicado
+    `)
+
+    .eq(
+        "publicado",
+        true
+    )
+
+    .order(
+        "destaque",
+        {
+            ascending:false
+        }
+    )
+
+    .order(
+        "ano",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar títulos:",
+            error
+        );
+
+
+        titlesTotal.textContent =
+        "Não foi possível carregar as conquistas.";
+
+
+        titlesGrid.innerHTML = `
+
+            <div class="titles-state">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Não foi possível carregar os títulos.
+                </strong>
+
+                <span>
+                    Tente atualizar a página novamente.
+                </span>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    renderizarTitulos(
+        data || []
+    );
+
+}
+
+
+/* =====================================================
+   RENDERIZAR
+===================================================== */
+
+function renderizarTitulos(titulos){
+
+
+    /* CONTADOR */
+
+    if(titulos.length === 1){
+
+        titlesTotal.innerHTML = `
+
+            <strong>1</strong>
+            conquista registrada
+
+        `;
+
+    }else{
+
+        titlesTotal.innerHTML = `
+
+            <strong>${titulos.length}</strong>
+            conquistas registradas
+
+        `;
+
+    }
+
+
+    /* SEM TÍTULOS */
+
+    if(titulos.length === 0){
+
+        titlesGrid.innerHTML = `
+
+            <div class="titles-state">
+
+                <i class="fa-solid fa-trophy"></i>
+
+                <strong>
+                    A próxima conquista está por vir.
+                </strong>
+
+                <span>
+                    Os títulos do Bar do Mima serão registrados
+                    aqui para fazer parte da nossa história.
+                </span>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    /* CARDS */
+
+    titlesGrid.innerHTML =
+    titulos.map(titulo => {
+
+
+        const nome =
+        escaparHTML(
+            titulo.nome ||
+            "Conquista"
+        );
+
+
+        const tipo =
+        escaparHTML(
+            titulo.tipo ||
+            "Campeão"
+        );
+
+
+        const descricao =
+        escaparHTML(
+            titulo.descricao ||
+            "Uma conquista que faz parte da história do Bar do Mima."
+        );
+
+
+        const ano =
+        escaparHTML(
+            titulo.ano ??
+            "BAR DO MIMA"
+        );
+
+
+        /* FOTO */
+
+        let imagem;
+
+
+        if(titulo.imagem_url){
+
+            imagem = `
+
+                <img
+                    src="${escaparHTML(
+                        titulo.imagem_url
+                    )}"
+                    alt="${nome}"
+                    loading="lazy"
+                >
+
+            `;
+
+        }else{
+
+            imagem = `
+
+                <div class="public-title-placeholder">
+
+                    <i class="fa-solid ${iconeConquista(
+                        titulo.tipo
+                    )}"></i>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* DESTAQUE */
+
+        const destaque =
+        titulo.destaque
+
+        ? `
+
+            <span
+                class="public-title-featured"
+                title="Título em destaque"
+            >
+
+                <i class="fa-solid fa-star"></i>
+
+            </span>
+
+          `
+
+        : "";
+
+
+        return `
+
+            <article class="public-title-card">
+
+
+                <div class="public-title-image">
+
+
+                    ${imagem}
+
+
+                    <span class="public-title-year">
+
+                        ${ano}
+
+                    </span>
+
+
+                    ${destaque}
+
+
+                </div>
+
+
+                <div class="public-title-content">
+
+
+                    <h3>
+
+                        ${nome}
+
+                    </h3>
+
+
+                    <span class="public-title-type">
+
+                        <i class="fa-solid ${iconeConquista(
+                            titulo.tipo
+                        )}"></i>
+
+                        ${tipo}
+
+                    </span>
+
+
+                    <p class="public-title-description">
+
+                        ${descricao}
+
+                    </p>
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+carregarTitulos();
+
+</script>
+
 
 </body>
 </html>
