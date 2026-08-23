@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Notícia | Bar do Mima</title>
+
+<link rel="icon" href="img/logo.png">
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+<style>
+
+/* =====================================================
+   PÁGINA DA NOTÍCIA
+===================================================== */
+
+.article-section{
+
+    padding:60px 0 90px;
+
+    background:#080808;
+
+}
+
+
+.article-container{
+
+    width:min(920px,92%);
+
+    margin:auto;
+
+}
+
+
+/* =====================================================
+   VOLTAR
+===================================================== */
+
+.article-back{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    margin-bottom:30px;
+
+    color:#888;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    text-decoration:none;
+
+    transition:.2s;
+
+}
+
+
+.article-back:hover{
+
+    color:#f5c400;
+
+}
+
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.article-header{
+
+    margin-bottom:30px;
+
+}
+
+
+.article-category{
+
+    display:inline-block;
+
+    margin-bottom:14px;
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    background:#f5c400;
+
+    color:#111;
+
+    font-size:9px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+
+.article-featured{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-left:7px;
+
+    padding:7px 12px;
+
+    border:1px solid #4c4000;
+
+    border-radius:20px;
+
+    color:#f5c400;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+
+.article-title{
+
+    margin:0;
+
+    max-width:900px;
+
+    font-family:"Anton",sans-serif;
+
+    font-size:clamp(42px,7vw,75px);
+
+    font-weight:400;
+
+    line-height:1.02;
+
+    text-transform:uppercase;
+
+    color:#fff;
+
+}
+
+
+.article-meta{
+
+    display:flex;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:20px;
+
+    color:#777;
+
+    font-size:10px;
+
+    font-weight:700;
+
+}
+
+
+.article-meta i{
+
+    color:#f5c400;
+
+}
+
+
+/* =====================================================
+   CAPA
+===================================================== */
+
+.article-cover{
+
+    width:100%;
+
+    margin:35px 0;
+
+    overflow:hidden;
+
+    border:1px solid #292929;
+
+    border-radius:18px;
+
+    background:#111;
+
+}
+
+
+.article-cover img{
+
+    width:100%;
+
+    max-height:600px;
+
+    display:block;
+
+    object-fit:cover;
+
+}
+
+
+.article-cover-placeholder{
+
+    min-height:400px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #202020,
+            #0b0b0b 70%
+        );
+
+    color:#f5c400;
+
+    font-size:80px;
+
+}
+
+
+/* =====================================================
+   RESUMO
+===================================================== */
+
+.article-summary{
+
+    margin-bottom:32px;
+
+    padding:20px 22px;
+
+    border-left:4px solid #f5c400;
+
+    background:#101010;
+
+    color:#bbb;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    line-height:1.8;
+
+}
+
+
+/* =====================================================
+   TEXTO DA MATÉRIA
+===================================================== */
+
+.article-content{
+
+    color:#c5c5c5;
+
+    font-size:15px;
+
+    line-height:2;
+
+    white-space:pre-line;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+.article-content p{
+
+    margin-bottom:20px;
+
+}
+
+
+/* =====================================================
+   RODAPÉ DA MATÉRIA
+===================================================== */
+
+.article-end{
+
+    margin-top:50px;
+
+    padding-top:30px;
+
+    border-top:1px solid #292929;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+
+.article-club{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.article-club img{
+
+    width:50px;
+
+    height:50px;
+
+    object-fit:contain;
+
+}
+
+
+.article-club strong{
+
+    display:block;
+
+    font-family:"Anton",sans-serif;
+
+    font-size:19px;
+
+    font-weight:400;
+
+}
+
+
+.article-club span{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:#777;
+
+    font-size:8px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+
+.article-return{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:12px 16px;
+
+    border:1px solid #3a3a3a;
+
+    border-radius:9px;
+
+    color:#fff;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    text-decoration:none;
+
+    transition:.2s;
+
+}
+
+
+.article-return:hover{
+
+    border-color:#f5c400;
+
+    color:#f5c400;
+
+}
+
+
+/* =====================================================
+   CARREGANDO
+===================================================== */
+
+.article-loading{
+
+    min-height:450px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:14px;
+
+    color:#777;
+
+    text-align:center;
+
+}
+
+
+.article-loading i{
+
+    color:#f5c400;
+
+    font-size:40px;
+
+}
+
+
+.article-loading strong{
+
+    color:#fff;
+
+    font-size:13px;
+
+}
+
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+.article-error{
+
+    min-height:450px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:14px;
+
+    text-align:center;
+
+}
+
+
+.article-error i{
+
+    color:#f5c400;
+
+    font-size:55px;
+
+}
+
+
+.article-error h2{
+
+    font-family:"Anton",sans-serif;
+
+    font-size:35px;
+
+    font-weight:400;
+
+}
+
+
+.article-error p{
+
+    color:#777;
+
+    font-size:11px;
+
+}
+
+
+.article-error a{
+
+    margin-top:8px;
+
+    padding:12px 18px;
+
+    border-radius:8px;
+
+    background:#f5c400;
+
+    color:#111;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    text-decoration:none;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:650px){
+
+    .article-section{
+
+        padding:35px 0 60px;
+
+    }
+
+
+    .article-title{
+
+        font-size:42px;
+
+    }
+
+
+    .article-cover{
+
+        margin:25px 0;
+
+        border-radius:12px;
+
+    }
+
+
+    .article-cover img{
+
+        max-height:400px;
+
+    }
+
+
+    .article-cover-placeholder{
+
+        min-height:260px;
+
+        font-size:55px;
+
+    }
+
+
+    .article-summary{
+
+        font-size:13px;
+
+    }
+
+
+    .article-content{
+
+        font-size:14px;
+
+        line-height:1.9;
+
+    }
+
+
+    .article-end{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+<div class="header-container">
+
+
+    <a href="index.html"
+       class="brand">
+
+
+        <img
+            src="img/logo.png"
+            alt="Bar do Mima"
+            class="brand-logo"
+        >
+
+
+        <div class="brand-text">
+
+            <strong>
+                BAR DO MIMA
+            </strong>
+
+            <span>
+                FUTEBOL
+            </span>
+
+        </div>
+
+
+    </a>
+
+
+    <button
+        class="menu-button"
+        id="menuButton"
+        aria-label="Abrir menu"
+    >
+
+        <i class="fa-solid fa-bars"></i>
+
+    </button>
+
+
+    <nav
+        class="nav"
+        id="nav"
+    >
+
+        <a href="index.html">
+            Início
+        </a>
+
+        <a
+            href="noticias.html"
+            class="active"
+        >
+            Notícias
+        </a>
+
+        <a href="elenco.html">
+            Elenco
+        </a>
+
+        <a href="jogos.html">
+            Jogos
+        </a>
+
+        <a href="titulos.html">
+            Títulos
+        </a>
+
+        <a href="galeria.html">
+            Galeria
+        </a>
+
+        <a href="historia.html">
+            O Clube
+        </a>
+
+    </nav>
+
+
+</div>
+
+</header>
+
+
+<!-- =====================================================
+     MATÉRIA
+===================================================== -->
+
+<main class="article-section">
+
+<div
+    class="article-container"
+    id="articleContainer"
+>
+
+
+    <div class="article-loading">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        <strong>
+            Carregando notícia...
+        </strong>
+
+    </div>
+
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+<div class="container footer-grid">
+
+
+    <div class="footer-brand">
+
+
+        <img
+            src="img/logo.png"
+            alt="Bar do Mima"
+        >
+
+
+        <div>
+
+            <strong>
+                BAR DO MIMA
+            </strong>
+
+            <span>
+                Raça • Amizade • Futebol
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-links">
+
+        <a href="noticias.html">
+            Notícias
+        </a>
+
+        <a href="elenco.html">
+            Elenco
+        </a>
+
+        <a href="jogos.html">
+            Jogos
+        </a>
+
+        <a href="titulos.html">
+            Títulos
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<div class="copyright">
+
+    © 2026 Bar do Mima • Todos os direitos reservados
+
+</div>
+
+</footer>
+
+
+<script src="js/main.js"></script>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const articleContainer =
+document.getElementById(
+    "articleContainer"
+);
+
+
+/* =====================================================
+   HTML SEGURO
+===================================================== */
+
+function escaparHTML(valor){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    valor ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+function formatarData(data){
+
+    if(!data){
+
+        return "";
+
+    }
+
+
+    const partes =
+    data.split("-");
+
+
+    if(partes.length !== 3){
+
+        return escaparHTML(data);
+
+    }
+
+
+    const meses = [
+
+        "JAN",
+        "FEV",
+        "MAR",
+        "ABR",
+        "MAI",
+        "JUN",
+        "JUL",
+        "AGO",
+        "SET",
+        "OUT",
+        "NOV",
+        "DEZ"
+
+    ];
+
+
+    const dia =
+    partes[2];
+
+
+    const mes =
+    meses[
+        Number(partes[1]) - 1
+    ];
+
+
+    const ano =
+    partes[0];
+
+
+    return `${dia} ${mes} ${ano}`;
+
+}
+
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+function mostrarErro(
+    titulo,
+    mensagem
+){
+
+    document.title =
+    "Notícia não encontrada | Bar do Mima";
+
+
+    articleContainer.innerHTML = `
+
+        <div class="article-error">
+
+
+            <i class="fa-solid fa-newspaper"></i>
+
+
+            <h2>
+                ${escaparHTML(titulo)}
+            </h2>
+
+
+            <p>
+                ${escaparHTML(mensagem)}
+            </p>
+
+
+            <a href="noticias.html">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                &nbsp;
+
+                VOLTAR PARA NOTÍCIAS
+
+            </a>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   CARREGAR MATÉRIA
+===================================================== */
+
+async function carregarNoticia(){
+
+
+    /* PEGAR ID DA URL */
+
+    const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+    const id =
+    parametros.get("id");
+
+
+    if(!id){
+
+        mostrarErro(
+
+            "NOTÍCIA NÃO ENCONTRADA",
+
+            "Nenhuma notícia foi informada."
+
+        );
+
+        return;
+
+    }
+
+
+    /* BUSCAR NO SUPABASE */
+
+    const {
+        data:noticia,
+        error
+    } =
+    await supabaseClient
+
+    .from("noticias")
+
+    .select(`
+        id,
+        titulo,
+        resumo,
+        conteudo,
+        imagem_url,
+        categoria,
+        data_publicacao,
+        destaque,
+        publicado
+    `)
+
+    .eq(
+        "id",
+        id
+    )
+
+    .eq(
+        "publicado",
+        true
+    )
+
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar notícia:",
+            error
+        );
+
+
+        mostrarErro(
+
+            "ERRO AO CARREGAR",
+
+            "Não foi possível carregar esta notícia."
+
+        );
+
+
+        return;
+
+    }
+
+
+    if(!noticia){
+
+        mostrarErro(
+
+            "NOTÍCIA NÃO ENCONTRADA",
+
+            "Esta publicação não existe ou não está disponível."
+
+        );
+
+
+        return;
+
+    }
+
+
+    renderizarNoticia(
+        noticia
+    );
+
+}
+
+
+/* =====================================================
+   RENDERIZAR MATÉRIA
+===================================================== */
+
+function renderizarNoticia(noticia){
+
+
+    const titulo =
+    escaparHTML(
+        noticia.titulo ||
+        "Notícia"
+    );
+
+
+    const categoria =
+    escaparHTML(
+        noticia.categoria ||
+        "Notícias"
+    );
+
+
+    const resumo =
+    noticia.resumo
+    ? escaparHTML(
+        noticia.resumo
+      )
+    : "";
+
+
+    const conteudo =
+    escaparHTML(
+        noticia.conteudo ||
+        ""
+    );
+
+
+    /* TÍTULO DO NAVEGADOR */
+
+    document.title =
+    `${noticia.titulo} | Bar do Mima`;
+
+
+    /* CAPA */
+
+    let capa;
+
+
+    if(noticia.imagem_url){
+
+        capa = `
+
+            <div class="article-cover">
+
+                <img
+                    src="${escaparHTML(
+                        noticia.imagem_url
+                    )}"
+                    alt="${titulo}"
+                >
+
+            </div>
+
+        `;
+
+    }else{
+
+        capa = `
+
+            <div class="article-cover">
+
+                <div class="article-cover-placeholder">
+
+                    <i class="fa-solid fa-newspaper"></i>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* DESTAQUE */
+
+    const destaque =
+    noticia.destaque
+
+    ? `
+
+        <span class="article-featured">
+
+            <i class="fa-solid fa-star"></i>
+
+            DESTAQUE
+
+        </span>
+
+      `
+
+    : "";
+
+
+    /* RESUMO */
+
+    const blocoResumo =
+    resumo
+
+    ? `
+
+        <div class="article-summary">
+
+            ${resumo}
+
+        </div>
+
+      `
+
+    : "";
+
+
+    /* CONTEÚDO */
+
+    const paragrafos =
+    conteudo
+
+    .split(/\n\s*\n/)
+
+    .filter(
+        paragrafo =>
+        paragrafo.trim()
+    )
+
+    .map(
+        paragrafo => `
+
+            <p>
+                ${paragrafo}
+            </p>
+
+        `
+    )
+
+    .join("");
+
+
+    articleContainer.innerHTML = `
+
+
+        <a
+            href="noticias.html"
+            class="article-back"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            VOLTAR PARA NOTÍCIAS
+
+        </a>
+
+
+        <article>
+
+
+            <header class="article-header">
+
+
+                <div>
+
+                    <span class="article-category">
+
+                        ${categoria}
+
+                    </span>
+
+
+                    ${destaque}
+
+                </div>
+
+
+                <h1 class="article-title">
+
+                    ${titulo}
+
+                </h1>
+
+
+                <div class="article-meta">
+
+
+                    <span>
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        &nbsp;
+
+                        ${formatarData(
+                            noticia.data_publicacao
+                        )}
+
+                    </span>
+
+
+                    <span>
+                        •
+                    </span>
+
+
+                    <span>
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        &nbsp;
+
+                        BAR DO MIMA
+
+                    </span>
+
+
+                </div>
+
+
+            </header>
+
+
+            ${capa}
+
+
+            ${blocoResumo}
+
+
+            <div class="article-content">
+
+                ${paragrafos}
+
+            </div>
+
+
+            <div class="article-end">
+
+
+                <div class="article-club">
+
+
+                    <img
+                        src="img/logo.png"
+                        alt="Bar do Mima"
+                    >
+
+
+                    <div>
+
+                        <strong>
+                            BAR DO MIMA
+                        </strong>
+
+                        <span>
+                            RAÇA • AMIZADE • FUTEBOL
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <a
+                    href="noticias.html"
+                    class="article-return"
+                >
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    MAIS NOTÍCIAS
+
+                </a>
+
+
+            </div>
+
+
+        </article>
+
+
+    `;
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+carregarNoticia();
+
+</script>
+
+
+</body>
+
+</html>
