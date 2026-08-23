@@ -15,9 +15,411 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <style>
+
+        /* =====================================================
+           GALERIA DINÂMICA
+        ===================================================== */
+
+        .gallery-grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:18px;
+        }
+
+        .gallery-item{
+            position:relative;
+            overflow:hidden;
+
+            min-height:270px;
+
+            border:1px solid #292929;
+            border-radius:16px;
+
+            background:#0d0d0d;
+
+            cursor:pointer;
+
+            transition:
+                transform .25s ease,
+                border-color .25s ease;
+        }
+
+        .gallery-item:hover{
+            transform:translateY(-5px);
+            border-color:#f5c400;
+        }
+
+        .gallery-item img{
+            width:100%;
+            height:100%;
+            min-height:270px;
+
+            display:block;
+
+            object-fit:cover;
+
+            transition:transform .4s ease;
+        }
+
+        .gallery-item:hover img{
+            transform:scale(1.05);
+        }
+
+
+        /* OVERLAY */
+
+        .gallery-overlay{
+            position:absolute;
+            inset:0;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-end;
+
+            padding:18px;
+
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(0,0,0,.92),
+                    rgba(0,0,0,.10) 65%
+                );
+
+            opacity:0;
+
+            transition:.3s;
+        }
+
+        .gallery-item:hover
+        .gallery-overlay{
+            opacity:1;
+        }
+
+        .gallery-category{
+            display:inline-block;
+
+            width:max-content;
+
+            margin-bottom:7px;
+
+            padding:6px 9px;
+
+            border-radius:20px;
+
+            background:#f5c400;
+            color:#111;
+
+            font-size:8px;
+            font-weight:900;
+
+            text-transform:uppercase;
+        }
+
+        .gallery-overlay h3{
+            font-family:"Anton",sans-serif;
+
+            font-size:25px;
+            font-weight:400;
+
+            line-height:1.05;
+
+            text-transform:uppercase;
+        }
+
+        .gallery-overlay p{
+            margin-top:6px;
+
+            color:#bbb;
+
+            font-size:10px;
+            line-height:1.5;
+        }
+
+
+        /* DESTAQUE */
+
+        .gallery-featured{
+            position:absolute;
+
+            top:13px;
+            right:13px;
+
+            width:36px;
+            height:36px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:50%;
+
+            background:#f5c400;
+            color:#111;
+
+            z-index:3;
+        }
+
+
+        /* DATA */
+
+        .gallery-date{
+            position:absolute;
+
+            top:13px;
+            left:13px;
+
+            padding:6px 9px;
+
+            border-radius:20px;
+
+            background:rgba(0,0,0,.75);
+            color:#fff;
+
+            font-size:8px;
+            font-weight:800;
+
+            z-index:3;
+        }
+
+
+        /* CARREGAMENTO / VAZIO */
+
+        .gallery-state{
+            grid-column:1/-1;
+
+            min-height:280px;
+
+            display:flex;
+            flex-direction:column;
+
+            align-items:center;
+            justify-content:center;
+
+            gap:12px;
+
+            padding:30px;
+
+            border:1px dashed #333;
+            border-radius:16px;
+
+            color:#777;
+
+            text-align:center;
+        }
+
+        .gallery-state i{
+            color:#f5c400;
+
+            font-size:42px;
+        }
+
+        .gallery-state strong{
+            color:#fff;
+
+            font-size:13px;
+        }
+
+        .gallery-state span{
+            font-size:10px;
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .gallery-modal{
+            display:none;
+
+            position:fixed;
+            inset:0;
+
+            z-index:9999;
+
+            padding:20px;
+
+            background:rgba(0,0,0,.93);
+
+            align-items:center;
+            justify-content:center;
+        }
+
+        .gallery-modal.active{
+            display:flex;
+        }
+
+        .gallery-close{
+            position:fixed;
+
+            top:25px;
+            right:25px;
+
+            width:45px;
+            height:45px;
+
+            border:none;
+            border-radius:50%;
+
+            background:#1b1b1b;
+            color:#fff;
+
+            font-size:18px;
+
+            cursor:pointer;
+
+            z-index:10000;
+        }
+
+        .gallery-close:hover{
+            background:#f5c400;
+            color:#111;
+        }
+
+        .gallery-modal-content{
+            width:min(1000px,95%);
+
+            max-height:90vh;
+
+            display:grid;
+            grid-template-columns:minmax(0,1.5fr) minmax(260px,.5fr);
+
+            overflow:hidden;
+
+            border:1px solid #333;
+            border-radius:18px;
+
+            background:#111;
+        }
+
+        .gallery-modal-image{
+            min-height:500px;
+
+            background:#050505;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .gallery-modal-image img{
+            width:100%;
+            height:100%;
+
+            max-height:85vh;
+
+            object-fit:contain;
+        }
+
+        .gallery-modal-info{
+            padding:28px;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .gallery-modal-category{
+            color:#f5c400;
+
+            font-size:9px;
+            font-weight:900;
+            letter-spacing:2px;
+
+            text-transform:uppercase;
+        }
+
+        .gallery-modal-info h2{
+            margin-top:8px;
+
+            font-family:"Anton",sans-serif;
+
+            font-size:34px;
+            font-weight:400;
+
+            text-transform:uppercase;
+        }
+
+        .gallery-modal-info p{
+            margin-top:14px;
+
+            color:#aaa;
+
+            font-size:12px;
+            line-height:1.7;
+        }
+
+        .gallery-modal-date{
+            margin-top:15px;
+
+            color:#666;
+
+            font-size:9px;
+            font-weight:800;
+        }
+
+
+        /* RESPONSIVO */
+
+        @media(max-width:950px){
+
+            .gallery-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+            .gallery-modal-content{
+                grid-template-columns:1fr;
+                overflow:auto;
+            }
+
+            .gallery-modal-image{
+                min-height:350px;
+            }
+
+        }
+
+        @media(max-width:600px){
+
+            .gallery-grid{
+                grid-template-columns:1fr;
+            }
+
+            .gallery-item,
+            .gallery-item img{
+                min-height:250px;
+            }
+
+            .gallery-overlay{
+                opacity:1;
+            }
+
+            .gallery-modal-content{
+                width:100%;
+                max-height:88vh;
+            }
+
+            .gallery-modal-info{
+                padding:20px;
+            }
+
+            .gallery-close{
+                top:15px;
+                right:15px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 <body>
+
 
 <header class="header">
 
@@ -30,11 +432,15 @@
                  class="brand-logo">
 
             <div class="brand-text">
+
                 <strong>BAR DO MIMA</strong>
+
                 <span>FUTEBOL</span>
+
             </div>
 
         </a>
+
 
         <button class="menu-button"
                 id="menuButton"
@@ -44,14 +450,21 @@
 
         </button>
 
+
         <nav class="nav" id="nav">
 
             <a href="index.html">Início</a>
+
             <a href="noticias.html">Notícias</a>
+
             <a href="elenco.html">Elenco</a>
+
             <a href="jogos.html">Jogos</a>
+
             <a href="titulos.html">Títulos</a>
+
             <a href="galeria.html" class="active">Galeria</a>
+
             <a href="historia.html">O Clube</a>
 
         </nav>
@@ -61,13 +474,21 @@
 </header>
 
 
+<!-- =====================================================
+     HERO
+===================================================== -->
+
 <section class="page-hero">
 
     <div class="container">
 
-        <span>NOSSOS MOMENTOS</span>
+        <span>
+            NOSSOS MOMENTOS
+        </span>
 
-        <h1>GALERIA</h1>
+        <h1>
+            GALERIA
+        </h1>
 
         <p>
             Jogos, bastidores, torcida, comemorações
@@ -79,151 +500,129 @@
 </section>
 
 
+<!-- =====================================================
+     GALERIA
+===================================================== -->
+
 <section class="section">
 
     <div class="container">
 
+
+        <!-- FILTROS -->
+
         <div class="gallery-filters">
 
-            <button class="gallery-filter active"
-                    data-filter="todos">
+
+            <button
+                class="gallery-filter active"
+                data-filter="todos"
+            >
                 Todas
             </button>
 
-            <button class="gallery-filter"
-                    data-filter="jogos">
+
+            <button
+                class="gallery-filter"
+                data-filter="jogos"
+            >
                 Jogos
             </button>
 
-            <button class="gallery-filter"
-                    data-filter="bastidores">
+
+            <button
+                class="gallery-filter"
+                data-filter="treinos"
+            >
+                Treinos
+            </button>
+
+
+            <button
+                class="gallery-filter"
+                data-filter="bastidores"
+            >
                 Bastidores
             </button>
 
-            <button class="gallery-filter"
-                    data-filter="torcida">
+
+            <button
+                class="gallery-filter"
+                data-filter="torcida"
+            >
                 Torcida
             </button>
 
-            <button class="gallery-filter"
-                    data-filter="elenco">
-                Elenco
+
+            <button
+                class="gallery-filter"
+                data-filter="comemoracoes"
+            >
+                Comemorações
             </button>
 
-        </div>
-
-
-        <div class="gallery-grid">
-
-
-            <article class="gallery-item"
-                     data-category="jogos">
-
-                <div class="gallery-placeholder">
-
-                    <i class="fa-solid fa-futbol"></i>
-
-                    <span>JOGOS</span>
-
-                </div>
-
-            </article>
-
-
-            <article class="gallery-item"
-                     data-category="bastidores">
-
-                <div class="gallery-placeholder">
-
-                    <i class="fa-solid fa-camera"></i>
-
-                    <span>BASTIDORES</span>
-
-                </div>
-
-            </article>
-
-
-            <article class="gallery-item"
-                     data-category="torcida">
-
-                <div class="gallery-placeholder">
-
-                    <i class="fa-solid fa-users"></i>
-
-                    <span>TORCIDA</span>
-
-                </div>
-
-            </article>
-
-
-            <article class="gallery-item"
-                     data-category="elenco">
-
-                <div class="gallery-placeholder">
-
-                    <i class="fa-solid fa-shirt"></i>
-
-                    <span>ELENCO</span>
-
-                </div>
-
-            </article>
-
-
-            <article class="gallery-item"
-                     data-category="jogos">
-
-                <div class="gallery-placeholder">
-
-                    <i class="fa-solid fa-trophy"></i>
-
-                    <span>PARTIDAS</span>
-
-                </div>
-
-            </article>
-
-
-            <article class="gallery-item"
-                     data-category="bastidores">
-
-                <div class="gallery-placeholder">
-
-                    <i class="fa-solid fa-star"></i>
-
-                    <span>MOMENTOS</span>
-
-                </div>
-
-            </article>
-
 
         </div>
+
+
+        <!-- FOTOS -->
+
+        <div
+            class="gallery-grid"
+            id="galleryGrid"
+        >
+
+            <div class="gallery-state">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <strong>
+                    Carregando galeria...
+                </strong>
+
+            </div>
+
+        </div>
+
 
     </div>
 
 </section>
 
 
-<div class="gallery-modal"
-     id="galleryModal">
+<!-- =====================================================
+     MODAL
+===================================================== -->
 
-    <button class="gallery-close"
-            id="galleryClose">
+<div
+    class="gallery-modal"
+    id="galleryModal"
+>
+
+    <button
+        class="gallery-close"
+        id="galleryClose"
+        type="button"
+        aria-label="Fechar foto"
+    >
 
         <i class="fa-solid fa-xmark"></i>
 
     </button>
 
-    <div class="gallery-modal-content"
-         id="galleryModalContent">
 
+    <div
+        class="gallery-modal-content"
+        id="galleryModalContent"
+    >
     </div>
 
 </div>
 
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer class="footer">
 
@@ -236,7 +635,9 @@
 
             <div>
 
-                <strong>BAR DO MIMA</strong>
+                <strong>
+                    BAR DO MIMA
+                </strong>
 
                 <span>
                     Raça • Amizade • Futebol
@@ -246,19 +647,34 @@
 
         </div>
 
+
         <div class="footer-links">
 
-            <a href="noticias.html">Notícias</a>
-            <a href="elenco.html">Elenco</a>
-            <a href="jogos.html">Jogos</a>
-            <a href="titulos.html">Títulos</a>
+            <a href="noticias.html">
+                Notícias
+            </a>
+
+            <a href="elenco.html">
+                Elenco
+            </a>
+
+            <a href="jogos.html">
+                Jogos
+            </a>
+
+            <a href="titulos.html">
+                Títulos
+            </a>
 
         </div>
 
     </div>
 
+
     <div class="copyright">
+
         © 2026 Bar do Mima • Todos os direitos reservados
+
     </div>
 
 </footer>
@@ -266,91 +682,668 @@
 
 <script src="js/main.js"></script>
 
+
 <script>
 
+/* =====================================================
+   BAR DO MIMA
+   GALERIA PÚBLICA
+===================================================== */
+
+let fotosPublicas = [];
+
+let filtroAtual = "todos";
+
+
+const galleryGrid =
+document.getElementById("galleryGrid");
+
+
 const galleryButtons =
-document.querySelectorAll(".gallery-filter");
-
-const galleryItems =
-document.querySelectorAll(".gallery-item");
-
-
-galleryButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        galleryButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        const filter = button.dataset.filter;
-
-        galleryItems.forEach(item => {
-
-            if(
-                filter === "todos" ||
-                item.dataset.category === filter
-            ){
-
-                item.style.display = "block";
-
-            }else{
-
-                item.style.display = "none";
-
-            }
-
-        });
-
-    });
-
-});
+document.querySelectorAll(
+    ".gallery-filter"
+);
 
 
 const modal =
-document.getElementById("galleryModal");
+document.getElementById(
+    "galleryModal"
+);
+
 
 const modalContent =
-document.getElementById("galleryModalContent");
+document.getElementById(
+    "galleryModalContent"
+);
+
 
 const closeModal =
-document.getElementById("galleryClose");
+document.getElementById(
+    "galleryClose"
+);
 
 
-galleryItems.forEach(item => {
+/* =====================================================
+   HTML SEGURO
+===================================================== */
 
-    item.addEventListener("click", () => {
+function escaparHTML(valor){
 
-        modal.classList.add("active");
+    const div =
+    document.createElement("div");
 
-        modalContent.innerHTML =
-        item.innerHTML;
+    div.textContent =
+    valor ?? "";
 
-    });
+    return div.innerHTML;
 
-});
-
-
-closeModal.addEventListener("click", () => {
-
-    modal.classList.remove("active");
-
-});
+}
 
 
-modal.addEventListener("click", event => {
+/* =====================================================
+   NORMALIZAR TEXTO
+===================================================== */
 
-    if(event.target === modal){
+function normalizarTexto(texto){
 
-        modal.classList.remove("active");
+    return String(
+        texto || ""
+    )
+
+    .normalize("NFD")
+
+    .replace(
+        /[\u0300-\u036f]/g,
+        ""
+    )
+
+    .toLowerCase()
+
+    .trim();
+
+}
+
+
+/* =====================================================
+   FORMATAR DATA
+===================================================== */
+
+function formatarData(data){
+
+    if(!data){
+        return "";
+    }
+
+
+    const limpa =
+    String(data)
+    .substring(0,10);
+
+
+    const partes =
+    limpa.split("-");
+
+
+    if(partes.length !== 3){
+
+        return escaparHTML(
+            limpa
+        );
 
     }
 
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+/* =====================================================
+   CARREGAR GALERIA
+===================================================== */
+
+async function carregarGaleria(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("galeria")
+
+    .select(`
+        id,
+        titulo,
+        legenda,
+        categoria,
+        imagem_url,
+        data_foto,
+        destaque,
+        publicado
+    `)
+
+    .eq(
+        "publicado",
+        true
+    )
+
+    .order(
+        "destaque",
+        {
+            ascending:false
+        }
+    )
+
+    .order(
+        "data_foto",
+        {
+            ascending:false,
+            nullsFirst:false
+        }
+    )
+
+    .order(
+        "created_at",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar galeria:",
+            error
+        );
+
+
+        galleryGrid.innerHTML = `
+
+            <div class="gallery-state">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Não foi possível carregar a galeria.
+                </strong>
+
+                <span>
+                    Tente atualizar a página.
+                </span>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    fotosPublicas =
+    data || [];
+
+
+    renderizarGaleria();
+
+}
+
+
+/* =====================================================
+   RENDERIZAR GALERIA
+===================================================== */
+
+function renderizarGaleria(){
+
+    let lista =
+    fotosPublicas;
+
+
+    if(filtroAtual !== "todos"){
+
+        lista =
+        fotosPublicas.filter(
+            foto =>
+
+            normalizarTexto(
+                foto.categoria
+            ) === filtroAtual
+        );
+
+    }
+
+
+    if(lista.length === 0){
+
+        galleryGrid.innerHTML = `
+
+            <div class="gallery-state">
+
+                <i class="fa-solid fa-images"></i>
+
+                <strong>
+                    Nenhuma foto nesta categoria.
+                </strong>
+
+                <span>
+                    Novos momentos aparecerão aqui.
+                </span>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    galleryGrid.innerHTML =
+    lista.map(foto => {
+
+
+        const titulo =
+        escaparHTML(
+            foto.titulo ||
+            "Momento Bar do Mima"
+        );
+
+
+        const legenda =
+        escaparHTML(
+            foto.legenda ||
+            ""
+        );
+
+
+        const categoria =
+        escaparHTML(
+            foto.categoria ||
+            "Galeria"
+        );
+
+
+        const data =
+        formatarData(
+            foto.data_foto
+        );
+
+
+        const dataBadge =
+        data
+
+        ? `
+
+            <span class="gallery-date">
+
+                ${data}
+
+            </span>
+
+          `
+
+        : "";
+
+
+        const destaque =
+        foto.destaque
+
+        ? `
+
+            <span
+                class="gallery-featured"
+                title="Foto em destaque"
+            >
+
+                <i class="fa-solid fa-star"></i>
+
+            </span>
+
+          `
+
+        : "";
+
+
+        return `
+
+            <article
+                class="gallery-item"
+                data-id="${foto.id}"
+            >
+
+
+                <img
+                    src="${escaparHTML(
+                        foto.imagem_url
+                    )}"
+                    alt="${titulo}"
+                    loading="lazy"
+                >
+
+
+                ${dataBadge}
+
+
+                ${destaque}
+
+
+                <div class="gallery-overlay">
+
+
+                    <span class="gallery-category">
+
+                        ${categoria}
+
+                    </span>
+
+
+                    <h3>
+
+                        ${titulo}
+
+                    </h3>
+
+
+                    ${legenda
+
+                        ? `
+
+                            <p>
+                                ${legenda}
+                            </p>
+
+                          `
+
+                        : ""
+
+                    }
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+
+    /*
+       Como os cards são criados pelo JavaScript,
+       adicionamos os eventos depois do render.
+    */
+
+    document
+    .querySelectorAll(
+        ".gallery-item"
+    )
+    .forEach(item => {
+
+
+        item.addEventListener(
+            "click",
+            ()=>{
+
+
+                const id =
+                item.dataset.id;
+
+
+                abrirFoto(
+                    id
+                );
+
+            }
+        );
+
+
+    });
+
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+galleryButtons.forEach(button => {
+
+
+    button.addEventListener(
+        "click",
+        ()=>{
+
+
+            galleryButtons.forEach(
+                btn =>
+
+                btn.classList.remove(
+                    "active"
+                )
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            filtroAtual =
+            button.dataset.filter;
+
+
+            renderizarGaleria();
+
+        }
+    );
+
+
 });
 
+
+/* =====================================================
+   ABRIR FOTO
+===================================================== */
+
+function abrirFoto(id){
+
+    const foto =
+    fotosPublicas.find(
+        item =>
+        String(item.id) === String(id)
+    );
+
+
+    if(!foto){
+        return;
+    }
+
+
+    const titulo =
+    escaparHTML(
+        foto.titulo ||
+        "Momento Bar do Mima"
+    );
+
+
+    const legenda =
+    escaparHTML(
+        foto.legenda ||
+        ""
+    );
+
+
+    const categoria =
+    escaparHTML(
+        foto.categoria ||
+        "Galeria"
+    );
+
+
+    const data =
+    formatarData(
+        foto.data_foto
+    );
+
+
+    modalContent.innerHTML = `
+
+
+        <div class="gallery-modal-image">
+
+            <img
+                src="${escaparHTML(
+                    foto.imagem_url
+                )}"
+                alt="${titulo}"
+            >
+
+        </div>
+
+
+        <div class="gallery-modal-info">
+
+
+            <span class="gallery-modal-category">
+
+                ${categoria}
+
+            </span>
+
+
+            <h2>
+
+                ${titulo}
+
+            </h2>
+
+
+            ${legenda
+
+                ? `
+
+                    <p>
+                        ${legenda}
+                    </p>
+
+                  `
+
+                : ""
+
+            }
+
+
+            ${data
+
+                ? `
+
+                    <div class="gallery-modal-date">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        &nbsp;
+
+                        ${data}
+
+                    </div>
+
+                  `
+
+                : ""
+
+            }
+
+
+        </div>
+
+
+    `;
+
+
+    modal.classList.add(
+        "active"
+    );
+
+
+    document.body.style.overflow =
+    "hidden";
+
+}
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function fecharGaleria(){
+
+    modal.classList.remove(
+        "active"
+    );
+
+
+    document.body.style.overflow =
+    "";
+
+}
+
+
+closeModal.addEventListener(
+    "click",
+    fecharGaleria
+);
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+
+        if(event.target === modal){
+
+            fecharGaleria();
+
+        }
+
+
+    }
+);
+
+
+/* ESC */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+
+        if(
+            event.key === "Escape" &&
+            modal.classList.contains("active")
+        ){
+
+            fecharGaleria();
+
+        }
+
+
+    }
+);
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+carregarGaleria();
+
 </script>
+
 
 </body>
 </html>
