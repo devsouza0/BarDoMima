@@ -15,9 +15,102 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <style>
+
+        /* CARREGAMENTO / VAZIO */
+
+        .news-loading,
+        .news-empty{
+            grid-column:1/-1;
+            min-height:260px;
+
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+
+            gap:12px;
+
+            padding:30px;
+
+            border:1px dashed #292929;
+            border-radius:14px;
+
+            text-align:center;
+            color:#777;
+        }
+
+        .news-loading i,
+        .news-empty i{
+            font-size:35px;
+            color:#f5c400;
+        }
+
+        .news-empty strong{
+            color:#fff;
+            font-size:14px;
+        }
+
+        .news-empty span{
+            font-size:11px;
+        }
+
+
+        /* IMAGEM DA NOTÍCIA */
+
+        .news-page-image{
+            position:relative;
+            overflow:hidden;
+        }
+
+        .news-page-image > img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+
+
+        /* DESTAQUE */
+
+        .news-featured{
+            position:absolute;
+            top:12px;
+            right:12px;
+
+            width:32px;
+            height:32px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:50%;
+
+            background:#f5c400;
+            color:#111;
+
+            z-index:3;
+
+            box-shadow:0 5px 20px rgba(0,0,0,.35);
+        }
+
+    </style>
+
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="header">
 
@@ -30,11 +123,15 @@
                  class="brand-logo">
 
             <div class="brand-text">
+
                 <strong>BAR DO MIMA</strong>
+
                 <span>FUTEBOL</span>
+
             </div>
 
         </a>
+
 
         <button class="menu-button"
                 id="menuButton"
@@ -44,15 +141,36 @@
 
         </button>
 
+
         <nav class="nav" id="nav">
 
-            <a href="index.html">Início</a>
-            <a href="noticias.html" class="active">Notícias</a>
-            <a href="elenco.html">Elenco</a>
-            <a href="jogos.html">Jogos</a>
-            <a href="titulos.html">Títulos</a>
-            <a href="galeria.html">Galeria</a>
-            <a href="historia.html">O Clube</a>
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="noticias.html" class="active">
+                Notícias
+            </a>
+
+            <a href="elenco.html">
+                Elenco
+            </a>
+
+            <a href="jogos.html">
+                Jogos
+            </a>
+
+            <a href="titulos.html">
+                Títulos
+            </a>
+
+            <a href="galeria.html">
+                Galeria
+            </a>
+
+            <a href="historia.html">
+                O Clube
+            </a>
 
         </nav>
 
@@ -61,13 +179,21 @@
 </header>
 
 
+<!-- =====================================================
+     HERO
+===================================================== -->
+
 <section class="page-hero">
 
     <div class="container">
 
-        <span>FIQUE POR DENTRO</span>
+        <span>
+            FIQUE POR DENTRO
+        </span>
 
-        <h1>NOTÍCIAS</h1>
+        <h1>
+            NOTÍCIAS
+        </h1>
 
         <p>
             Tudo o que acontece com o Bar do Mima,
@@ -79,224 +205,107 @@
 </section>
 
 
+<!-- =====================================================
+     NOTÍCIAS
+===================================================== -->
+
 <section class="section">
 
     <div class="container">
 
+
+        <!-- FILTROS -->
+
         <div class="news-filters">
 
-            <button class="news-filter active"
-                    data-filter="todos">
+            <button
+                class="news-filter active"
+                data-filter="todos"
+            >
                 Todas
             </button>
 
-            <button class="news-filter"
-                    data-filter="jogos">
+
+            <button
+                class="news-filter"
+                data-filter="jogos"
+            >
                 Jogos
             </button>
 
-            <button class="news-filter"
-                    data-filter="elenco">
+
+            <button
+                class="news-filter"
+                data-filter="elenco"
+            >
                 Elenco
             </button>
 
-            <button class="news-filter"
-                    data-filter="bastidores">
+
+            <button
+                class="news-filter"
+                data-filter="bastidores"
+            >
                 Bastidores
             </button>
 
-            <button class="news-filter"
-                    data-filter="clube">
+
+            <button
+                class="news-filter"
+                data-filter="clube"
+            >
                 Clube
             </button>
 
         </div>
 
 
-        <div class="news-page-grid">
+        <!-- NOTÍCIAS VINDAS DO SUPABASE -->
 
+        <div
+            class="news-page-grid"
+            id="newsGrid"
+        >
 
-            <article class="news-page-card"
-                     data-category="clube">
+            <div class="news-loading">
 
-                <div class="news-page-image">
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                    <div class="news-page-placeholder">
-                        <i class="fa-solid fa-star"></i>
-                    </div>
+                <strong>
+                    Carregando notícias...
+                </strong>
 
-                    <span class="news-page-category">
-                        CLUBE
-                    </span>
-
-                </div>
-
-                <div class="news-page-content">
-
-                    <span class="news-page-date">
-                        21 AGO 2026
-                    </span>
-
-                    <h2>
-                        Bar do Mima lança seu novo site oficial
-                    </h2>
-
-                    <p>
-                        O Bar do Mima ganha um novo espaço digital
-                        para aproximar ainda mais jogadores,
-                        torcedores e parceiros.
-                    </p>
-
-                    <a href="#">
-                        Ler matéria
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <article class="news-page-card"
-                     data-category="elenco">
-
-                <div class="news-page-image">
-
-                    <div class="news-page-placeholder">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-
-                    <span class="news-page-category">
-                        ELENCO
-                    </span>
-
-                </div>
-
-                <div class="news-page-content">
-
-                    <span class="news-page-date">
-                        ELENCO
-                    </span>
-
-                    <h2>
-                        Elenco do Bar do Mima começa a ganhar destaque no novo portal
-                    </h2>
-
-                    <p>
-                        Os jogadores terão espaço próprio no site,
-                        com número, posição, nome e futuramente
-                        estatísticas individuais.
-                    </p>
-
-                    <a href="elenco.html">
-                        Ver elenco
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <article class="news-page-card"
-                     data-category="jogos">
-
-                <div class="news-page-image">
-
-                    <div class="news-page-placeholder">
-                        <i class="fa-solid fa-futbol"></i>
-                    </div>
-
-                    <span class="news-page-category">
-                        JOGOS
-                    </span>
-
-                </div>
-
-                <div class="news-page-content">
-
-                    <span class="news-page-date">
-                        PARTIDAS
-                    </span>
-
-                    <h2>
-                        Próximos jogos terão calendário completo no site
-                    </h2>
-
-                    <p>
-                        Datas, adversários, locais, horários e resultados
-                        poderão ser acompanhados em uma única página.
-                    </p>
-
-                    <a href="jogos.html">
-                        Ver jogos
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <article class="news-page-card"
-                     data-category="bastidores">
-
-                <div class="news-page-image">
-
-                    <div class="news-page-placeholder">
-                        <i class="fa-solid fa-camera"></i>
-                    </div>
-
-                    <span class="news-page-category">
-                        BASTIDORES
-                    </span>
-
-                </div>
-
-                <div class="news-page-content">
-
-                    <span class="news-page-date">
-                        EM BREVE
-                    </span>
-
-                    <h2>
-                        Bastidores, fotos e momentos do time terão espaço especial
-                    </h2>
-
-                    <p>
-                        A galeria do Bar do Mima será o lugar para
-                        registrar jogos, comemorações, torcida e amizade.
-                    </p>
-
-                    <a href="galeria.html">
-                        Ver galeria
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </article>
-
+            </div>
 
         </div>
+
 
     </div>
 
 </section>
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer class="footer">
 
     <div class="container footer-grid">
 
+
         <div class="footer-brand">
 
-            <img src="img/logo.png"
-                 alt="Bar do Mima">
+            <img
+                src="img/logo.png"
+                alt="Bar do Mima"
+            >
 
             <div>
 
-                <strong>BAR DO MIMA</strong>
+                <strong>
+                    BAR DO MIMA
+                </strong>
 
                 <span>
                     Raça • Amizade • Futebol
@@ -306,16 +315,30 @@
 
         </div>
 
+
         <div class="footer-links">
 
-            <a href="noticias.html">Notícias</a>
-            <a href="elenco.html">Elenco</a>
-            <a href="jogos.html">Jogos</a>
-            <a href="titulos.html">Títulos</a>
+            <a href="noticias.html">
+                Notícias
+            </a>
+
+            <a href="elenco.html">
+                Elenco
+            </a>
+
+            <a href="jogos.html">
+                Jogos
+            </a>
+
+            <a href="titulos.html">
+                Títulos
+            </a>
 
         </div>
 
+
     </div>
+
 
     <div class="copyright">
 
@@ -328,50 +351,535 @@
 
 <script src="js/main.js"></script>
 
+
 <script>
+
+/* =====================================================
+   BAR DO MIMA
+   NOTÍCIAS PÚBLICAS
+===================================================== */
+
+let noticiasPublicas = [];
+
+let filtroAtual = "todos";
+
+
+const newsGrid =
+document.getElementById("newsGrid");
+
 
 const newsButtons =
 document.querySelectorAll(".news-filter");
 
-const newsCards =
-document.querySelectorAll(".news-page-card");
 
+/* =====================================================
+   HTML SEGURO
+===================================================== */
+
+function escaparHTML(valor){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    valor ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   NORMALIZAR TEXTO
+===================================================== */
+
+function normalizarTexto(texto){
+
+    return String(texto || "")
+
+    .normalize("NFD")
+
+    .replace(
+        /[\u0300-\u036f]/g,
+        ""
+    )
+
+    .toLowerCase()
+
+    .trim();
+
+}
+
+
+/* =====================================================
+   FORMATAR DATA
+===================================================== */
+
+function formatarData(data){
+
+    if(!data){
+        return "";
+    }
+
+
+    const partes =
+    data.split("-");
+
+
+    if(partes.length !== 3){
+        return data;
+    }
+
+
+    const meses = [
+
+        "JAN",
+        "FEV",
+        "MAR",
+        "ABR",
+        "MAI",
+        "JUN",
+        "JUL",
+        "AGO",
+        "SET",
+        "OUT",
+        "NOV",
+        "DEZ"
+
+    ];
+
+
+    const dia =
+    partes[2];
+
+
+    const mes =
+    meses[
+        Number(partes[1]) - 1
+    ];
+
+
+    const ano =
+    partes[0];
+
+
+    return `${dia} ${mes} ${ano}`;
+
+}
+
+
+/* =====================================================
+   ÍCONE QUANDO NÃO HOUVER FOTO
+===================================================== */
+
+function iconeCategoria(categoria){
+
+    const categoriaNormalizada =
+    normalizarTexto(categoria);
+
+
+    if(categoriaNormalizada === "jogos"){
+
+        return "fa-futbol";
+
+    }
+
+
+    if(categoriaNormalizada === "elenco"){
+
+        return "fa-users";
+
+    }
+
+
+    if(categoriaNormalizada === "bastidores"){
+
+        return "fa-camera";
+
+    }
+
+
+    if(categoriaNormalizada === "campeonato"){
+
+        return "fa-trophy";
+
+    }
+
+
+    if(categoriaNormalizada === "comunicado"){
+
+        return "fa-bullhorn";
+
+    }
+
+
+    if(categoriaNormalizada === "eventos"){
+
+        return "fa-calendar-days";
+
+    }
+
+
+    if(categoriaNormalizada === "clube"){
+
+        return "fa-star";
+
+    }
+
+
+    return "fa-newspaper";
+
+}
+
+
+/* =====================================================
+   CARREGAR NOTÍCIAS
+===================================================== */
+
+async function carregarNoticias(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("noticias")
+
+    .select(`
+        id,
+        titulo,
+        resumo,
+        imagem_url,
+        categoria,
+        data_publicacao,
+        destaque,
+        publicado
+    `)
+
+    .eq(
+        "publicado",
+        true
+    )
+
+    .order(
+        "destaque",
+        {
+            ascending:false
+        }
+    )
+
+    .order(
+        "data_publicacao",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar notícias:",
+            error
+        );
+
+
+        newsGrid.innerHTML = `
+
+            <div class="news-empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Não foi possível carregar as notícias.
+                </strong>
+
+                <span>
+                    Tente novamente mais tarde.
+                </span>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    noticiasPublicas =
+    data || [];
+
+
+    renderizarNoticias();
+
+}
+
+
+/* =====================================================
+   RENDERIZAR
+===================================================== */
+
+function renderizarNoticias(){
+
+    let lista =
+    noticiasPublicas;
+
+
+    if(filtroAtual !== "todos"){
+
+        lista =
+        noticiasPublicas.filter(
+            noticia =>
+
+            normalizarTexto(
+                noticia.categoria
+            ) === filtroAtual
+        );
+
+    }
+
+
+    if(lista.length === 0){
+
+        newsGrid.innerHTML = `
+
+            <div class="news-empty">
+
+                <i class="fa-solid fa-newspaper"></i>
+
+                <strong>
+                    Nenhuma notícia encontrada.
+                </strong>
+
+                <span>
+                    Novas publicações aparecerão aqui.
+                </span>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    newsGrid.innerHTML =
+    lista.map(noticia => {
+
+
+        const titulo =
+        escaparHTML(
+            noticia.titulo ||
+            "Notícia"
+        );
+
+
+        const resumo =
+        escaparHTML(
+            noticia.resumo ||
+            "Confira as últimas novidades do Bar do Mima."
+        );
+
+
+        const categoria =
+        escaparHTML(
+            noticia.categoria ||
+            "Notícias"
+        );
+
+
+        const categoriaFiltro =
+        normalizarTexto(
+            noticia.categoria ||
+            "noticias"
+        );
+
+
+        /* IMAGEM */
+
+        let imagem;
+
+
+        if(noticia.imagem_url){
+
+            imagem = `
+
+                <img
+                    src="${escaparHTML(
+                        noticia.imagem_url
+                    )}"
+                    alt="${titulo}"
+                    loading="lazy"
+                >
+
+            `;
+
+        }else{
+
+            imagem = `
+
+                <div class="news-page-placeholder">
+
+                    <i class="fa-solid ${iconeCategoria(
+                        noticia.categoria
+                    )}"></i>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* DESTAQUE */
+
+        const destaque =
+        noticia.destaque
+
+        ? `
+
+            <span
+                class="news-featured"
+                title="Notícia em destaque"
+            >
+
+                <i class="fa-solid fa-star"></i>
+
+            </span>
+
+          `
+
+        : "";
+
+
+        return `
+
+            <article
+                class="news-page-card"
+                data-category="${categoriaFiltro}"
+            >
+
+
+                <div class="news-page-image">
+
+
+                    ${imagem}
+
+
+                    <span class="news-page-category">
+
+                        ${categoria}
+
+                    </span>
+
+
+                    ${destaque}
+
+
+                </div>
+
+
+                <div class="news-page-content">
+
+
+                    <span class="news-page-date">
+
+                        ${formatarData(
+                            noticia.data_publicacao
+                        )}
+
+                    </span>
+
+
+                    <h2>
+
+                        ${titulo}
+
+                    </h2>
+
+
+                    <p>
+
+                        ${resumo}
+
+                    </p>
+
+
+                    <a href="noticia.html?id=${encodeURIComponent(
+                        noticia.id
+                    )}">
+
+                        Ler matéria
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
 
 newsButtons.forEach(button => {
 
-    button.addEventListener("click", () => {
 
-        newsButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
+    button.addEventListener(
+        "click",
+        ()=>{
 
-        button.classList.add("active");
 
-        const filter =
+            newsButtons.forEach(
+                btn =>
+
+                btn.classList.remove(
+                    "active"
+                )
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            filtroAtual =
             button.dataset.filter;
 
-        newsCards.forEach(card => {
 
-            if(
-                filter === "todos" ||
-                card.dataset.category === filter
-            ){
+            renderizarNoticias();
 
-                card.style.display = "block";
+        }
+    );
 
-            }else{
-
-                card.style.display = "none";
-
-            }
-
-        });
-
-    });
 
 });
 
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+carregarNoticias();
+
 </script>
+
 
 </body>
 </html>
