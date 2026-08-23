@@ -1,0 +1,2822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notícias | Bar do Mima ADM</title>
+
+<link rel="icon" href="../img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --yellow:#f5c400;
+    --yellow2:#ffd900;
+    --black:#080808;
+    --card:#121212;
+    --border:#292929;
+    --muted:#777;
+    --green:#72e393;
+    --red:#ff7777;
+}
+
+body{
+    min-height:100vh;
+    background:#080808;
+    color:#fff;
+    font-family:"Montserrat",sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:260px;
+    height:100vh;
+
+    padding:22px 16px;
+
+    background:#0b0b0b;
+    border-right:1px solid var(--border);
+
+    display:flex;
+    flex-direction:column;
+
+    z-index:1000;
+}
+
+.sidebar-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:0 6px 22px;
+    border-bottom:1px solid #202020;
+}
+
+.sidebar-brand img{
+    width:58px;
+    height:58px;
+    object-fit:contain;
+}
+
+.sidebar-brand strong{
+    display:block;
+    font-family:"Anton",sans-serif;
+    font-size:22px;
+}
+
+.sidebar-brand span{
+    display:block;
+    color:var(--yellow);
+
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.sidebar-menu{
+    margin-top:25px;
+
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    padding:13px 14px;
+
+    border-radius:10px;
+
+    color:#999;
+
+    font-size:13px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.sidebar-menu a i{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+    color:var(--yellow);
+    background:rgba(245,196,0,.10);
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+}
+
+.logout{
+    width:100%;
+    height:45px;
+
+    border:1px solid #3b1e1e;
+    border-radius:10px;
+
+    background:#170d0d;
+    color:#ff7777;
+
+    font-weight:800;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:78px;
+
+    padding:0 30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid #202020;
+
+    background:#090909;
+
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.mobile-menu{
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    border:1px solid #292929;
+    border-radius:9px;
+
+    background:#111;
+    color:var(--yellow);
+}
+
+.top-title span{
+    color:#666;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.top-title strong{
+    display:block;
+    margin-top:3px;
+}
+
+.admin-user{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--yellow);
+    color:#111;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:900;
+}
+
+
+/* =====================================================
+   CONTEÚDO
+===================================================== */
+
+.content{
+    padding:32px;
+}
+
+.page-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+
+    margin-bottom:28px;
+}
+
+.page-header span{
+    color:var(--yellow);
+
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.page-header h1{
+    margin-top:5px;
+
+    font-family:"Anton",sans-serif;
+    font-size:55px;
+    line-height:1;
+}
+
+.page-header p{
+    margin-top:8px;
+    color:#777;
+    font-size:12px;
+}
+
+.new-news{
+    height:48px;
+    padding:0 20px;
+
+    border:none;
+    border-radius:10px;
+
+    background:var(--yellow);
+    color:#111;
+
+    font-weight:900;
+
+    transition:.2s;
+}
+
+.new-news:hover{
+    background:var(--yellow2);
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   CONTADORES
+===================================================== */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+
+    margin-bottom:22px;
+}
+
+.stat{
+    padding:18px;
+
+    background:#111;
+
+    border:1px solid #292929;
+    border-radius:13px;
+}
+
+.stat span{
+    color:#777;
+
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.stat strong{
+    display:block;
+
+    margin-top:5px;
+
+    font-family:"Anton",sans-serif;
+    font-size:32px;
+
+    color:var(--yellow);
+}
+
+
+/* =====================================================
+   BUSCA
+===================================================== */
+
+.toolbar{
+    display:flex;
+    gap:12px;
+
+    margin-bottom:22px;
+}
+
+.search-box{
+    position:relative;
+    width:100%;
+    max-width:500px;
+}
+
+.search-box i{
+    position:absolute;
+    left:16px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#555;
+}
+
+.search-box input{
+    width:100%;
+    height:48px;
+
+    padding:0 16px 0 45px;
+
+    border:1px solid #292929;
+    border-radius:10px;
+
+    outline:none;
+
+    background:#111;
+    color:#fff;
+}
+
+.search-box input:focus{
+    border-color:var(--yellow);
+}
+
+.filter{
+    height:48px;
+    padding:0 14px;
+
+    border:1px solid #292929;
+    border-radius:10px;
+
+    outline:none;
+
+    background:#111;
+    color:#fff;
+}
+
+
+/* =====================================================
+   GRID NOTÍCIAS
+===================================================== */
+
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.news-card{
+    overflow:hidden;
+
+    background:#111;
+
+    border:1px solid #292929;
+    border-radius:17px;
+
+    transition:.25s;
+}
+
+.news-card:hover{
+    transform:translateY(-4px);
+    border-color:#444;
+}
+
+.news-image{
+    height:220px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#090909;
+}
+
+.news-image img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.news-placeholder{
+    font-size:60px;
+    color:#333;
+}
+
+.news-badges{
+    position:absolute;
+    top:13px;
+    left:13px;
+
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.badge{
+    padding:6px 9px;
+
+    border-radius:20px;
+
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:.5px;
+}
+
+.badge.published{
+    background:#173820;
+    color:#7bea9b;
+}
+
+.badge.draft{
+    background:#351616;
+    color:#ff8989;
+}
+
+.badge.featured{
+    background:var(--yellow);
+    color:#111;
+}
+
+.news-content{
+    padding:19px;
+}
+
+.news-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    margin-bottom:9px;
+
+    color:#777;
+    font-size:9px;
+}
+
+.news-meta .category{
+    color:var(--yellow);
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.news-content h2{
+    font-family:"Anton",sans-serif;
+
+    font-size:25px;
+    font-weight:400;
+    line-height:1.1;
+
+    text-transform:uppercase;
+}
+
+.news-summary{
+    margin-top:9px;
+
+    color:#777;
+
+    font-size:10px;
+    line-height:1.6;
+
+    min-height:48px;
+}
+
+.news-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+
+    margin-top:17px;
+}
+
+.edit-btn,
+.delete-btn{
+    height:40px;
+
+    border-radius:8px;
+
+    font-size:10px;
+    font-weight:800;
+}
+
+.edit-btn{
+    border:1px solid #4b400c;
+
+    background:#1e1a08;
+    color:var(--yellow);
+}
+
+.delete-btn{
+    border:1px solid #442020;
+
+    background:#1b0d0d;
+    color:#ff7777;
+}
+
+
+/* =====================================================
+   VAZIO
+===================================================== */
+
+.empty{
+    grid-column:1/-1;
+
+    min-height:300px;
+
+    border:1px dashed #333;
+    border-radius:15px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:10px;
+
+    color:#666;
+
+    text-align:center;
+}
+
+.empty i{
+    color:var(--yellow);
+    font-size:45px;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:9999;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.88);
+
+    align-items:center;
+    justify-content:center;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:780px;
+
+    max-height:92vh;
+    overflow:auto;
+
+    padding:28px;
+
+    background:#111;
+
+    border:1px solid #333;
+    border-radius:18px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.modal-header span{
+    color:var(--yellow);
+
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.modal-header h2{
+    font-family:"Anton",sans-serif;
+    font-size:30px;
+}
+
+.close-modal{
+    width:40px;
+    height:40px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#222;
+    color:#fff;
+}
+
+
+/* =====================================================
+   CAPA
+===================================================== */
+
+.cover-upload{
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:18px;
+
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+.cover-preview{
+    width:160px;
+    height:110px;
+
+    overflow:hidden;
+
+    border:1px solid #333;
+    border-radius:12px;
+
+    background:#090909;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#444;
+    font-size:35px;
+}
+
+.cover-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.cover-upload label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:11px 15px;
+
+    border:1px solid #333;
+    border-radius:8px;
+
+    background:#1b1b1b;
+    color:var(--yellow);
+
+    font-size:11px;
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.cover-upload input{
+    display:none;
+}
+
+.cover-help{
+    display:block;
+
+    margin-top:8px;
+
+    color:#666;
+    font-size:9px;
+}
+
+
+/* =====================================================
+   FORMULÁRIO
+===================================================== */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#888;
+
+    font-size:10px;
+    font-weight:800;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+
+    padding:0 13px;
+
+    border:1px solid #303030;
+    border-radius:9px;
+
+    outline:none;
+
+    background:#090909;
+    color:#fff;
+}
+
+.form-group input,
+.form-group select{
+    height:47px;
+}
+
+.form-group textarea{
+    min-height:110px;
+    padding-top:12px;
+
+    resize:vertical;
+
+    line-height:1.6;
+}
+
+.form-group textarea.content-area{
+    min-height:230px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--yellow);
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+
+    margin-top:5px;
+}
+
+.option-card{
+    padding:15px;
+
+    border:1px solid #303030;
+    border-radius:10px;
+
+    background:#0b0b0b;
+}
+
+.option-card label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    margin:0;
+
+    cursor:pointer;
+
+    color:#aaa;
+
+    font-size:10px;
+    font-weight:800;
+}
+
+.option-card input{
+    width:17px;
+    height:17px;
+
+    accent-color:var(--yellow);
+}
+
+.save-btn{
+    width:100%;
+    height:50px;
+
+    margin-top:15px;
+
+    border:none;
+    border-radius:9px;
+
+    background:var(--yellow);
+    color:#111;
+
+    font-weight:900;
+}
+
+.save-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    z-index:12000;
+
+    padding:14px 18px;
+
+    border:1px solid #333;
+    border-radius:10px;
+
+    background:#151515;
+
+    box-shadow:0 15px 40px #000;
+
+    font-size:11px;
+    font-weight:800;
+
+    transform:translateY(120px);
+    opacity:0;
+
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.toast.success{
+    border-color:#235c34;
+    color:#78e69a;
+}
+
+.toast.error{
+    border-color:#5c2323;
+    color:#ff8181;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media(max-width:1100px){
+
+    .news-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.active{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .content{
+        padding:22px 15px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .page-header{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .page-header h1{
+        font-size:43px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        flex-direction:column;
+    }
+
+    .search-box{
+        max-width:none;
+    }
+
+    .news-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid,
+    .options{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .cover-upload{
+        grid-template-columns:110px 1fr;
+    }
+
+    .cover-preview{
+        width:110px;
+        height:90px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img src="../img/logo.png" alt="Bar do Mima">
+
+        <div>
+            <strong>BAR DO MIMA</strong>
+            <span>ADMINISTRAÇÃO</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a href="dashboard.html">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="jogadores.html">
+            <i class="fa-solid fa-users"></i>
+            Elenco
+        </a>
+
+        <a href="comissao.html">
+            <i class="fa-solid fa-user-tie"></i>
+            Comissão Técnica
+        </a>
+
+        <a href="noticias.html" class="active">
+            <i class="fa-solid fa-newspaper"></i>
+            Notícias
+        </a>
+
+        <a href="jogos.html">
+            <i class="fa-solid fa-futbol"></i>
+            Jogos
+        </a>
+
+        <a href="titulos.html">
+            <i class="fa-solid fa-trophy"></i>
+            Títulos
+        </a>
+
+        <a href="galeria.html">
+            <i class="fa-solid fa-images"></i>
+            Galeria
+        </a>
+
+        <a href="patrocinadores.html">
+            <i class="fa-solid fa-handshake"></i>
+            Patrocinadores
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <button class="logout" id="logoutButton">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+            &nbsp;
+            SAIR
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     CONTEÚDO
+===================================================== -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="mobile-menu" id="mobileMenu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="top-title">
+            <span>BAR DO MIMA</span>
+            <strong>Notícias</strong>
+        </div>
+
+    </div>
+
+    <div class="admin-user">
+        A
+    </div>
+
+</header>
+
+
+<section class="content">
+
+
+    <div class="page-header">
+
+        <div>
+
+            <span>COMUNICAÇÃO DO CLUBE</span>
+
+            <h1>NOTÍCIAS</h1>
+
+            <p>
+                Publique novidades e acontecimentos do Bar do Mima.
+            </p>
+
+        </div>
+
+
+        <button class="new-news" id="newNewsButton">
+
+            <i class="fa-solid fa-plus"></i>
+            &nbsp;
+            NOVA NOTÍCIA
+
+        </button>
+
+    </div>
+
+
+    <!-- CONTADORES -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <span>TOTAL</span>
+
+            <strong id="totalNews">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>PUBLICADAS</span>
+
+            <strong id="publishedNews">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>EM DESTAQUE</span>
+
+            <strong id="featuredNews">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUSCA -->
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Buscar notícia..."
+            >
+
+        </div>
+
+
+        <select class="filter" id="publishFilter">
+
+            <option value="todos">
+                Todas
+            </option>
+
+            <option value="publicadas">
+                Publicadas
+            </option>
+
+            <option value="rascunhos">
+                Rascunhos
+            </option>
+
+            <option value="destaques">
+                Destaques
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- NOTÍCIAS -->
+
+    <div class="news-grid" id="newsGrid">
+
+        <div class="empty">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            <strong>
+                Carregando notícias...
+            </strong>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div class="modal" id="newsModal">
+
+<div class="modal-box">
+
+
+    <div class="modal-header">
+
+        <div>
+
+            <span>PUBLICAÇÃO</span>
+
+            <h2 id="modalTitle">
+                NOVA NOTÍCIA
+            </h2>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="close-modal"
+            id="closeModal"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+
+    <form id="newsForm">
+
+
+        <input
+            type="hidden"
+            id="newsId"
+        >
+
+
+        <input
+            type="hidden"
+            id="currentCover"
+        >
+
+
+        <!-- CAPA -->
+
+        <div class="cover-upload">
+
+            <div
+                class="cover-preview"
+                id="coverPreview"
+            >
+
+                <i class="fa-solid fa-image"></i>
+
+            </div>
+
+
+            <div>
+
+                <label for="coverInput">
+
+                    <i class="fa-solid fa-camera"></i>
+
+                    Selecionar capa
+
+                </label>
+
+
+                <input
+                    type="file"
+                    id="coverInput"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+
+
+                <span class="cover-help">
+
+                    JPG, PNG ou WEBP • Máximo 5 MB
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label>
+                    TÍTULO
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Título da notícia"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    CATEGORIA
+                </label>
+
+                <select id="category">
+
+                    <option value="Notícias">
+                        Notícias
+                    </option>
+
+                    <option value="Clube">
+                        Clube
+                    </option>
+
+                    <option value="Elenco">
+                        Elenco
+                    </option>
+
+                    <option value="Jogos">
+                        Jogos
+                    </option>
+
+                    <option value="Campeonato">
+                        Campeonato
+                    </option>
+
+                    <option value="Comunicado">
+                        Comunicado
+                    </option>
+
+                    <option value="Bastidores">
+                        Bastidores
+                    </option>
+
+                    <option value="Eventos">
+                        Eventos
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    DATA DA PUBLICAÇÃO
+                </label>
+
+                <input
+                    type="date"
+                    id="publishDate"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    RESUMO
+                </label>
+
+                <textarea
+                    id="summary"
+                    maxlength="300"
+                    placeholder="Um pequeno resumo para aparecer no card da notícia..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    MATÉRIA COMPLETA
+                </label>
+
+                <textarea
+                    id="content"
+                    class="content-area"
+                    placeholder="Escreva aqui a matéria completa..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <div class="options">
+
+
+                    <div class="option-card">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="featured"
+                            >
+
+                            <i class="fa-solid fa-star"></i>
+
+                            Notícia em destaque
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option-card">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="published"
+                                checked
+                            >
+
+                            <i class="fa-solid fa-globe"></i>
+
+                            Publicada no site
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="save-btn"
+            id="saveButton"
+        >
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            &nbsp;
+
+            SALVAR NOTÍCIA
+
+        </button>
+
+
+    </form>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+let noticias = [];
+
+let capaSelecionada = null;
+
+
+const grid =
+document.getElementById("newsGrid");
+
+const modal =
+document.getElementById("newsModal");
+
+const form =
+document.getElementById("newsForm");
+
+const coverInput =
+document.getElementById("coverInput");
+
+const coverPreview =
+document.getElementById("coverPreview");
+
+const toast =
+document.getElementById("toast");
+
+
+/* =====================================================
+   SEGURANÇA
+===================================================== */
+
+async function verificarAdmin(){
+
+    const {
+        data:{ session }
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
+
+
+    if(!session){
+
+        location.href =
+        "login.html";
+
+        return false;
+
+    }
+
+
+    const {
+        data:admin,
+        error
+    } =
+    await supabaseClient
+
+    .from("administradores")
+
+    .select("id")
+
+    .eq("id",session.user.id)
+
+    .maybeSingle();
+
+
+    if(error || !admin){
+
+        await supabaseClient
+        .auth
+        .signOut();
+
+        location.href =
+        "login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   HTML SEGURO
+===================================================== */
+
+function escaparHTML(valor){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    valor ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   DATA ATUAL
+===================================================== */
+
+function dataHoje(){
+
+    const agora =
+    new Date();
+
+
+    const ano =
+    agora.getFullYear();
+
+
+    const mes =
+    String(
+        agora.getMonth() + 1
+    ).padStart(2,"0");
+
+
+    const dia =
+    String(
+        agora.getDate()
+    ).padStart(2,"0");
+
+
+    return `${ano}-${mes}-${dia}`;
+
+}
+
+
+/* =====================================================
+   FORMATAR DATA
+===================================================== */
+
+function formatarData(data){
+
+    if(!data){
+        return "";
+    }
+
+
+    const partes =
+    data.split("-");
+
+
+    if(partes.length !== 3){
+        return data;
+    }
+
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+/* =====================================================
+   CARREGAR
+===================================================== */
+
+async function carregarNoticias(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("noticias")
+
+    .select("*")
+
+    .order("data_publicacao",{
+        ascending:false
+    })
+
+    .order("created_at",{
+        ascending:false
+    });
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar notícias:",
+            error
+        );
+
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong>
+                    Erro ao carregar notícias
+                </strong>
+
+                <span>
+                    ${escaparHTML(error.message)}
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    noticias =
+    data || [];
+
+
+    atualizarContadores();
+
+    aplicarFiltros();
+
+}
+
+
+/* =====================================================
+   CONTADORES
+===================================================== */
+
+function atualizarContadores(){
+
+    document
+    .getElementById("totalNews")
+    .textContent =
+    noticias.length;
+
+
+    document
+    .getElementById("publishedNews")
+    .textContent =
+    noticias.filter(
+        item => item.publicado === true
+    ).length;
+
+
+    document
+    .getElementById("featuredNews")
+    .textContent =
+    noticias.filter(
+        item => item.destaque === true
+    ).length;
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderizarNoticias(lista){
+
+    if(lista.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                <i class="fa-solid fa-newspaper"></i>
+
+                <strong>
+                    Nenhuma notícia encontrada
+                </strong>
+
+                <span>
+                    Clique em "Nova Notícia" para publicar.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+    lista.map(noticia => {
+
+
+        const titulo =
+        escaparHTML(
+            noticia.titulo
+        );
+
+
+        const resumo =
+        escaparHTML(
+            noticia.resumo ||
+            "Sem resumo."
+        );
+
+
+        const categoria =
+        escaparHTML(
+            noticia.categoria ||
+            "Notícias"
+        );
+
+
+        const imagem =
+        noticia.imagem_url
+
+        ? `
+
+            <img
+                src="${escaparHTML(noticia.imagem_url)}"
+                alt="${titulo}"
+                loading="lazy"
+            >
+
+          `
+
+        : `
+
+            <div class="news-placeholder">
+
+                <i class="fa-solid fa-newspaper"></i>
+
+            </div>
+
+          `;
+
+
+        return `
+
+            <article class="news-card">
+
+
+                <div class="news-image">
+
+                    ${imagem}
+
+
+                    <div class="news-badges">
+
+
+                        <span class="
+                            badge
+                            ${noticia.publicado
+                                ? "published"
+                                : "draft"
+                            }
+                        ">
+
+                            ${noticia.publicado
+                                ? "PUBLICADA"
+                                : "RASCUNHO"
+                            }
+
+                        </span>
+
+
+                        ${noticia.destaque
+
+                            ? `
+
+                                <span class="badge featured">
+
+                                    <i class="fa-solid fa-star"></i>
+
+                                    DESTAQUE
+
+                                </span>
+
+                              `
+
+                            : ""
+
+                        }
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="news-content">
+
+
+                    <div class="news-meta">
+
+                        <span class="category">
+                            ${categoria}
+                        </span>
+
+                        <span>•</span>
+
+                        <span>
+                            ${formatarData(
+                                noticia.data_publicacao
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <h2>
+                        ${titulo}
+                    </h2>
+
+
+                    <p class="news-summary">
+                        ${resumo}
+                    </p>
+
+
+                    <div class="news-actions">
+
+
+                        <button
+                            type="button"
+                            class="edit-btn"
+                            onclick="editarNoticia('${noticia.id}')"
+                        >
+
+                            <i class="fa-solid fa-pen"></i>
+
+                            EDITAR
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="delete-btn"
+                            onclick="excluirNoticia('${noticia.id}')"
+                        >
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            EXCLUIR
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+function aplicarFiltros(){
+
+    const busca =
+    document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
+
+
+    const filtro =
+    document
+    .getElementById("publishFilter")
+    .value;
+
+
+    const resultado =
+    noticias.filter(noticia => {
+
+
+        const correspondeBusca =
+
+        !busca
+
+        ||
+
+        noticia.titulo
+        ?.toLowerCase()
+        .includes(busca)
+
+        ||
+
+        noticia.resumo
+        ?.toLowerCase()
+        .includes(busca)
+
+        ||
+
+        noticia.categoria
+        ?.toLowerCase()
+        .includes(busca);
+
+
+        let correspondeFiltro =
+        true;
+
+
+        if(filtro === "publicadas"){
+
+            correspondeFiltro =
+            noticia.publicado === true;
+
+        }
+
+
+        if(filtro === "rascunhos"){
+
+            correspondeFiltro =
+            noticia.publicado === false;
+
+        }
+
+
+        if(filtro === "destaques"){
+
+            correspondeFiltro =
+            noticia.destaque === true;
+
+        }
+
+
+        return (
+            correspondeBusca &&
+            correspondeFiltro
+        );
+
+    });
+
+
+    renderizarNoticias(
+        resultado
+    );
+
+}
+
+
+document
+.getElementById("searchInput")
+.addEventListener(
+    "input",
+    aplicarFiltros
+);
+
+
+document
+.getElementById("publishFilter")
+.addEventListener(
+    "change",
+    aplicarFiltros
+);
+
+
+/* =====================================================
+   NOVA NOTÍCIA
+===================================================== */
+
+document
+.getElementById("newNewsButton")
+.addEventListener(
+"click",
+()=>{
+
+
+    form.reset();
+
+
+    document
+    .getElementById("newsId")
+    .value = "";
+
+
+    document
+    .getElementById("currentCover")
+    .value = "";
+
+
+    document
+    .getElementById("publishDate")
+    .value =
+    dataHoje();
+
+
+    document
+    .getElementById("published")
+    .checked =
+    true;
+
+
+    document
+    .getElementById("featured")
+    .checked =
+    false;
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "NOVA NOTÍCIA";
+
+
+    capaSelecionada =
+    null;
+
+
+    coverInput.value =
+    "";
+
+
+    coverPreview.innerHTML = `
+
+        <i class="fa-solid fa-image"></i>
+
+    `;
+
+
+    modal.classList.add(
+        "active"
+    );
+
+});
+
+
+/* =====================================================
+   EDITAR
+===================================================== */
+
+function editarNoticia(id){
+
+    const noticia =
+    noticias.find(
+        item =>
+        String(item.id) === String(id)
+    );
+
+
+    if(!noticia){
+        return;
+    }
+
+
+    document
+    .getElementById("newsId")
+    .value =
+    noticia.id;
+
+
+    document
+    .getElementById("title")
+    .value =
+    noticia.titulo || "";
+
+
+    document
+    .getElementById("category")
+    .value =
+    noticia.categoria || "Notícias";
+
+
+    document
+    .getElementById("publishDate")
+    .value =
+    noticia.data_publicacao ||
+    dataHoje();
+
+
+    document
+    .getElementById("summary")
+    .value =
+    noticia.resumo || "";
+
+
+    document
+    .getElementById("content")
+    .value =
+    noticia.conteudo || "";
+
+
+    document
+    .getElementById("featured")
+    .checked =
+    noticia.destaque === true;
+
+
+    document
+    .getElementById("published")
+    .checked =
+    noticia.publicado === true;
+
+
+    document
+    .getElementById("currentCover")
+    .value =
+    noticia.imagem_url || "";
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "EDITAR NOTÍCIA";
+
+
+    capaSelecionada =
+    null;
+
+
+    coverInput.value =
+    "";
+
+
+    if(noticia.imagem_url){
+
+        coverPreview.innerHTML = `
+
+            <img
+                src="${escaparHTML(
+                    noticia.imagem_url
+                )}"
+                alt=""
+            >
+
+        `;
+
+    }else{
+
+        coverPreview.innerHTML = `
+
+            <i class="fa-solid fa-image"></i>
+
+        `;
+
+    }
+
+
+    modal.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =====================================================
+   PREVIEW DA CAPA
+===================================================== */
+
+coverInput
+.addEventListener(
+"change",
+event => {
+
+
+    const file =
+    event.target.files[0];
+
+
+    if(!file){
+        return;
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+        mostrarToast(
+            "Selecione uma imagem válida.",
+            "error"
+        );
+
+        coverInput.value = "";
+
+        return;
+
+    }
+
+
+    if(file.size > 5 * 1024 * 1024){
+
+        mostrarToast(
+            "A imagem deve ter no máximo 5 MB.",
+            "error"
+        );
+
+        coverInput.value = "";
+
+        return;
+
+    }
+
+
+    capaSelecionada =
+    file;
+
+
+    const previewURL =
+    URL.createObjectURL(file);
+
+
+    coverPreview.innerHTML = `
+
+        <img
+            src="${previewURL}"
+            alt="Prévia da capa"
+        >
+
+    `;
+
+});
+
+
+/* =====================================================
+   UPLOAD DA CAPA
+===================================================== */
+
+async function enviarCapa(file){
+
+    let extensao =
+    file.name
+    .split(".")
+    .pop()
+    .toLowerCase();
+
+
+    if(
+        ![
+            "jpg",
+            "jpeg",
+            "png",
+            "webp"
+        ].includes(extensao)
+    ){
+
+        extensao =
+        "jpg";
+
+    }
+
+
+    const nomeArquivo =
+
+    `noticias/${Date.now()}-${crypto.randomUUID()}.${extensao}`;
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+    .storage
+
+    .from("imagens")
+
+    .upload(
+        nomeArquivo,
+        file,
+        {
+            cacheControl:"3600",
+            upsert:false
+        }
+    );
+
+
+    if(error){
+        throw error;
+    }
+
+
+    const {
+        data
+    } =
+    supabaseClient
+
+    .storage
+
+    .from("imagens")
+
+    .getPublicUrl(
+        nomeArquivo
+    );
+
+
+    return data.publicUrl;
+
+}
+
+
+/* =====================================================
+   SALVAR
+===================================================== */
+
+form.addEventListener(
+"submit",
+async event => {
+
+
+    event.preventDefault();
+
+
+    const saveButton =
+    document.getElementById(
+        "saveButton"
+    );
+
+
+    saveButton.disabled =
+    true;
+
+
+    saveButton.innerHTML = `
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        &nbsp;
+
+        SALVANDO...
+
+    `;
+
+
+    try{
+
+
+        const id =
+        document
+        .getElementById("newsId")
+        .value;
+
+
+        let imagemURL =
+        document
+        .getElementById("currentCover")
+        .value || null;
+
+
+        if(capaSelecionada){
+
+            imagemURL =
+            await enviarCapa(
+                capaSelecionada
+            );
+
+        }
+
+
+        const noticia = {
+
+            titulo:
+            document
+            .getElementById("title")
+            .value
+            .trim(),
+
+            resumo:
+            document
+            .getElementById("summary")
+            .value
+            .trim() || null,
+
+            conteudo:
+            document
+            .getElementById("content")
+            .value
+            .trim(),
+
+            imagem_url:
+            imagemURL,
+
+            categoria:
+            document
+            .getElementById("category")
+            .value,
+
+            data_publicacao:
+            document
+            .getElementById("publishDate")
+            .value,
+
+            destaque:
+            document
+            .getElementById("featured")
+            .checked,
+
+            publicado:
+            document
+            .getElementById("published")
+            .checked
+
+        };
+
+
+        let resultado;
+
+
+        if(id){
+
+            resultado =
+            await supabaseClient
+
+            .from("noticias")
+
+            .update(noticia)
+
+            .eq("id",id);
+
+        }else{
+
+            resultado =
+            await supabaseClient
+
+            .from("noticias")
+
+            .insert(noticia);
+
+        }
+
+
+        if(resultado.error){
+
+            throw resultado.error;
+
+        }
+
+
+        mostrarToast(
+
+            id
+            ? "Notícia atualizada!"
+            : "Notícia publicada!",
+
+            "success"
+
+        );
+
+
+        modal.classList.remove(
+            "active"
+        );
+
+
+        await carregarNoticias();
+
+
+    }catch(error){
+
+
+        console.error(
+            "Erro ao salvar:",
+            error
+        );
+
+
+        mostrarToast(
+            error.message ||
+            "Erro ao salvar notícia.",
+            "error"
+        );
+
+
+    }finally{
+
+
+        saveButton.disabled =
+        false;
+
+
+        saveButton.innerHTML = `
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            &nbsp;
+
+            SALVAR NOTÍCIA
+
+        `;
+
+    }
+
+});
+
+
+/* =====================================================
+   EXCLUIR
+===================================================== */
+
+async function excluirNoticia(id){
+
+    const noticia =
+    noticias.find(
+        item =>
+        String(item.id) === String(id)
+    );
+
+
+    if(!noticia){
+        return;
+    }
+
+
+    if(
+        !confirm(
+            `Excluir a notícia "${noticia.titulo}"?`
+        )
+    ){
+        return;
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+    .from("noticias")
+
+    .delete()
+
+    .eq("id",id);
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarToast(
+            "Erro ao excluir notícia.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    mostrarToast(
+        "Notícia excluída.",
+        "success"
+    );
+
+
+    await carregarNoticias();
+
+}
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+document
+.getElementById("closeModal")
+.addEventListener(
+"click",
+()=>{
+
+    modal.classList.remove(
+        "active"
+    );
+
+});
+
+
+modal.addEventListener(
+"click",
+event => {
+
+    if(event.target === modal){
+
+        modal.classList.remove(
+            "active"
+        );
+
+    }
+
+});
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function mostrarToast(
+    texto,
+    tipo
+){
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toast.textContent =
+    texto;
+
+
+    toast.className =
+    `toast ${tipo} show`;
+
+
+    toastTimer =
+    setTimeout(()=>{
+
+        toast.classList.remove(
+            "show"
+        );
+
+    },3000);
+
+}
+
+
+/* =====================================================
+   MENU MOBILE
+===================================================== */
+
+document
+.getElementById("mobileMenu")
+.addEventListener(
+"click",
+()=>{
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+
+});
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+"click",
+async ()=>{
+
+
+    await supabaseClient
+    .auth
+    .signOut();
+
+
+    location.href =
+    "login.html";
+
+});
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+async function iniciar(){
+
+    const autorizado =
+    await verificarAdmin();
+
+
+    if(!autorizado){
+        return;
+    }
+
+
+    await carregarNoticias();
+
+}
+
+
+iniciar();
+
+</script>
+
+</body>
+</html>
