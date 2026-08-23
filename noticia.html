@@ -259,7 +259,7 @@ rel="stylesheet">
 
 .article-summary{
 
-    margin-bottom:32px;
+    margin-bottom:16px;
 
     padding:20px 22px;
 
@@ -841,13 +841,28 @@ function formatarData(data){
     }
 
 
+    /*
+       Aceita tanto:
+       2026-08-23
+
+       quanto:
+       2026-08-23T00:00:00+00:00
+    */
+
+    const dataLimpa =
+    String(data)
+    .substring(0,10);
+
+
     const partes =
-    data.split("-");
+    dataLimpa.split("-");
 
 
     if(partes.length !== 3){
 
-        return escaparHTML(data);
+        return escaparHTML(
+            dataLimpa
+        );
 
     }
 
