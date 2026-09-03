@@ -14,17 +14,13 @@
     <meta name="description"
           content="Site oficial do Bar do Mima. Notícias, elenco, jogos, resultados e títulos.">
 
-    <!-- FAVICON -->
     <link rel="icon" href="img/logo.png">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- FONT AWESOME -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect"
@@ -34,13 +30,177 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
 
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
+    <style>
+
+        /* ==========================================
+           PATROCINADORES DINÂMICOS
+        ========================================== */
+
+        .sponsor-list{
+            display:grid;
+            grid-template-columns:
+                repeat(auto-fit,minmax(180px,1fr));
+
+            gap:18px;
+
+            margin-top:30px;
+        }
+
+        .sponsor-card{
+            position:relative;
+
+            min-height:190px;
+
+            display:flex;
+            flex-direction:column;
+
+            align-items:center;
+            justify-content:center;
+
+            gap:15px;
+
+            padding:25px;
+
+            background:#111;
+
+            border:1px solid #292929;
+            border-radius:14px;
+
+            text-decoration:none;
+            color:#fff;
+
+            overflow:hidden;
+
+            transition:
+                transform .25s ease,
+                border-color .25s ease,
+                background .25s ease;
+        }
+
+        .sponsor-card:hover{
+            transform:translateY(-5px);
+
+            border-color:#f5c400;
+
+            background:#161616;
+        }
+
+        .sponsor-card img{
+            width:100%;
+            max-width:150px;
+
+            height:95px;
+
+            object-fit:contain;
+
+            transition:transform .25s ease;
+        }
+
+        .sponsor-card:hover img{
+            transform:scale(1.05);
+        }
+
+        .sponsor-card strong{
+            font-size:11px;
+            font-weight:800;
+
+            text-align:center;
+
+            text-transform:uppercase;
+        }
+
+        .sponsor-no-logo{
+            width:90px;
+            height:90px;
+
+            display:flex;
+
+            align-items:center;
+            justify-content:center;
+
+            border-radius:50%;
+
+            background:#191919;
+
+            color:#f5c400;
+
+            font-size:32px;
+        }
+
+        .sponsor-featured{
+            position:absolute;
+
+            top:10px;
+            right:10px;
+
+            padding:6px 8px;
+
+            border-radius:20px;
+
+            background:#f5c400;
+            color:#111;
+
+            font-size:7px;
+            font-weight:900;
+
+            letter-spacing:.5px;
+        }
+
+        .sponsor-featured i{
+            margin-right:3px;
+        }
+
+        .sponsor-loading,
+        .sponsor-empty{
+            grid-column:1/-1;
+
+            padding:40px;
+
+            color:#777;
+
+            text-align:center;
+
+            font-size:11px;
+            font-weight:700;
+        }
+
+        .sponsor-loading i{
+            margin-right:7px;
+            color:#f5c400;
+        }
+
+        @media(max-width:600px){
+
+            .sponsor-list{
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+
+                gap:10px;
+            }
+
+            .sponsor-card{
+                min-height:150px;
+
+                padding:18px 10px;
+            }
+
+            .sponsor-card img{
+                height:75px;
+
+                max-width:120px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 <body>
-
-<!-- ==================================================
-                    HEADER
-================================================== -->
 
 <header class="header">
 
@@ -53,8 +213,11 @@
                  class="brand-logo">
 
             <div class="brand-text">
+
                 <strong>BAR DO MIMA</strong>
+
                 <span>FUTEBOL</span>
+
             </div>
 
         </a>
@@ -71,19 +234,33 @@
 
         <nav class="nav" id="nav">
 
-            <a href="index.html" class="active">Início</a>
+            <a href="index.html" class="active">
+                Início
+            </a>
 
-            <a href="noticias.html">Notícias</a>
+            <a href="noticias.html">
+                Notícias
+            </a>
 
-            <a href="elenco.html">Elenco</a>
+            <a href="elenco.html">
+                Elenco
+            </a>
 
-            <a href="jogos.html">Jogos</a>
+            <a href="jogos.html">
+                Jogos
+            </a>
 
-            <a href="titulos.html">Títulos</a>
+            <a href="titulos.html">
+                Títulos
+            </a>
 
-            <a href="galeria.html">Galeria</a>
+            <a href="galeria.html">
+                Galeria
+            </a>
 
-            <a href="historia.html">O Clube</a>
+            <a href="historia.html">
+                O Clube
+            </a>
 
         </nav>
 
@@ -92,9 +269,7 @@
 </header>
 
 
-<!-- ==================================================
-                    HERO
-================================================== -->
+<!-- HERO -->
 
 <section class="hero">
 
@@ -118,20 +293,24 @@
             RAÇA • AMIZADE • FUTEBOL
         </p>
 
+
         <div class="hero-buttons">
 
             <a href="jogos.html"
                class="btn btn-yellow">
 
                 <i class="fa-solid fa-calendar-days"></i>
+
                 Próximos Jogos
 
             </a>
+
 
             <a href="elenco.html"
                class="btn btn-dark">
 
                 <i class="fa-solid fa-users"></i>
+
                 Conheça o Elenco
 
             </a>
@@ -143,9 +322,7 @@
 </section>
 
 
-<!-- ==================================================
-                    PRÓXIMO JOGO
-================================================== -->
+<!-- PRÓXIMO JOGO -->
 
 <section class="section">
 
@@ -185,7 +362,9 @@
                     <img src="img/logo.png"
                          alt="Bar do Mima">
 
-                    <strong>BAR DO MIMA</strong>
+                    <strong>
+                        BAR DO MIMA
+                    </strong>
 
                 </div>
 
@@ -205,7 +384,9 @@
 
                     </div>
 
-                    <strong>ADVERSÁRIO</strong>
+                    <strong>
+                        ADVERSÁRIO
+                    </strong>
 
                 </div>
 
@@ -227,9 +408,7 @@
 </section>
 
 
-<!-- ==================================================
-                    ÚLTIMO RESULTADO
-================================================== -->
+<!-- ÚLTIMO RESULTADO -->
 
 <section class="section section-black">
 
@@ -251,7 +430,9 @@
                 <img src="img/logo.png"
                      alt="Bar do Mima">
 
-                <strong>BAR DO MIMA</strong>
+                <strong>
+                    BAR DO MIMA
+                </strong>
 
             </div>
 
@@ -275,7 +456,9 @@
 
                 </div>
 
-                <strong>ADVERSÁRIO</strong>
+                <strong>
+                    ADVERSÁRIO
+                </strong>
 
             </div>
 
@@ -293,9 +476,7 @@
 </section>
 
 
-<!-- ==================================================
-                    NOTÍCIAS
-================================================== -->
+<!-- NOTÍCIAS -->
 
 <section class="section">
 
@@ -360,9 +541,12 @@
                         dentro e fora de campo.
                     </p>
 
-                    <a href="#">
+                    <a href="noticias.html">
+
                         Ler notícia
+
                         <i class="fa-solid fa-arrow-right"></i>
+
                     </a>
 
                 </div>
@@ -398,13 +582,16 @@
                     </h3>
 
                     <p>
-                        Em breve você poderá conhecer todo o elenco
-                        e a comissão técnica.
+                        Conheça os jogadores e a comissão técnica
+                        que representam o Bar do Mima dentro de campo.
                     </p>
 
                     <a href="elenco.html">
+
                         Ver elenco
+
                         <i class="fa-solid fa-arrow-right"></i>
+
                     </a>
 
                 </div>
@@ -440,18 +627,22 @@
                     </h3>
 
                     <p>
-                        Todas as conquistas do clube terão seu espaço
+                        Todas as conquistas do clube têm seu espaço
                         especial na nossa sala de troféus.
                     </p>
 
                     <a href="titulos.html">
+
                         Ver títulos
+
                         <i class="fa-solid fa-arrow-right"></i>
+
                     </a>
 
                 </div>
 
             </article>
+
 
         </div>
 
@@ -460,9 +651,7 @@
 </section>
 
 
-<!-- ==================================================
-                    NÚMEROS
-================================================== -->
+<!-- NÚMEROS -->
 
 <section class="stats">
 
@@ -516,9 +705,7 @@
 </section>
 
 
-<!-- ==================================================
-                    TROFÉUS
-================================================== -->
+<!-- TROFÉUS -->
 
 <section class="section">
 
@@ -537,7 +724,9 @@
                 NOSSA HISTÓRIA
             </span>
 
-            <h2>SALA DE TROFÉUS</h2>
+            <h2>
+                SALA DE TROFÉUS
+            </h2>
 
             <p>
                 Cada conquista tem uma história.
@@ -562,31 +751,32 @@
 </section>
 
 
-<!-- ==================================================
-                    PATROCINADORES
-================================================== -->
+<!-- PATROCINADORES -->
 
 <section class="sponsors">
 
     <div class="container">
 
-        <span>PARCEIROS DO BAR DO MIMA</span>
+        <span>
+            PARCEIROS DO BAR DO MIMA
+        </span>
 
-        <h2>PATROCINADORES</h2>
+        <h2>
+            PATROCINADORES
+        </h2>
 
 
-        <div class="sponsor-list">
+        <div
+            class="sponsor-list"
+            id="sponsorList"
+        >
 
-            <div>
-                SUA MARCA
-            </div>
+            <div class="sponsor-loading">
 
-            <div>
-                SUA MARCA
-            </div>
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-            <div>
-                SUA MARCA
+                Carregando parceiros...
+
             </div>
 
         </div>
@@ -596,9 +786,7 @@
 </section>
 
 
-<!-- ==================================================
-                    FOOTER
-================================================== -->
+<!-- FOOTER -->
 
 <footer class="footer">
 
@@ -611,9 +799,13 @@
 
             <div>
 
-                <strong>BAR DO MIMA</strong>
+                <strong>
+                    BAR DO MIMA
+                </strong>
 
-                <span>Raça • Amizade • Futebol</span>
+                <span>
+                    Raça • Amizade • Futebol
+                </span>
 
             </div>
 
@@ -622,13 +814,21 @@
 
         <div class="footer-links">
 
-            <a href="noticias.html">Notícias</a>
+            <a href="noticias.html">
+                Notícias
+            </a>
 
-            <a href="elenco.html">Elenco</a>
+            <a href="elenco.html">
+                Elenco
+            </a>
 
-            <a href="jogos.html">Jogos</a>
+            <a href="jogos.html">
+                Jogos
+            </a>
 
-            <a href="titulos.html">Títulos</a>
+            <a href="titulos.html">
+                Títulos
+            </a>
 
         </div>
 
@@ -665,6 +865,291 @@
 
 
 <script src="js/main.js"></script>
+
+
+<script>
+
+/* ==========================================
+   PATROCINADORES
+========================================== */
+
+async function carregarPatrocinadores(){
+
+    const sponsorList =
+    document.getElementById(
+        "sponsorList"
+    );
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+        .from("patrocinadores")
+
+        .select("*")
+
+        .eq(
+            "publicado",
+            true
+        )
+
+        .order(
+            "destaque",
+            {
+                ascending:false
+            }
+        )
+
+        .order(
+            "ordem",
+            {
+                ascending:true
+            }
+        )
+
+        .order(
+            "created_at",
+            {
+                ascending:true
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar patrocinadores:",
+            error
+        );
+
+
+        sponsorList.innerHTML = `
+
+            <div class="sponsor-empty">
+
+                Patrocinadores em breve.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(!data || data.length === 0){
+
+        sponsorList.innerHTML = `
+
+            <div class="sponsor-empty">
+
+                Patrocinadores em breve.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    sponsorList.innerHTML =
+    data.map(
+        patrocinador => {
+
+
+            const nome =
+            escaparHTMLPatrocinador(
+                patrocinador.nome ||
+                "Patrocinador"
+            );
+
+
+            const logo =
+            patrocinador.logo_url ||
+            "";
+
+
+            const destino =
+            patrocinador.link ||
+
+            criarLinkInstagram(
+                patrocinador.instagram
+            );
+
+
+            const conteudo = `
+
+
+                ${
+                    patrocinador.destaque
+
+                    ? `
+
+                        <span class="sponsor-featured">
+
+                            <i class="fa-solid fa-star"></i>
+
+                            DESTAQUE
+
+                        </span>
+
+                      `
+
+                    : ""
+                }
+
+
+                ${
+                    logo
+
+                    ? `
+
+                        <img
+                            src="${escaparHTMLPatrocinador(logo)}"
+                            alt="${nome}"
+                            loading="lazy"
+                        >
+
+                      `
+
+                    : `
+
+                        <div class="sponsor-no-logo">
+
+                            <i class="fa-solid fa-handshake"></i>
+
+                        </div>
+
+                      `
+                }
+
+
+                <strong>
+
+                    ${nome}
+
+                </strong>
+
+            `;
+
+
+            if(destino){
+
+                return `
+
+                    <a
+                        href="${escaparHTMLPatrocinador(destino)}"
+                        class="sponsor-card"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Visitar ${nome}"
+                    >
+
+                        ${conteudo}
+
+                    </a>
+
+                `;
+
+            }
+
+
+            return `
+
+                <div class="sponsor-card">
+
+                    ${conteudo}
+
+                </div>
+
+            `;
+
+        }
+
+    ).join("");
+
+}
+
+
+/* INSTAGRAM */
+
+function criarLinkInstagram(
+    instagram
+){
+
+    if(!instagram){
+
+        return null;
+
+    }
+
+
+    const valor =
+    String(
+        instagram
+    ).trim();
+
+
+    if(
+        valor.startsWith(
+            "http://"
+        ) ||
+
+        valor.startsWith(
+            "https://"
+        )
+    ){
+
+        return valor;
+
+    }
+
+
+    const usuario =
+    valor.replace(
+        "@",
+        ""
+    );
+
+
+    return `https://www.instagram.com/${usuario}/`;
+
+}
+
+
+/* PROTEÇÃO HTML */
+
+function escaparHTMLPatrocinador(
+    valor
+){
+
+    const div =
+    document.createElement(
+        "div"
+    );
+
+
+    div.textContent =
+    valor ?? "";
+
+
+    return div.innerHTML;
+
+}
+
+
+/* INICIAR */
+
+carregarPatrocinadores();
+
+</script>
+
 
 </body>
 
