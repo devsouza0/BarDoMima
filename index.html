@@ -286,7 +286,7 @@
 
             <i class="fa-solid fa-shirt"></i>
 
-            <strong>--</strong>
+            <strong id="statJogadores">--</strong>
 
             <span>Jogadores</span>
 
@@ -297,7 +297,7 @@
 
             <i class="fa-solid fa-futbol"></i>
 
-            <strong>--</strong>
+            <strong id="statJogos">--</strong>
 
             <span>Jogos</span>
 
@@ -308,7 +308,7 @@
 
             <i class="fa-solid fa-trophy"></i>
 
-            <strong>--</strong>
+            <strong id="statTitulos">--</strong>
 
             <span>Títulos</span>
 
@@ -319,7 +319,7 @@
 
             <i class="fa-solid fa-star"></i>
 
-            <strong>1</strong>
+            <strong>100%</strong>
 
             <span>Paixão</span>
 
@@ -745,6 +745,52 @@ function linkSeguro(valor){
     }
 }
 
+
+async function carregarNumerosHome(){
+    const jogadoresEl = document.getElementById("statJogadores");
+    const jogosEl = document.getElementById("statJogos");
+    const titulosEl = document.getElementById("statTitulos");
+
+    const resultados = await Promise.allSettled([
+        supabaseClient
+            .from("jogadores")
+            .select("id", { count:"exact", head:true })
+            .eq("ativo", true),
+
+        supabaseClient
+            .from("jogos")
+            .select("id", { count:"exact", head:true }),
+
+        supabaseClient
+            .from("titulos")
+            .select("id", { count:"exact", head:true })
+            .eq("publicado", true)
+    ]);
+
+    const [jogadoresRes, jogosRes, titulosRes] = resultados;
+
+    if(jogadoresRes.status === "fulfilled" && !jogadoresRes.value.error){
+        jogadoresEl.textContent = jogadoresRes.value.count ?? 0;
+    }else{
+        jogadoresEl.textContent = "--";
+        console.error("Erro ao contar jogadores:", jogadoresRes.reason || jogadoresRes.value?.error);
+    }
+
+    if(jogosRes.status === "fulfilled" && !jogosRes.value.error){
+        jogosEl.textContent = jogosRes.value.count ?? 0;
+    }else{
+        jogosEl.textContent = "--";
+        console.error("Erro ao contar jogos:", jogosRes.reason || jogosRes.value?.error);
+    }
+
+    if(titulosRes.status === "fulfilled" && !titulosRes.value.error){
+        titulosEl.textContent = titulosRes.value.count ?? 0;
+    }else{
+        titulosEl.textContent = "--";
+        console.error("Erro ao contar títulos:", titulosRes.reason || titulosRes.value?.error);
+    }
+}
+
 async function carregarPatrocinadores(){
     const sponsorList = document.getElementById("sponsorList");
     const { data, error } = await supabaseClient
@@ -785,6 +831,7 @@ Promise.allSettled([
     carregarProximoJogo(),
     carregarUltimoResultado(),
     carregarNoticiasHome(),
+    carregarNumerosHome(),
     carregarPatrocinadores()
 ]);
 </script>
