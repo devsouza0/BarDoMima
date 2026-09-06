@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loja | Bar do Mima</title>
+<link rel="icon" type="image/png" href="img/logo.png">
 <meta name="description" content="Camisa oficial da torcida Fúria do Mima.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +58,7 @@ header{
 
 .nav{
     width:min(1180px,92%);
-    height:82px;
+    height:68px;
     margin:auto;
     display:flex;
     align-items:center;
@@ -74,7 +75,7 @@ header{
     font-weight:900;
     letter-spacing:.5px;
 }
-.brand img{width:54px;height:54px;object-fit:contain}
+.brand img{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,212,0,.18))}
 .brand span small{display:block;color:var(--yellow);font-size:10px;letter-spacing:2px;margin-top:3px}
 
 nav{
@@ -101,18 +102,18 @@ nav a.active:after{
 
 .hero{
     width:min(1240px,94%);
-    min-height:calc(100vh - 82px);
+    min-height:calc(100vh - 68px);
     margin:auto;
     display:grid;
     grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);
     align-items:center;
     gap:30px;
-    padding:46px 0 62px;
+    padding:26px 0 40px;
 }
 
 .product-stage{
     position:relative;
-    min-height:660px;
+    min-height:520px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -121,7 +122,7 @@ nav a.active:after{
 
 .glow{
     position:absolute;
-    width:470px;height:470px;
+    width:360px;height:360px;
     border-radius:50%;
     background:radial-gradient(circle,rgba(255,211,0,.18),rgba(255,190,0,.04) 45%,transparent 68%);
     filter:blur(8px);
@@ -129,9 +130,9 @@ nav a.active:after{
 
 .platform{
     position:absolute;
-    bottom:52px;
-    width:min(540px,80%);
-    height:90px;
+    bottom:36px;
+    width:min(420px,78%);
+    height:68px;
     border-radius:50%;
     border:2px solid var(--yellow);
     box-shadow:
@@ -149,8 +150,8 @@ nav a.active:after{
 }
 
 .float-wrap{
-    width:min(580px,88vw);
-    height:610px;
+    width:min(430px,82vw);
+    height:465px;
     position:relative;
     z-index:4;
     animation:float 3.2s ease-in-out infinite;
@@ -186,7 +187,7 @@ nav a.active:after{
 
 .spin-hint{
     position:absolute;
-    bottom:8px;
+    bottom:0;
     z-index:8;
     color:var(--yellow);
     font-size:11px;
@@ -233,7 +234,7 @@ h1{
     font-family:Anton,Impact,sans-serif;
     font-weight:400;
     line-height:.98;
-    font-size:clamp(48px,5vw,78px);
+    font-size:clamp(38px,4vw,60px);
     text-transform:uppercase;
     letter-spacing:.5px;
 }
@@ -241,17 +242,17 @@ h1 span{display:block;color:var(--yellow)}
 
 .slogan{
     color:var(--yellow);
-    font-size:clamp(19px,2vw,28px);
+    font-size:clamp(16px,1.6vw,22px);
     font-weight:900;
     font-style:italic;
-    margin:16px 0 25px;
+    margin:12px 0 18px;
     transform:skew(-4deg);
 }
 
 .description{
     color:#c9c9c9;
-    line-height:1.75;
-    font-size:15px;
+    line-height:1.6;
+    font-size:14px;
     max-width:470px;
 }
 
@@ -259,10 +260,10 @@ h1 span{display:block;color:var(--yellow)}
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:10px;
-    margin:30px 0;
+    margin:22px 0;
 }
 .feature{
-    min-height:92px;
+    min-height:76px;
     border:1px solid rgba(255,255,255,.08);
     background:rgba(255,255,255,.025);
     border-radius:13px;
@@ -279,7 +280,7 @@ h1 span{display:block;color:var(--yellow)}
 
 .whatsapp-btn{
     width:100%;
-    min-height:74px;
+    min-height:60px;
     border:none;
     border-radius:18px;
     background:linear-gradient(135deg,var(--yellow),var(--yellow2));
@@ -288,7 +289,7 @@ h1 span{display:block;color:var(--yellow)}
     align-items:center;
     justify-content:center;
     gap:14px;
-    font-size:17px;
+    font-size:15px;
     font-weight:900;
     text-decoration:none;
     text-transform:uppercase;
@@ -321,16 +322,16 @@ h1 span{display:block;color:var(--yellow)}
 .footer-strip b{color:var(--yellow)}
 
 @media(max-width:850px){
-    .nav{height:70px}
+    .nav{height:64px}
     nav{display:none}
     .hero{
         grid-template-columns:1fr;
         padding-top:20px;
         gap:0;
     }
-    .product-stage{min-height:510px}
-    .float-wrap{height:470px}
-    .platform{bottom:30px;width:80%}
+    .product-stage{min-height:420px}
+    .float-wrap{height:380px}
+    .platform{bottom:22px;width:76%}
     .spin-hint{bottom:-2px}
     .info{
         text-align:center;
@@ -342,9 +343,9 @@ h1 span{display:block;color:var(--yellow)}
 }
 @media(max-width:520px){
     .brand span{display:none}
-    .product-stage{min-height:450px}
-    .float-wrap{height:400px}
-    h1{font-size:46px}
+    .product-stage{min-height:360px}
+    .float-wrap{height:330px}
+    h1{font-size:39px}
     .features{grid-template-columns:1fr 1fr}
     .feature:last-child{grid-column:1/-1}
     .whatsapp-btn{font-size:14px;padding:0 15px}
@@ -356,7 +357,7 @@ h1 span{display:block;color:var(--yellow)}
 <header>
     <div class="nav">
         <a href="index.html" class="brand">
-            <img src="img/logo.png" alt="Bar do Mima">
+            <img src="img/logo.png" alt="Bar do Mima" title="Voltar para o início">
             <span>BAR DO MIMA<small>DESDE 2024</small></span>
         </a>
 
@@ -456,7 +457,7 @@ const mensagem = encodeURIComponent(
 document.getElementById("whatsappBtn").addEventListener("click", function(e){
     e.preventDefault();
 
-    if(WHATSAPP_NUMERO === "5517992045455"){
+    if(WHATSAPP_NUMERO === "SEU_NUMERO_AQUI"){
         alert("Adicione o número do WhatsApp no código da loja.");
         return;
     }
